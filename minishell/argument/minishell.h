@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 14:37:54 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/09/24 22:21:32 by jla-chon         ###   ########.fr       */
+/*   Updated: 2024/10/01 18:47:03 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,6 +206,8 @@ char					*ft_strstr(char *haystack, char *needle);
 char					*ft_itoa(int num);
 int						arrayfree(char **array);
 char					**ft_pathsplit(char const *s, char c, char *bonus);
+char	*ft_itoul(unsigned long num);
+
 
 //  List Funcs
 t_list					*listnew(void *data, void (*f)());

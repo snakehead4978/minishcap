@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   listfuncs.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 14:39:51 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/09/24 21:07:10 by jla-chon         ###   ########.fr       */
+/*   Updated: 2024/10/01 20:52:08 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	ft_listfree(t_list **lst, void (*f)())
 	if ((*lst)->next)
 		ft_listfree(&(*lst)->next, f);
 	f((*lst)->data);
-	free(lst);
+	free(*lst);
 	*lst = 0;
 	return (0);
 }

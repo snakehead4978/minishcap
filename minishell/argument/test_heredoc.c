@@ -1,18 +1,6 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   heredoc.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/15 17:05:04 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/10/02 07:14:21 by snek             ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "minishell.h"
 
-static char	*getdollar(char *str, int *i, t_execs *exec)
+static char	*getdollar(char *str, int *i)
 {
 	char	*var;
 	char	*sub;
@@ -29,12 +17,12 @@ static char	*getdollar(char *str, int *i, t_execs *exec)
 		if (str[j + 2] != '}')
 			return (0);
 		*i += 3;
-		return (ft_itoa(exec->ret));
+		return ("return value");
 	}
 	else if (str[j] == '?')
 	{
 		*i += 1;
-		return (ft_itoa(exec->ret));
+		return ("return value");
 	}
 	else if (str[j] == '{')
 	{
@@ -71,7 +59,7 @@ static char	*getdollar(char *str, int *i, t_execs *exec)
 	}
 }
 
-static int	getsize(char *str, int check, t_execs *exec, t_list **list)
+static int	getsize(char *str, int check, t_list **list)
 {
 	int	i;
 	int	size;
@@ -92,7 +80,7 @@ static int	getsize(char *str, int check, t_execs *exec, t_list **list)
 		}
 		if (str[i] == '$')
 		{
-			tmp = getdollar(str, &i, exec);
+			tmp = getdollar(str, &i);
 			if (!tmp)
 				return (ft_listfree(list, free), -1);
 			if (!listaddback(list, listnew(tmp, free), free))
@@ -207,19 +195,26 @@ static void	writetofd(char *str, t_list **list, int fd, int check)
 	}
 }
 
-static int	heredocforp(char *str, t_list **list, int checkquote, char *name)
+static int	heredocforp(char *str, t_list **list, int checksize, int checkquote)
 {
 	int	fd;
 	int	pipes[2];
+	char	*tmp;
+	char	*name;
 
-	if (name)
+	checksize = 0;
+	if (!checksize)
 	{
+		tmp = malloc(1);
+		name = ft_itoul((unsigned long)tmp);
+		free(tmp);
 		if (!access(name, F_OK))
 			unlink(name);
 		fd = open(name, O_RDWR | O_CREAT, 0644);
 		writetofd(str, list, fd, checkquote);
 		close(fd);
 		fd = open(name, O_RDWR, 0644);
+		free(name);
 		return (fd);
 	}
 	pipe(pipes);
@@ -228,54 +223,29 @@ static int	heredocforp(char *str, t_list **list, int checkquote, char *name)
 	return (pipes[0]);
 }
 
-static int	heredoccer(char *heredoc, int check, t_execs *exec, char **filename)
+static int	heredoccer(char *heredoc, int check)
 {
 	int	size;
 	int	fd;
 	t_list	*list;
 	t_list	*node;
-	char	*tmp;
 
 	list = 0;
-	size = getsize(heredoc, check, exec, &list);
+	size = getsize(heredoc, check, &list);
 	node = list;
 	if (size == -1)
 		return (-1);
-	if (size < PIPE_SIZE)
-	{
-		tmp = malloc(1);
-		*filename = ft_itoul((unsigned long)tmp);
-		free(tmp);
-	}
-	else
-		*filename = 0;
-	fd = heredocforp(heredoc, &list, check, *filename);
+	fd = heredocforp(heredoc, &list, (size < PIPE_SIZE), check);
 	return (ft_listfree(&node, free), fd);
 }
 
-int	ft_here(t_execs *exec)
-{
-	t_redircmd	*cmds;
-	t_list		*fds;
-	int			fd;
-	int			err;
-	char		*filename;
-
-	if (!exec->cmd)
-		return (seterr(exec, 0));
-	filename = 0;
-	cmds = (t_redircmd *)exec->cmd;
-	fd = heredoccer(cmds->heredoc, cmds->check, exec, &filename);
-	fds = listnew(fdsnew(fd, FD_FILEIN), fdsfree);
-	if (!listaddback(&exec->fds, fd, fdsfree))
-	{
-		if (filename)
-			unlink(filename);
-		return (free(filename), execfree(exec), 0);
-	}
-	err = ft_sorter(exec, cmds->cmd);
-	ft_removefd(fds);
-	if (filename)
-		unlink(filename);
-	return (free(filename), err);
-}
+// int main(int ac, char **av)
+// {
+// 	int	fd;
+// 	if (ac > 1)
+// 	{
+// 		fd = heredoccer(av[1], atoi(av[2]));
+// 		close(fd);
+// 	}
+// 	return (0);
+// }

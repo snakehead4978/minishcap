@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 14:53:04 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/09/15 15:49:30 by jla-chon         ###   ########.fr       */
+/*   Updated: 2024/10/01 18:31:03 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ t_fds	*fdsnew(int fd, int type)
 
 	new = calloc(sizeof(t_fds), 1);
 	if (!new)
-		return (0);
+		return (close(fd), NULL);
 	new->fd = fd;
 	new->type = type;
 	return (new);

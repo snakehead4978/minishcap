@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   misc.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 15:57:43 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/09/14 17:59:01 by jla-chon         ###   ########.fr       */
+/*   Updated: 2024/10/01 21:00:18 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ static int	ft_itoa_aux(long num)
 	size = 0;
 	if (num < 0)
 	{
-		num = num;
+		num = -num;
 		size++;
 	}
 	while (num != 0)
@@ -164,6 +164,33 @@ char	*ft_itoa(int num)
 	{
 		res[size--] = lnum % 10 + '0';
 		lnum /= 10;
+	}
+	return (res);
+}
+
+char	*ft_itoul(unsigned long num)
+{
+	char	*res;
+	int		size;
+	unsigned long	tmp;
+
+	if (num == 0)
+		return (ft_strdup("0"));
+	tmp = num;
+	size = 0;
+	while (num != 0)
+	{
+		num /= 10;
+		size++;
+	}
+	res = calloc(sizeof(char), size-- + 1);
+	if (!res)
+		return (0);
+	num = tmp;
+	while (num != 0)
+	{
+		res[size--] = num % 10 + '0';
+		num /= 10;
 	}
 	return (res);
 }

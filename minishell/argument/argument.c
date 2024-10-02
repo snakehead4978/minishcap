@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   argument.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 15:16:34 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/09/24 20:45:16 by jla-chon         ###   ########.fr       */
+/*   Updated: 2024/10/01 18:34:59 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,10 @@ char	**args(char **arguments, t_execs *exec)
 	return (ft_listfree(&list, free), res);
 }
 
-int main(int ac, char **av)
-{
-	if (ac <= 1)
-		return (0);
-	argument(av[1], 0);
-	return (0);
-}
+// int main(int ac, char **av)
+// {
+// 	if (ac <= 1)
+// 		return (0);
+// 	argument(av[1], 0);
+// 	return (0);
+// }

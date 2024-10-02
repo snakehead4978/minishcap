@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   execfree.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 18:28:34 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/09/25 20:51:57 by jla-chon         ###   ########.fr       */
+/*   Updated: 2024/10/01 22:16:14 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	ft_execfree(t_execs *exec)
+static int	ft_execcfree(t_execs *exec)
 {
 	t_execcmd	*cmd;
 
@@ -69,7 +69,7 @@ static int	ft_sorterfree(t_execs *exec, t_cmd *cmd)
 	if (!cmd)
 		return (0);
 	if (cmd->type == EXEC)
-		ft_execfree(exec);
+		ft_execcfree(exec);
 	else if (cmd->type == SUB || cmd->type == REDIR || cmd->type == HERE)
 		ft_solo(exec);
 	else if (cmd->type == PIPE || cmd->type == AND || cmd->type == OR)
@@ -77,8 +77,13 @@ static int	ft_sorterfree(t_execs *exec, t_cmd *cmd)
 	return (0);
 }
 
-int	execsfree(t_execs *exec)
+int	execfree(t_execs *exec)
 {
+	int	err;
+	
+	if (!exec)
+		return (0);
+	err = exec->ret;
 	ft_sorterfree(exec, exec->shell->tree);
 	ft_listfree(&exec->fds, fdsfree);
 	// free all heredocs

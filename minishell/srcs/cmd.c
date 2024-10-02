@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 19:03:54 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/09/24 22:39:12 by jla-chon         ###   ########.fr       */
+/*   Updated: 2024/10/01 21:39:29 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,8 @@ int	ft_expandcmd(t_execs *exec, t_cmd *cmd)
 {
 	t_execcmd	*command;
 
+	if (!cmd)
+		return (0);
 	if (cmd->type == REDIR || cmd->type == HERE)
 		return (ft_expandcmd(exec, ((t_redircmd *)cmd)->cmd));
 	else if (cmd->type == EXEC)
