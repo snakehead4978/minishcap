@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 14:37:54 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/10/01 18:47:03 by snek             ###   ########.fr       */
+/*   Updated: 2024/10/13 15:41:32 by jla-chon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,106 +60,101 @@ typedef enum e_filedesc
 }						t_filedesc;
 
 // Structs
+
 typedef struct s_cmd
 {
-	int					type;
-}						t_cmd;
+    int type;
+}   t_cmd;
 
 typedef struct s_env
 {
-	char				**env;
-}						t_env;
+    char **env;
+}   t_env;
 
 typedef struct s_sub
 {
-	int					type;
-	t_cmd				*cmd;
-}						t_sub;
+    int type;
+    t_cmd *cmd;
+}   t_sub;
 
 typedef struct s_var
 {
-	char				*alias;
-	char				*value;
-	struct s_var		*next;
-}						t_var;
+    char *alias;
+    char *value;
+    struct s_var *next;
+}   t_var;
 
 typedef struct s_herepipe
 {
-	char				*str;
-	int					stored;
-	struct s_herepipe	*next;
-}						t_herepipe;
+    char *str;
+    int stored;
+    int quote;
+    struct s_herepipe *next;
+} t_herepipe;
 
 typedef struct s_shell
 {
-	int					type;
-	t_cmd				*tree;
-	t_var				*var;
-	t_env				*env;
-	t_herepipe			*pipe;
-}						t_shell;
+    int type;
+    t_cmd *tree;
+    t_var *var;
+    t_env *env;
+    t_herepipe *pipe;
+}   t_shell;
 
 typedef struct s_execcmd
 {
-	int					type;
-	char				**args;
-	char				**eargs;
-}						t_execcmd;
+    int type;
+    char **args;
+}   t_execcmd;
 
 typedef struct s_pipecmd
 {
-	int					type;
-	t_cmd				*left;
-	t_cmd				*right;
-}						t_pipecmd;
+    int type;
+    t_cmd *left;
+    t_cmd *right;
+}   t_pipecmd;
 
 typedef struct s_redircmd
 {
-	int					type;
-	t_cmd				*cmd;
-	char				*file;
-	char				*efile;
-	int					mode;
-	int					fd;
-	char				*heredoc;
-}						t_redircmd;
+    int type;
+    t_cmd *cmd;
+    char *file;
+    char *efile;
+    int mode;
+    int fd;
+    char *heredoc;
+}   t_redircmd;
+
+
 
 typedef struct s_andcmd
 {
-	int					type;
-	t_cmd				*left;
-	t_cmd				*right;
-}						t_andcmd;
+    int type;
+    t_cmd *left;
+    t_cmd *right;
+}   t_andcmd;
 
 typedef struct s_orcmd
 {
-	int					type;
-	t_cmd				*left;
-	t_cmd				*right;
-}						t_orcmd;
+    int type;
+    t_cmd *left;
+    t_cmd *right;
+}   t_orcmd;
 
 typedef struct s_doublecmd
 {
-	int					type;
-	t_cmd				*left;
-	t_cmd				*right;
-}						t_doublecmd;
-
-// ??????????????? A VOIR ?????
-typedef struct s_herecmd
-{
-	int					type;
-	t_cmd				*cmd;
-	int					id;
-}						t_herecmd;
+    int type;
+    t_cmd *left;
+    t_cmd *right;
+}   t_doublecmd;
 
 typedef struct s_lexer
 {
-	int					type;
-	char				*heredoc;
-	struct s_lexer		*next;
-	struct s_lexer		*prev;
-}						t_lexer;
+    int type;
+    char *heredoc;
+    struct s_lexer *next;
+    struct s_lexer *prev;
+}   t_lexer;
 
 typedef struct s_subquote
 {

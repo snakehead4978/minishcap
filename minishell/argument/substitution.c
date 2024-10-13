@@ -6,11 +6,35 @@
 /*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 14:56:27 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/09/15 18:22:12 by jla-chon         ###   ########.fr       */
+/*   Updated: 2024/10/13 19:32:31 by jla-chon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	substitution_error(char *str)
+{
+	char	*tmp;
+	int		size;
+
+	size = 1;
+	tmp = str + 1;
+	if (*tmp == '{')
+	{
+		while (tmp[size + 1] && tmp[size] != '}')
+			size++;
+	}
+	else
+	{
+		while (tmp[size + 1] && !iswhite(tmp[size]) && tmp[size] != '\'' && tmp[size] != '"')
+			size++;
+	}
+	tmp = ft_substr(tmp, 0, size + 1);
+	if (!tmp)
+		return ;
+	printf("minishell: %s: bad substitution\n", tmp);
+	free(tmp);
+}
 
 static char	*getdollar(char **str, int final, t_execs *exec)
 {

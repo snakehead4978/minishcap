@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 19:03:54 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/10/01 21:39:29 by snek             ###   ########.fr       */
+/*   Updated: 2024/10/13 15:50:31 by jla-chon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,7 @@ int	ft_exec(t_execs *exec)
 	if (!exec->cmd)
 		return (seterr(exec, 0));
 	cmds = (t_execcmd *)exec->cmd;
+	args = cmds->args;
 	if (!ft_setfds(exec))
 		return (1);
 	if (isbuiltin(args[0]))
@@ -165,70 +166,6 @@ int	ft_expandcmd(t_execs *exec, t_cmd *cmd)
 			return (exec->ret);
 	}
 	return (0);
-}
-
-int	ft_redir(t_execs *exec)
-{
-	t_fds	*fds;
-	char	**all;
-	int		fd;
-	t_redircmd	*cmds;
-
-	if (!exec || !exec->cmd)
-		return (seterr(exec, 0));
-	cmds = (t_redircmd *)exec->cmd;
-	all = ft_calloc(sizeof(char *), 2);
-	*all = cmds->file;
-	if (expansions(exec, all))
-		return (free(all), seterr(exec, 1));
-	wildcard(&all);
-	fd = open(*all, cmds->mode);
-	fds = ft_fdsnew(fd, FD_FILEOUT);
-	if (cmds->mode == O_RDONLY)
-		fds->type = FD_FILEIN;
-	if (!listaddback(&exec->fds, listnew(fds, fdsfree), fdsfree))
-		return (execfree(exec), 1);
-	ft_sorter(exec, cmds->cmd);
-	ft_removefd(fds);
-}
-
-int	ft_pipe(t_execs *exec)
-{
-	t_pipecmd	*cmds;
-	int	pid;
-	int	fd[2];
-	t_fds	*fds;
-
-	if (!exec->cmd)
-		return (seterr(exec, 0));
-	cmds = (t_pipecmd *)cmds;
-	pipe(fd);
-	fds = fdsnew(0, 0);
-	pid = fork();
-	if (!pid)
-	{
-		close(fd[0]);
-		fds->fd = fd[1];
-		fds->type= FD_FILEOUT;
-		if (!listaddback(&exec->fds, listnew(fds, fdsfree), fdsfree))
-			return (execfree(exec), 1);
-		if (ft_expandcmd(exec, cmds->left))
-			return (execfree(exec), 1);
-		exec->ret = ft_sorter(exec, cmds->left);
-	}
-	else
-	{
-		close(fd[1]);
-		fds->fd = fd[0];
-		fds->type= FD_FILEIN;
-		if (!listaddback(&exec->fds, listnew(fds, fdsfree), fdsfree))
-			return (execfree(exec), 1);
-		if (ft_expandcmd(exec, cmds->right))
-			return (execfree(exec));
-		exec->ret = ft_sorter(exec, cmds->right);
-	}
-	ft_removefd(fds);
-	return (exec->ret);
 }
 
 int	executer(t_shell *shell)

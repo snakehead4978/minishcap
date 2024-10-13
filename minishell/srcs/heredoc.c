@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 17:05:04 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/10/02 07:14:21 by snek             ###   ########.fr       */
+/*   Updated: 2024/10/13 18:52:49 by jla-chon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,30 +71,28 @@ static char	*getdollar(char *str, int *i, t_execs *exec)
 	}
 }
 
+static void	substitution_error(char *str)
+{
+	printf("minishell: %s: bad substitution\n", str);
+}
+
 static int	getsize(char *str, int check, t_execs *exec, t_list **list)
 {
 	int	i;
 	int	size;
 	char	*tmp;
 
-	i = 0;
-	size = 0;
 	if (check)
 		return (strlen(str));
+	i = 0;
+	size = 0;
 	while (str[i] && size < PIPE_SIZE)
 	{
-		if (str[i] == '\\' && str[i + 1] == '\n')
-			i += 2;
-		if (str[i] == '\\' && (str[i + 1] == '`' || str[i + 1] == '$'))
-		{
-			i += 2;
-			size++;
-		}
 		if (str[i] == '$')
 		{
 			tmp = getdollar(str, &i, exec);
 			if (!tmp)
-				return (ft_listfree(list, free), -1);
+				return (ft_listfree(list, free), substitution_error(str), -1);
 			if (!listaddback(list, listnew(tmp, free), free))
 				return (-1);
 			size += strlen(tmp);
@@ -108,51 +106,10 @@ static int	getsize(char *str, int check, t_execs *exec, t_list **list)
 	return (size);
 }
 
-static unsigned long	findmin(unsigned long num1, unsigned long num2)
-{
-	if (!num1)
-		return (num2);
-	if (!num2)
-		return (num1);
-	if (num1 > num2)
-		return (num2);
-	return (num1);
-}
-
-static int	nextindex(char *str, int check, int add)
-{
-	static unsigned long	dollar;
-	static unsigned long	newline;
-	static unsigned long	slash;
-	static unsigned long	grave;
-	unsigned long	current;
-
-	if (!check)
-	{
-		dollar = -1;
-		newline = -1;
-		slash = -1;
-		grave = -1;
-	}
-	current = (unsigned long)str;
-	if (dollar == -1 || current == dollar + add)
-		dollar = (unsigned long)ft_strstr(str + add, "$");
-	if (newline == -1 || newline == current - 2)
-		newline = (unsigned long)ft_strstr(str, "\\\n");
-	if (grave == -1 || grave == current - 2)
-		grave = (unsigned long)ft_strstr(str, "\\`");
-	if (slash == -1 || slash == current - 2)
-		slash = (unsigned long)ft_strstr(str, "\\\\");
-	if (!dollar && !newline && !slash && !grave)
-		return (strlen(str));
-	return (findmin(findmin(findmin(dollar, newline), slash), grave) - current);
-}
-
-static int	indexdollar(char *str, int *i, int fd, t_list **list)
+static void	indexdollar(char *str, int *i, int fd, t_list **list)
 {
 	char	*dollar;
 	int		j;
-	int		ret;
 
 	j = *i;
 	dollar = (char *)(*list)->data;
@@ -169,18 +126,16 @@ static int	indexdollar(char *str, int *i, int fd, t_list **list)
 		while (str[j] && str[j] != '\'' && str[j] != '\"' && !iswhite(str[j]))
 			j++;
 	}
-	ret = j - *i;
 	*i = j;
-	return (ret);
 }
 
 static void	writetofd(char *str, t_list **list, int fd, int check)
 {
 	int	i;
 	int	j;
-	int	add;
+	char	*dollar;
+	char	*tmp;
 
-	add = 0;
 	i = 0;
 	j = i;
 	if (check)
@@ -190,19 +145,13 @@ static void	writetofd(char *str, t_list **list, int fd, int check)
 	}
 	while (str[i])
 	{
-		i += nextindex(str + i, i, add);
-		add = 0;
-		if (i < j)
-			break;
+		tmp = strchr(str + i, '$');
+		if (!tmp)
+			tmp = strchr(str + i, '\0');
+		i += (tmp - (str + i));
 		write(fd, str + j, i - j);
-		if (str[i] == '\\')
-		{
-			if (str[i + 1] != '\n')
-				write(fd, str + i + 1, 1);
-			i += 2;
-		}
-		else if (str[i] == '$')
-			add = indexdollar(str, &i, fd, list);
+		if (str[i] == '$')
+			indexdollar(str, &i, fd, list);
 		j = i;
 	}
 }
@@ -241,7 +190,7 @@ static int	heredoccer(char *heredoc, int check, t_execs *exec, char **filename)
 	node = list;
 	if (size == -1)
 		return (-1);
-	if (size < PIPE_SIZE)
+	if (size > PIPE_SIZE)
 	{
 		tmp = malloc(1);
 		*filename = ft_itoul((unsigned long)tmp);
@@ -262,16 +211,16 @@ int	ft_here(t_execs *exec)
 	char		*filename;
 
 	if (!exec->cmd)
-		return (seterr(exec, 0));
+		return (seterr(exec, 0), 1);
 	filename = 0;
 	cmds = (t_redircmd *)exec->cmd;
 	fd = heredoccer(cmds->heredoc, cmds->check, exec, &filename);
 	fds = listnew(fdsnew(fd, FD_FILEIN), fdsfree);
-	if (!listaddback(&exec->fds, fd, fdsfree))
+	if (fd == -1 || !listaddback(&exec->fds, fd, fdsfree))
 	{
 		if (filename)
 			unlink(filename);
-		return (free(filename), execfree(exec), 0);
+		return (free(filename), execfree(exec), 1);
 	}
 	err = ft_sorter(exec, cmds->cmd);
 	ft_removefd(fds);

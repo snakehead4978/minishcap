@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execfree.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 18:28:34 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/10/01 22:16:14 by snek             ###   ########.fr       */
+/*   Updated: 2024/10/13 19:15:08 by jla-chon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,8 @@ static int	ft_solo(t_execs *exec)
 	t_cmd	*down;
 
 	cmd = exec->cmd;
-	if (cmd->type == REDIR)
+	if (cmd->type == REDIR || cmd->type == HERE)
 		down = ((t_redircmd *)cmd)->cmd;	
-	else if (cmd->type == HERE)
-		down = ((t_herecmd *)cmd)->cmd;	
 	else
 		down = ((t_sub *)cmd)->cmd;
 	ft_sorterfree(exec, down);
@@ -88,5 +86,5 @@ int	execfree(t_execs *exec)
 	ft_listfree(&exec->fds, fdsfree);
 	// free all heredocs
 	free(exec);
-	return (0);
+	return (err);
 }
