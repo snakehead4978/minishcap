@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   subandor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 22:20:13 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/10/01 22:01:35 by snek             ###   ########.fr       */
+/*   Updated: 2024/10/14 18:25:50 by jla-chon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	ft_or(t_execs *exec)
 	if (err)
 		return (execfree(exec), err);
 	err = ft_sorter(exec, cmds->left);
-	if (err)
+	if (err != 0 && err != 1)
 	{
 		err = ft_expandcmd(exec, cmds->right);
 		if (err)
@@ -75,5 +75,7 @@ int	ft_sub(t_execs *exec)
 	}
 	else
 		waitpid(pid, &err, 0);
+	if (err == 1)
+		err = 333;
 	return (err);
 }

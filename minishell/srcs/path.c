@@ -6,7 +6,7 @@
 /*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 16:21:37 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/09/15 17:04:46 by jla-chon         ###   ########.fr       */
+/*   Updated: 2024/10/14 18:10:45 by jla-chon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static int	ft_paths(char **ev, char **name)
 	while (ev[i] && ft_strncmp(ev[i], "PATH=", 5))
 		i++;
 	if (!ev[i])
-		return (ft_printerror("minishell: command not found: ", *name), 1);
+		return (ft_printerror("minishell: command not found: ", *name), 127);
 	paths = ft_pathsplit(&ev[i][5], ':', "/");
 	if (!paths)
 		return (1);
@@ -60,7 +60,7 @@ static int	ft_paths(char **ev, char **name)
 		}
 		free(path);
 	}
-	return (ft_printerror("minishell: command not found: ", *name), 1);
+	return (ft_printerror("minishell: command not found: ", *name), 127);
 }
 
 int	ft_command(t_execs *exec, t_execcmd *cmd)
@@ -71,7 +71,7 @@ int	ft_command(t_execs *exec, t_execcmd *cmd)
 	if (ft_strchr(command, '/'))
 	{
 		if (access(command, F_OK | X_OK) == 0)
-			return ;
+			return (0);
 		if (errno == EACCES)
 			ft_printerror("minishell: permission denied: ", command);
 		else if (errno == ENOENT)

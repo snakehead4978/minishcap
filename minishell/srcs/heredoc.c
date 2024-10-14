@@ -6,7 +6,7 @@
 /*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 17:05:04 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/10/13 18:52:49 by jla-chon         ###   ########.fr       */
+/*   Updated: 2024/10/14 16:24:00 by jla-chon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,6 +169,8 @@ static int	heredocforp(char *str, t_list **list, int checkquote, char *name)
 		writetofd(str, list, fd, checkquote);
 		close(fd);
 		fd = open(name, O_RDWR, 0644);
+		unlink(name);
+		free(name);
 		return (fd);
 	}
 	pipe(pipes);
@@ -214,17 +216,11 @@ int	ft_here(t_execs *exec)
 		return (seterr(exec, 0), 1);
 	filename = 0;
 	cmds = (t_redircmd *)exec->cmd;
-	fd = heredoccer(cmds->heredoc, cmds->check, exec, &filename);
+	fd = heredoccer(cmds->heredoc, cmds->quote, exec, &filename);
 	fds = listnew(fdsnew(fd, FD_FILEIN), fdsfree);
 	if (fd == -1 || !listaddback(&exec->fds, fd, fdsfree))
-	{
-		if (filename)
-			unlink(filename);
-		return (free(filename), execfree(exec), 1);
-	}
+		return (execfree(exec), 1);
 	err = ft_sorter(exec, cmds->cmd);
 	ft_removefd(fds);
-	if (filename)
-		unlink(filename);
-	return (free(filename), err);
+	return (err);
 }

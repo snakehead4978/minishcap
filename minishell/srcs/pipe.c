@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 22:11:04 by snek              #+#    #+#             */
-/*   Updated: 2024/10/01 22:14:51 by snek             ###   ########.fr       */
+/*   Updated: 2024/10/14 18:17:33 by jla-chon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 int	ft_pipe(t_execs *exec)
 {
 	t_pipecmd	*cmds;
-	int	pid;
-	int	fd[2];
+	int	fd[3];
 	t_list	*fds;
 	t_fds	*tmp;
+	int	err;
 
 	if (!exec->cmd)
 		return (seterr(exec, 0));
@@ -26,8 +26,8 @@ int	ft_pipe(t_execs *exec)
 	pipe(fd);
 	fds = listnew(fdsnew(0, 0), fdsfree);
 	tmp = fds->data;
-	pid = fork();
-	if (!pid)
+	fd[3] = fork();
+	if (!fd[3])
 	{
 		close(fd[0]);
 		tmp->fd = fd[1];
@@ -35,8 +35,11 @@ int	ft_pipe(t_execs *exec)
 		if (!listaddback(&exec->fds, fds, fdsfree))
 			return (execfree(exec), 1);
 		if (ft_expandcmd(exec, cmds->left))
-			return (execfree(exec), 1);
-		exec->ret = ft_sorter(exec, cmds->left);
+			exit(1);
+		err = ft_sorter(exec, cmds->left);
+		if (err != 1)
+			execfree(exec);
+		exit(err);
 	}
 	else
 	{
@@ -46,9 +49,9 @@ int	ft_pipe(t_execs *exec)
 		if (!listaddback(&exec->fds, fds, fdsfree))
 			return (execfree(exec), 1);
 		if (ft_expandcmd(exec, cmds->right))
-			return (execfree(exec));
-		exec->ret = ft_sorter(exec, cmds->right);
+			return (1);
+		err = ft_sorter(exec, cmds->right);
 	}
 	ft_removefd(fds);
-	return (exec->ret);
+	return (err);
 }

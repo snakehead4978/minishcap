@@ -6,7 +6,7 @@
 /*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 14:56:27 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/10/13 19:32:31 by jla-chon         ###   ########.fr       */
+/*   Updated: 2024/10/14 14:10:00 by jla-chon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void	substitution_error(char *str)
 		while (tmp[size + 1] && !iswhite(tmp[size]) && tmp[size] != '\'' && tmp[size] != '"')
 			size++;
 	}
-	tmp = ft_substr(tmp, 0, size + 1);
+	tmp = ft_substr(str, 0, size + 2);
 	if (!tmp)
 		return ;
 	printf("minishell: %s: bad substitution\n", tmp);

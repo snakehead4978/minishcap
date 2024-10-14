@@ -6,7 +6,7 @@
 /*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 18:28:34 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/10/13 19:15:08 by jla-chon         ###   ########.fr       */
+/*   Updated: 2024/10/14 18:14:52 by jla-chon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,8 @@ int	execfree(t_execs *exec)
 	if (!exec)
 		return (0);
 	err = exec->ret;
+	ft_listfree(exec->fds, fdsfree);
 	ft_sorterfree(exec, exec->shell->tree);
-	ft_listfree(&exec->fds, fdsfree);
-	// free all heredocs
 	free(exec);
 	return (err);
 }

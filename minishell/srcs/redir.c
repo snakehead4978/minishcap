@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 21:55:37 by snek              #+#    #+#             */
-/*   Updated: 2024/10/01 22:09:37 by snek             ###   ########.fr       */
+/*   Updated: 2024/10/14 18:18:05 by jla-chon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	ft_redir(t_execs *exec)
 	char	**all;
 	int		fd;
 	t_redircmd	*cmds;
+	int		err;
 
 	if (!exec || !exec->cmd)
 		return (seterr(exec, 0));
@@ -42,7 +43,7 @@ int	ft_redir(t_execs *exec)
 		((t_fds *)fds)->type = FD_FILEIN;
 	if (!listaddback(&exec->fds, fds, fdsfree))
 		return (execfree(exec), 1);
-	ft_sorter(exec, cmds->cmd);
+	err = ft_sorter(exec, cmds->cmd);
 	ft_removefd(fds);
-	return (0);
+	return (err);
 }

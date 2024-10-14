@@ -6,7 +6,7 @@
 /*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 16:22:32 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/10/13 18:16:36 by jla-chon         ###   ########.fr       */
+/*   Updated: 2024/10/14 16:14:58 by jla-chon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,26 @@ static char	*getdollar(char *str, int *i)
 
 static void	substitution_error(char *str)
 {
-	printf("minishell: %s: bad substitution\n", str);
+	char	*tmp;
+	int		size;
+
+	size = 1;
+	tmp = str + 1;
+	if (*tmp == '{')
+	{
+		while (tmp[size + 1] && tmp[size] != '}')
+			size++;
+	}
+	else
+	{
+		while (tmp[size + 1] && !iswhite(tmp[size]) && tmp[size] != '\'' && tmp[size] != '"')
+			size++;
+	}
+	tmp = ft_substr(str, 0, size + 2);
+	if (!tmp)
+		return ;
+	printf("minishell: %s: bad substitution\n", tmp);
+	free(tmp);
 }
 
 static int	getsize(char *str, int check, t_list **list)
@@ -92,7 +111,7 @@ static int	getsize(char *str, int check, t_list **list)
 		{
 			tmp = getdollar(str, &i);
 			if (!tmp)
-				return (ft_listfree(list, free), substitution_error(str), -1);
+				return (ft_listfree(list, free), substitution_error(str + i), -1);
 			if (!listaddback(list, listnew(tmp, free), free))
 				return (-1);
 			size += strlen(tmp);
@@ -115,7 +134,7 @@ static void	indexdollar(char *str, int *i, int fd, t_list **list)
 	dollar = (char *)(*list)->data;
 	*list = (*list)->next;
 	write(fd, dollar, strlen(dollar));
-	write(1, dollar, strlen(dollar));
+	// write(1, dollar, strlen(dollar));
 	// printf("%s", dollar);
 	if (str[j + 1] == '{')
 	{
@@ -143,7 +162,7 @@ static void	writetofd(char *str, t_list **list, int fd, int check)
 	if (check)
 	{
 		write(fd, str, strlen(str));
-		printf("%s", str);
+		// printf("%s", str);
 		return ;
 	}
 	while (str[i])
@@ -153,7 +172,7 @@ static void	writetofd(char *str, t_list **list, int fd, int check)
 			tmp = strchr(str + i, '\0');
 		i += (tmp - (str + i));
 		write(fd, str + j, i - j);
-		write(1, str + j, i - j);
+		// write(1, str + j, i - j);
 		if (str[i] == '$')
 			indexdollar(str, &i, fd, list);
 		j = i;
@@ -171,9 +190,10 @@ static int	heredocforp(char *str, t_list **list, int checkquote, char *name)
 			unlink(name);
 		fd = open(name, O_RDWR | O_CREAT, 0644);
 		writetofd(str, list, fd, checkquote);
-		sleep(10);
 		close(fd);
 		fd = open(name, O_RDWR, 0644);
+		unlink(name);
+		free(name);
 		return (fd);
 	}
 	pipe(pipes);
@@ -195,11 +215,10 @@ static int	heredoccer(char *heredoc, int check, char **filename)
 	node = list;
 	if (size == -1)
 		return (-1);
-	if (size > PIPE_SIZE)
+	if (size < PIPE_SIZE)
 	{
 		tmp = malloc(1);
 		*filename = ft_itoul((unsigned long)tmp);
-		printf("FILENAME: %s\n", *filename);
 		free(tmp);
 	}
 	else
@@ -216,11 +235,12 @@ int main(int ac, char **av)
 	if (ac != 3)
 		return (0);
 	filename = 0;
-	printf("Sentence: %s\n", av[2]);
+	// printf("Sentence: %s\n", av[2]);
 	fd = heredoccer(av[2], atoi(av[1]), &filename);
-	printf("\n");
-	if (filename)
-		unlink(filename);
-	free(filename);
+	char buff[3000];
+	read(fd, buff, 3000);
+	printf("THE FILE\n%s\n", buff);
 	return (0);
 }
+
+// strace -f bash -c $'cat > file.txt << EOF\nline1\nline2\nEOF'

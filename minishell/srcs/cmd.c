@@ -6,7 +6,7 @@
 /*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 19:03:54 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/10/13 15:50:31 by jla-chon         ###   ########.fr       */
+/*   Updated: 2024/10/14 18:10:57 by jla-chon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,20 +81,45 @@ int	ft_closeallfds(t_execs *exec)
 int	isbuiltin(char *cmd)
 {
 	if (!ft_strncmp(cmd, "echo", 5))
-		return (0);
+		return (1);
 	if (!ft_strncmp(cmd, "cd", 3))
-		return (0);
+		return (2);
 	if (!ft_strncmp(cmd, "pwd", 4))
-		return (0);
+		return (3);
 	if (!ft_strncmp(cmd, "export", 7))
-		return (0);
+		return (4);
 	if (!ft_strncmp(cmd, "unset", 6))
-		return (0);
+		return (5);
 	if (!ft_strncmp(cmd, "env", 4))
-		return (0);
+		return (6);
 	if (!ft_strncmp(cmd, "exit", 5))
-		return (0);
-	return (1);
+		return (7);
+	return (0);
+}
+
+int	builtin(t_execs *exec)
+{
+	int	command;
+	int	err;
+
+	command = isbuiltin(((t_execcmd *)exec->cmd)->args[0]);
+	if (command == 1)
+		err = ft_echo(exec);
+	else if (command == 2)
+		err = ft_cd(exec);
+	else if (command == 3)
+		err = ft_pwd(exec);
+	else if (command == 4)
+		err = ft_export(exec);
+	else if (command == 5)
+		err = ft_unset(exec);
+	else if (command == 6)
+		err = ft_env(exec);
+	else
+		ft_exit(exec);
+	dup2(exec->stdcopies[0], 0);
+	dup2(exec->stdcopies[1], 1);
+	return (err);
 }
 
 int	ft_sorter(t_execs *exec, t_cmd *cmd)
@@ -134,19 +159,27 @@ int	ft_exec(t_execs *exec)
 	args = cmds->args;
 	if (!ft_setfds(exec))
 		return (1);
-	if (isbuiltin(args[0]))
+	if (!isbuiltin(args[0]))
 	{
 		pid = fork();
 		if (!pid)
 		{
 			ft_closeallfds(exec);
-			execve(args[0], args, exec->shell->env);
-			// error management
+			err = ft_command(exec, cmds);
+			if (!err)
+				execve(args[0], args, exec->shell->env);
+			else
+				errno = err;
+			ft_listfree(exec->fds, fdsfree);
+			execfree(exec);
+			exit(errno);
 		}
-		waitpid(pid, &err);
+		waitpid(pid, &err, 0);
 	}
 	else
-		err = builtin(args, exec);
+		err = builtin(exec);
+	if (err == 1)
+		execfree(exec);
 	return (err);
 }
 
@@ -163,7 +196,7 @@ int	ft_expandcmd(t_execs *exec, t_cmd *cmd)
 		command = (t_execcmd *)cmd;
 		command->args = args(command->args, exec);
 		if (!command->args)
-			return (exec->ret);
+			return (execfree(exec), 1);
 	}
 	return (0);
 }
@@ -179,12 +212,10 @@ int	executer(t_shell *shell)
 	exec->shell = shell;
 	exec->fds = 0;
 	exec->ret = 0;
+	exec->stdcopies[0] = dup(0);
+	exec->stdcopies[1] = dup(1);
 	err = ft_expandcmd(exec, shell->tree);
 	if (err)
-	{
-		// free exec
 		return (err);
-	}
-	err = ft_sorter(exec, exec->shell);
-	return (err);
+	return (ft_sorter(exec, exec->shell));
 }

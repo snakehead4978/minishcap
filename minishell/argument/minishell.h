@@ -6,7 +6,7 @@
 /*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 14:37:54 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/10/13 15:41:32 by jla-chon         ###   ########.fr       */
+/*   Updated: 2024/10/14 16:23:55 by jla-chon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,6 @@ typedef struct s_cmd
     int type;
 }   t_cmd;
 
-typedef struct s_env
-{
-    char **env;
-}   t_env;
-
 typedef struct s_sub
 {
     int type;
@@ -97,7 +92,7 @@ typedef struct s_shell
     int type;
     t_cmd *tree;
     t_var *var;
-    t_env *env;
+    char	**env;
     t_herepipe *pipe;
 }   t_shell;
 
@@ -122,6 +117,7 @@ typedef struct s_redircmd
     char *efile;
     int mode;
     int fd;
+	int	quote;
     char *heredoc;
 }   t_redircmd;
 
@@ -186,6 +182,7 @@ typedef struct s_execs
 	t_shell				*shell;
 	int					ret;
 	t_cmd				*cmd;
+	int					stdcopies[2];
 }						t_execs;
 
 //	Lib and Useful Funcs
