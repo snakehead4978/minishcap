@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   misc.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 15:57:43 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/10/01 21:00:18 by snek             ###   ########.fr       */
+/*   Updated: 2024/10/15 17:07:09 by jla-chon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,8 @@ char	*ft_itoa(int num)
 
 	if (num == 0)
 		return (ft_strdup("0"));
+	if (num == 333)
+		num = 1;
 	lnum = num;
 	size = ft_itoa_aux(lnum);
 	res = calloc(sizeof(char), size-- + 1);

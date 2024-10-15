@@ -6,7 +6,7 @@
 /*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 22:20:13 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/10/14 18:25:50 by jla-chon         ###   ########.fr       */
+/*   Updated: 2024/10/15 17:55:43 by jla-chon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,17 @@ int	ft_and(t_execs *exec)
 	int	err;
 
 	if (!exec->cmd)
-		return (seterr(exec, 0));
+		return (0);
 	cmds = (t_andcmd *)exec->cmd;
 	err = ft_expandcmd(exec, cmds->left);
 	if (err)
-		return (execfree(exec), err);
+		return (err);
 	err = ft_sorter(exec, cmds->left);
 	if (!err)
 	{
 		err = ft_expandcmd(exec, cmds->right);
 		if (err)
-			return (execfree(exec), err);		
+			return (err);		
 		err = ft_sorter(exec, cmds->right);
 	}
 	return (err);
@@ -40,17 +40,17 @@ int	ft_or(t_execs *exec)
 	int	err;
 
 	if (!exec->cmd)
-		return (seterr(exec, 0));
+		return (0);
 	cmds = (t_orcmd *)exec->cmd;
 	err = ft_expandcmd(exec, cmds->left);
 	if (err)
-		return (execfree(exec), err);
+		return (err);
 	err = ft_sorter(exec, cmds->left);
 	if (err != 0 && err != 1)
 	{
 		err = ft_expandcmd(exec, cmds->right);
 		if (err)
-			return (execfree(exec), err);		
+			return (err);		
 		err = ft_sorter(exec, cmds->right);
 	}
 	return (err);
@@ -63,15 +63,18 @@ int	ft_sub(t_execs *exec)
 	int	err;
 
 	if (!exec->cmd)
-		return (seterr(exec, 0));
+		return (0);
 	cmds = (t_sub *)exec->cmd;
 	pid = fork();
 	if (!pid)
 	{
 		err = ft_expandcmd(exec, cmds->cmd);
 		if (err)
-			return (execfree(exec), err);
+			exit(err);
 		err = ft_sorter(exec, cmds->cmd);
+		if (err != 1)
+			execfree(exec);
+		exit(err);
 	}
 	else
 		waitpid(pid, &err, 0);

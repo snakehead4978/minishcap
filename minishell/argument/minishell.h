@@ -6,7 +6,7 @@
 /*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 14:37:54 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/10/14 16:23:55 by jla-chon         ###   ########.fr       */
+/*   Updated: 2024/10/15 18:01:30 by jla-chon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,94 +63,92 @@ typedef enum e_filedesc
 
 typedef struct s_cmd
 {
-    int type;
-}   t_cmd;
+	int					type;
+}						t_cmd;
 
 typedef struct s_sub
 {
-    int type;
-    t_cmd *cmd;
-}   t_sub;
+	int					type;
+	t_cmd				*cmd;
+}						t_sub;
 
 typedef struct s_var
 {
-    char *alias;
-    char *value;
-    struct s_var *next;
-}   t_var;
+	char				*alias;
+	char				*value;
+	struct s_var		*next;
+}						t_var;
 
 typedef struct s_herepipe
 {
-    char *str;
-    int stored;
-    int quote;
-    struct s_herepipe *next;
-} t_herepipe;
+	char				*str;
+	int					stored;
+	int					quote;
+	struct s_herepipe	*next;
+}						t_herepipe;
 
 typedef struct s_shell
 {
-    int type;
-    t_cmd *tree;
-    t_var *var;
-    char	**env;
-    t_herepipe *pipe;
-}   t_shell;
+	int					type;
+	t_cmd				*tree;
+	t_var				*var;
+	char				**env;
+	t_herepipe			*pipe;
+}						t_shell;
 
 typedef struct s_execcmd
 {
-    int type;
-    char **args;
-}   t_execcmd;
+	int					type;
+	char				**args;
+}						t_execcmd;
 
 typedef struct s_pipecmd
 {
-    int type;
-    t_cmd *left;
-    t_cmd *right;
-}   t_pipecmd;
+	int					type;
+	t_cmd				*left;
+	t_cmd				*right;
+}						t_pipecmd;
 
 typedef struct s_redircmd
 {
-    int type;
-    t_cmd *cmd;
-    char *file;
-    char *efile;
-    int mode;
-    int fd;
-	int	quote;
-    char *heredoc;
-}   t_redircmd;
-
-
+	int					type;
+	t_cmd				*cmd;
+	char				*file;
+	char				*efile;
+	int					mode;
+	int					fd;
+	int					quote;
+	char				*heredoc;
+}						t_redircmd;
 
 typedef struct s_andcmd
 {
-    int type;
-    t_cmd *left;
-    t_cmd *right;
-}   t_andcmd;
+	int					type;
+	t_cmd				*left;
+	t_cmd				*right;
+}						t_andcmd;
 
 typedef struct s_orcmd
 {
-    int type;
-    t_cmd *left;
-    t_cmd *right;
-}   t_orcmd;
+	int					type;
+	t_cmd				*left;
+	t_cmd				*right;
+}						t_orcmd;
 
 typedef struct s_doublecmd
 {
-    int type;
-    t_cmd *left;
-    t_cmd *right;
-}   t_doublecmd;
+	int					type;
+	t_cmd				*left;
+	t_cmd				*right;
+}						t_doublecmd;
 
 typedef struct s_lexer
 {
-    int type;
-    char *heredoc;
-    struct s_lexer *next;
-    struct s_lexer *prev;
-}   t_lexer;
+	int					type;
+	char				*heredoc;
+	struct s_lexer		*next;
+	struct s_lexer		*prev;
+}						t_lexer;
 
 typedef struct s_subquote
 {
@@ -198,8 +196,7 @@ char					*ft_strstr(char *haystack, char *needle);
 char					*ft_itoa(int num);
 int						arrayfree(char **array);
 char					**ft_pathsplit(char const *s, char c, char *bonus);
-char	*ft_itoul(unsigned long num);
-
+char					*ft_itoul(unsigned long num);
 
 //  List Funcs
 t_list					*listnew(void *data, void (*f)());
@@ -243,7 +240,21 @@ void					intprint(int *data);
 char					**args(char **arguments, t_execs *exec);
 int						ft_expandcmd(t_execs *exec, t_cmd *cmd);
 
-// Command
+// Command and Path
+char					**ft_pathsplit(char const *s, char c, char *bonus);
 int						ft_command(t_execs *exec, t_execcmd *cmd);
+
+// Exec Main Func
+int						executer(t_shell *shell, int err);
+
+// Exec Funcs
+int						ft_sorter(t_execs *exec, t_cmd *cmd);
+int						ft_pipe(t_execs *exec);
+int						ft_redir(t_execs *exec);
+int						ft_and(t_execs *exec);
+int						ft_or(t_execs *exec);
+int						ft_sub(t_execs *exec);
+int						ft_exec(t_execs *exec);
+int						ft_here(t_execs *exec);
 
 #endif

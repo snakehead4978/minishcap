@@ -6,7 +6,7 @@
 /*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 16:22:32 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/10/14 16:14:58 by jla-chon         ###   ########.fr       */
+/*   Updated: 2024/10/15 16:28:24 by jla-chon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,20 +227,20 @@ static int	heredoccer(char *heredoc, int check, char **filename)
 	return (ft_listfree(&node, free), fd);
 }
 
-int main(int ac, char **av)
-{
-	int	fd;
-	char	*filename;
+// int main(int ac, char **av)
+// {
+// 	int	fd;
+// 	char	*filename;
 
-	if (ac != 3)
-		return (0);
-	filename = 0;
-	// printf("Sentence: %s\n", av[2]);
-	fd = heredoccer(av[2], atoi(av[1]), &filename);
-	char buff[3000];
-	read(fd, buff, 3000);
-	printf("THE FILE\n%s\n", buff);
-	return (0);
-}
+// 	if (ac != 3)
+// 		return (0);
+// 	filename = 0;
+// 	// printf("Sentence: %s\n", av[2]);
+// 	fd = heredoccer(av[2], atoi(av[1]), &filename);
+// 	char buff[3000];
+// 	read(fd, buff, 3000);
+// 	printf("THE FILE\n%s\n", buff);
+// 	return (0);
+// }
 
 // strace -f bash -c $'cat > file.txt << EOF\nline1\nline2\nEOF'

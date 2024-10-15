@@ -6,7 +6,7 @@
 /*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 19:03:54 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/10/14 18:10:57 by jla-chon         ###   ########.fr       */
+/*   Updated: 2024/10/15 17:59:03 by jla-chon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,29 +19,7 @@ int	iswhite(char c)
 	return (0);
 }
 
-// char	*ft_getenv(char *name, char **ev)
-// {
-// 	int	i;
-// 	int	len;
-
-// 	len = ft_strlen(name);
-// 	i = 0;
-// 	while(ev[i])
-// 	{
-// 		if (!ft_strncmp(name, ev[i], len))
-// 			return (ft_substr(ev[i], ev[i] + len + 1, ft_strlen(ev[i] + len + 1)))
-// 		i++;
-// 	}
-// 	return (0);
-// }
-
-int	seterr(t_execs *exec, int err)
-{
-	exec->ret = err;
-	return (err);
-}
-
-int	ft_setfds(t_execs *exec)
+static int	ft_setfds(t_execs *exec)
 {
 	t_list	*list;
 	t_fds	*fds;
@@ -65,7 +43,7 @@ int	ft_setfds(t_execs *exec)
 	return (0);
 }
 
-int	ft_closeallfds(t_execs *exec)
+static int	ft_closeallfds(t_execs *exec)
 {
 	t_list	*lst;
 
@@ -78,7 +56,7 @@ int	ft_closeallfds(t_execs *exec)
 	return (0);
 }
 
-int	isbuiltin(char *cmd)
+static int	isbuiltin(char *cmd)
 {
 	if (!ft_strncmp(cmd, "echo", 5))
 		return (1);
@@ -97,7 +75,7 @@ int	isbuiltin(char *cmd)
 	return (0);
 }
 
-int	builtin(t_execs *exec)
+static int	builtin(t_execs *exec)
 {
 	int	command;
 	int	err;
@@ -127,9 +105,10 @@ int	ft_sorter(t_execs *exec, t_cmd *cmd)
 	int	err;
 
 	exec->cmd = cmd;
+	err = 0;
 	if (!cmd)
-		err = ft_exec(exec);
-	if (cmd->type == EXEC)
+		exec->ret = err;
+	else if (cmd->type == EXEC)
 		err = ft_exec(exec);
 	else if (cmd->type == PIPE)
 		err = ft_pipe(exec);
@@ -141,8 +120,10 @@ int	ft_sorter(t_execs *exec, t_cmd *cmd)
 		err = ft_or(exec);
 	else if (cmd->type == HERE)
 		err = ft_here(exec);
-	else if (cmd->type == SUB)
+	else
 		err = ft_sub(exec);
+	if (cmd && err != 1)
+		exec->ret = err;
 	return (err);
 }
 
@@ -154,11 +135,11 @@ int	ft_exec(t_execs *exec)
 	int			err;
 
 	if (!exec->cmd)
-		return (seterr(exec, 0));
+		return (0);
 	cmds = (t_execcmd *)exec->cmd;
 	args = cmds->args;
 	if (!ft_setfds(exec))
-		return (1);
+		return (333);
 	if (!isbuiltin(args[0]))
 	{
 		pid = fork();
@@ -170,7 +151,7 @@ int	ft_exec(t_execs *exec)
 				execve(args[0], args, exec->shell->env);
 			else
 				errno = err;
-			ft_listfree(exec->fds, fdsfree);
+			ft_listfree(&exec->fds, fdsfree);
 			execfree(exec);
 			exit(errno);
 		}
@@ -180,6 +161,8 @@ int	ft_exec(t_execs *exec)
 		err = builtin(exec);
 	if (err == 1)
 		execfree(exec);
+	else
+		exec->ret = err;
 	return (err);
 }
 
@@ -201,9 +184,8 @@ int	ft_expandcmd(t_execs *exec, t_cmd *cmd)
 	return (0);
 }
 
-int	executer(t_shell *shell)
+int	executer(t_shell *shell, int err)
 {
-	int	err;
 	t_execs	*exec;
 
 	if (!shell || !shell->tree)
@@ -211,11 +193,14 @@ int	executer(t_shell *shell)
 	exec = ft_calloc(sizeof(t_execs), 1);
 	exec->shell = shell;
 	exec->fds = 0;
-	exec->ret = 0;
+	exec->ret = err;
 	exec->stdcopies[0] = dup(0);
 	exec->stdcopies[1] = dup(1);
 	err = ft_expandcmd(exec, shell->tree);
 	if (err)
 		return (err);
-	return (ft_sorter(exec, exec->shell));
+	err = ft_sorter(exec, exec->shell);
+	if (err != 1)
+		execfree(exec);
+	return (err);
 }

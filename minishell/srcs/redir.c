@@ -6,7 +6,7 @@
 /*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 21:55:37 by snek              #+#    #+#             */
-/*   Updated: 2024/10/14 18:18:05 by jla-chon         ###   ########.fr       */
+/*   Updated: 2024/10/15 17:55:18 by jla-chon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,19 @@ void	ft_removefd(t_list *fds)
 	close(((t_fds *)fds->data)->fd);
 }
 
+static void	freechararray(char **all)
+{
+	int	i;
+
+	if (!all)
+		return ;
+	i = 0;
+	while (all[i])
+		free(all[i++]);
+	free(all[i]);
+	free(all);
+}
+
 int	ft_redir(t_execs *exec)
 {
 	t_list	*fds;
@@ -30,14 +43,18 @@ int	ft_redir(t_execs *exec)
 	int		err;
 
 	if (!exec || !exec->cmd)
-		return (seterr(exec, 0));
+		return (0);
 	cmds = (t_redircmd *)exec->cmd;
 	all = ft_calloc(sizeof(char *), 2);
 	*all = cmds->file;
-	if (expansions(exec, all))
-		return (free(all), seterr(exec, 1));
+	all = args(all, exec);
+	if (all && *all && all[1])
+		return (printf("minishell: %s: ambiguous redirect\n", cmds->file), freechararray(all), 333);
+	if (!all)
+		return (execfree(exec), 1);
 	wildcard(&all);
 	fd = open(*all, cmds->mode);
+	freechararray(all);
 	fds = listnew(fdsnew(fd, FD_FILEOUT), fdsfree);
 	if (cmds->mode == O_RDONLY)
 		((t_fds *)fds)->type = FD_FILEIN;

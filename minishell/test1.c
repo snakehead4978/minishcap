@@ -5,20 +5,26 @@
 #include <unistd.h>
 #include <stdlib.h>
 
+static void zero(int **a)
+{
+	*a = 0;
+}
+
+static void aux(int *a)
+{
+	free(a);
+	zero(&a);
+	printf("%p\n", a);
+}
 
 int main(void)
 {
-	int	pid;
+	int *a;
 
-	pid = fork();
-	if (!pid)
-	{
-		char *a;
-		a = malloc(300);
-		exit(0);
-	}
-	else
-		wait(0);
+	a = malloc(sizeof(int) * 1);
+	printf("%p\n", a);
+	aux(a);
+	printf("%p\n", a);
 	return (0);
 }
 

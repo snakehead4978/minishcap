@@ -6,7 +6,7 @@
 /*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 17:05:04 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/10/14 16:24:00 by jla-chon         ###   ########.fr       */
+/*   Updated: 2024/10/15 17:54:54 by jla-chon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,7 +213,7 @@ int	ft_here(t_execs *exec)
 	char		*filename;
 
 	if (!exec->cmd)
-		return (seterr(exec, 0), 1);
+		return (0);
 	filename = 0;
 	cmds = (t_redircmd *)exec->cmd;
 	fd = heredoccer(cmds->heredoc, cmds->quote, exec, &filename);
