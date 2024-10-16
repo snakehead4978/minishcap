@@ -4,27 +4,61 @@
 #include <dirent.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <signal.h>
+#include <string.h>
+#include <readline/readline.h>
 
-static void zero(int **a)
+
+// int	errorsignal;
+
+void	catcher(int signum)
 {
-	*a = 0;
+	write(1, "hey!\n", 5);
 }
 
-static void aux(int *a)
+int aux(char **env)
 {
-	free(a);
-	zero(&a);
-	printf("%p\n", a);
+		pid_t a;
+	int stat;
+	char **args;
+    struct sigaction new_action;
+	char *lul;
+
+	a = fork();
+	lul = strdup("hi");
+	new_action.sa_handler = catcher;
+	new_action.sa_flags = 0;
+	sigemptyset(&new_action.sa_mask);
+	sigaction(SIGINT, &new_action, 0);
+	args = calloc(sizeof(char *), 2);
+	args[0] = strdup("/usr/bin/cat");
+	if (!a)
+	{
+		execve(args[0], args, env);
+	}
+	else
+	{
+		free(args[0]);
+		free(args);
+		waitpid(a, &stat, 0);
+		while (lul)
+		{
+			free(lul);
+			lul = readline("welcome:");
+			if (!strncmp(lul, "a", 1))
+				break;
+		}
+		free(lul);
+		printf("cleared\n");
+	}
+	return (0);
 }
 
-int main(void)
+int main(int ac, char **av, char **env)
 {
-	int *a;
-
-	a = malloc(sizeof(int) * 1);
-	printf("%p\n", a);
-	aux(a);
-	printf("%p\n", a);
+	if (!ac || !av || !env)
+		return (0);
+	aux(env);
 	return (0);
 }
 

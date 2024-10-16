@@ -6,7 +6,7 @@
 /*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 19:03:54 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/10/15 17:59:03 by jla-chon         ###   ########.fr       */
+/*   Updated: 2024/10/16 13:37:11 by jla-chon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ int	ft_exec(t_execs *exec)
 	int			pid;
 	int			err;
 
-	if (!exec->cmd)
+	if (!exec->cmd || !((t_execcmd *)exec->cmd)->args)
 		return (0);
 	cmds = (t_execcmd *)exec->cmd;
 	args = cmds->args;
