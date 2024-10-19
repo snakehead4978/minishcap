@@ -1,37 +1,42 @@
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 #include <dirent.h>
+#include <signal.h>
 #include <unistd.h>
 #include <stdlib.h>
-#include <signal.h>
 #include <string.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 
 int	errorsignal;
+int	entry;
 
 void	catcher(int signum)
 {
 	if (signum == SIGINT)
 	{
 		errorsignal = SIGINT;
-		printf("\n"); // Move to a new line
-		rl_on_new_line(); // Regenerate the prompt on a newline
-		rl_replace_line("", 0); // Clear the previous text
-		rl_redisplay();
+		close(0);	
+		// printf("\n"); // Move to a new line
+		// rl_on_new_line(); // Regenerate the prompt on a newline
+		// rl_replace_line("", 0); // Clear the previous text
+		// rl_redisplay();
 	}
 }
 
 int aux(char **env)
 {
-		pid_t a;
+	pid_t a;
 	int stat;
 	char **args;
     struct sigaction int_action;
     struct sigaction quit_action;
 	char *lul;
 
+	entry = dup(0);
 	stat = 0;
 	a = fork();
 	lul = strdup("hi");
@@ -58,6 +63,12 @@ int aux(char **env)
 		{
 			free(lul);
 			lul = readline("welcome:");
+			if (errorsignal == SIGINT)
+			{
+				errorsignal = 0;
+				dup2(entry, 0);
+				printf("IVE CAUGHT IT: %s\n", lul);
+			}
 			if (!lul)
 				break ;
 			if (!strcmp(lul, "exit"))

@@ -6,7 +6,7 @@
 /*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 22:11:04 by snek              #+#    #+#             */
-/*   Updated: 2024/10/15 17:55:08 by jla-chon         ###   ########.fr       */
+/*   Updated: 2024/10/19 18:35:10 by jla-chon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	ft_pipe(t_execs *exec)
 		if (ft_expandcmd(exec, cmds->right))
 			return (1);
 		err = ft_sorter(exec, cmds->right);
-		waitpid(fd[3], 0, 0);
+		waitpid(fd[3], &fd[3], 0);
 	}
 	ft_removefd(fds);
 	return (err);

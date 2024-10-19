@@ -6,7 +6,7 @@
 /*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 19:03:54 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/10/16 13:37:11 by jla-chon         ###   ########.fr       */
+/*   Updated: 2024/10/19 18:42:51 by jla-chon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,8 @@ int	ft_sorter(t_execs *exec, t_cmd *cmd)
 
 	exec->cmd = cmd;
 	err = 0;
+	if (bigsignal == SIGINT)
+		return (exec->ret);
 	if (!cmd)
 		exec->ret = err;
 	else if (cmd->type == EXEC)
@@ -156,9 +158,13 @@ int	ft_exec(t_execs *exec)
 			exit(errno);
 		}
 		waitpid(pid, &err, 0);
+		if (err == 131)
+			write(2, "Quit (core dumped)\n", 20);
 	}
 	else
 		err = builtin(exec);
+	if (bigsignal == SIGINT)
+		err = 130;
 	if (err == 1)
 		execfree(exec);
 	else
@@ -189,7 +195,7 @@ int	executer(t_shell *shell, int err)
 	t_execs	*exec;
 
 	if (!shell || !shell->tree)
-		return ;
+		return (err);
 	exec = ft_calloc(sizeof(t_execs), 1);
 	exec->shell = shell;
 	exec->fds = 0;
