@@ -2,7 +2,7 @@
 
 // env with no options or arguments
 
-void ft_env(t_execs *execs)
+int ft_env(t_execs *execs)
 {
     int i;
 	char	**args;

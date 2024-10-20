@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   terminalstage.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 17:03:32 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/09/15 17:11:08 by jla-chon         ###   ########.fr       */
+/*   Updated: 2024/10/20 17:40:12 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,15 @@ static char	*listjoiner(t_list **quote, t_list *lst)
 		node = tmp->data;
 		if (node->check)
 		{
-			pair = calloc(sizeof(int), 2);
+			pair = ft_calloc(sizeof(int), 2);
 			pair[0] = i;
-			i += strlen(node->str);
+			i += ft_strlen(node->str);
 			pair[1] = i - 1;
 			if (!listaddback(quote, listnew(pair, free), free))
 				return (0);
 		}
 		else
-			i += strlen(node->str);
+			i += ft_strlen(node->str);
 		str = ft_strcatter(str, node->str);
 		if (!str)
 			return (ft_listfree(&lst, subquotefree), NULL);

@@ -3,20 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   execfree.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 18:28:34 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/10/19 18:14:36 by jla-chon         ###   ########.fr       */
+/*   Updated: 2024/10/20 19:59:00 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static int	ft_sorterfree(t_execs *exec, t_cmd *cmd);
+
 static int	ft_execcfree(t_execs *exec)
 {
 	t_execcmd	*cmd;
 
-	cmd = exec->cmd;
+	cmd = (t_execcmd *)exec->cmd;
 	arrayfree(cmd->args);
 	return (0);
 }
@@ -27,8 +29,13 @@ static int	ft_solo(t_execs *exec)
 	t_cmd	*down;
 
 	cmd = exec->cmd;
-	if (cmd->type == REDIR || cmd->type == HERE)
-		down = ((t_redircmd *)cmd)->cmd;	
+	if (cmd->type == HERE)
+	{
+		free(((t_redircmd *)cmd)->heredoc);
+		down = ((t_redircmd *)cmd)->cmd;
+	}
+	else if (cmd->type == REDIR)
+		down = ((t_redircmd *)cmd)->cmd;
 	else
 		down = ((t_sub *)cmd)->cmd;
 	ft_sorterfree(exec, down);
@@ -45,20 +52,21 @@ static int	ft_branch(t_execs *exec)
 	if (cmd->type == AND)
 	{
 		left = ((t_andcmd *)cmd)->left;
-		right = ((t_andcmd *)cmd)->left;
+		right = ((t_andcmd *)cmd)->right;
 	}
 	else if (cmd->type == OR)
 	{
 		left = ((t_orcmd *)cmd)->left;
-		right = ((t_orcmd *)cmd)->left;
+		right = ((t_orcmd *)cmd)->right;
 	}
 	else
 	{
 		left = ((t_pipecmd *)cmd)->left;
-		right = ((t_pipecmd *)cmd)->left;
+		right = ((t_pipecmd *)cmd)->right;
 	}
 	ft_sorterfree(exec, left);
 	ft_sorterfree(exec, right);
+	return (0);
 }
 
 static int	ft_sorterfree(t_execs *exec, t_cmd *cmd)
@@ -78,7 +86,7 @@ static int	ft_sorterfree(t_execs *exec, t_cmd *cmd)
 int	execfree(t_execs *exec)
 {
 	int	err;
-	
+
 	if (!exec)
 		return (0);
 	err = exec->ret;

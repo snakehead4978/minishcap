@@ -70,12 +70,12 @@ int ft_unset2(char **cmd, char ***env, int j)
 	return (0);
 }
 
-void ft_unset(t_execs *execs)
+int ft_unset(t_execs *execs)
 {
     int j;
 	t_execcmd	*cmd;
 
-	cmd = execs->cmd;
+	cmd = (t_execcmd *)execs->cmd;
     j = 0;
     if(((t_execcmd *)execs->cmd)->args[1] == NULL)
 	{

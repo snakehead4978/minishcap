@@ -3,29 +3,6 @@
 #include <stdlib.h>
 #include "minishell.h"
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
-{
-	unsigned char	*s3;
-	unsigned char	*s4;
-	size_t			cur;
-
-	cur = 0;
-	s3 = (unsigned char *) s1;
-	s4 = (unsigned char *) s2;
-	if (n == 0)
-		return (0);
-	while (cur < n && s3[cur] != '\0' && s4[cur] != '\0')
-	{
-		if (s3[cur] != s4[cur])
-			return (s3[cur] - s4[cur]);
-		cur++;
-	}
-	if (cur == n)
-		return (0);
-	return (s3[cur] - s4[cur]);
-}
-
-
 char *minisplit(char *s, int c)
 {
     char *new;
@@ -51,7 +28,6 @@ char **new_env(char ***env, char *cmd)
 {
     char **new;
     int i;
-    int j;
 
     i = 0;
     while((*env)[i] != NULL)
@@ -96,7 +72,7 @@ void ft_export2(char **cmd, char ***env)
     int j;
 
     i = 1;
-    while(!ft_strncmp(cmd[i], "-p", ft_strlen(cmd[i])) && cmd[i + 1] != NULL)
+    while(!ft_strncmp(cmd[i], "-p", strlen(cmd[i])) && cmd[i + 1] != NULL)
        i++;
     while(cmd[i] != NULL)
     {
@@ -112,7 +88,7 @@ void ft_export2(char **cmd, char ***env)
         j = 0;
         while((*env)[j] != NULL)
         {
-            if(!ft_strncmp(lf, (*env)[j], ft_strlen(lf)))
+            if(!ft_strncmp(lf, (*env)[j], strlen(lf)))
             {
                 free((*env)[j]);
                 (*env)[j] = ft_strdup(cmd[i]);
@@ -130,16 +106,14 @@ void ft_export2(char **cmd, char ***env)
 
 int ft_export(t_execs *execs)
 {
-    char *lf;
     int i;
-    int j;
 	char	**args;
 
 	args = ((t_execcmd *)execs->cmd)->args;
     i = 1;
-    while(!ft_strncmp(args[i], "-p", ft_strlen((args[i]))) && (args[i + 1] != NULL))
+    while(!ft_strncmp(args[i], "-p", strlen((args[i]))) && (args[i + 1] != NULL))
        i++;
-    if(args[1] == NULL || (!ft_strncmp(args[i], "-p", ft_strlen(args[i]) && args[i + 1] == NULL)))
+    if(args[1] == NULL || (!ft_strncmp(args[i], "-p", strlen(args[i]) && args[i + 1] == NULL)))
     {   
         arrayfree(args);
 		((t_execcmd *)execs->cmd)->args = 0;

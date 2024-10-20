@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 17:09:04 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/09/13 15:42:28 by jla-chon         ###   ########.fr       */
+/*   Updated: 2024/10/20 19:17:59 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
 static int	check_char(const char *set, char c)
 {
@@ -20,16 +20,17 @@ static int	check_char(const char *set, char c)
 	return (0);
 }
 
-// char	*ft_strtrim(char const *s1, char const *set)
+char	*ft_strtrim(char *s1, char const *set)
 {
 	size_t	start;
 	size_t	end;
 	size_t	size;
+	char	*str;
 
 	if (!s1)
 		return (0);
 	if (!set)
-		return ((char *)s1);
+		return (s1);
 	start = 0;
 	end = 0;
 	size = ft_strlen(s1);
@@ -37,7 +38,11 @@ static int	check_char(const char *set, char c)
 		start++;
 	if (start == size)
 		return (ft_calloc(1, 1));
-	while (check_char(set, s1[size -1 - end]))
+	while (check_char(set, s1[size - 1 - end]))
 		end++;
-	return (ft_substr(s1, start, size - end - start));
+	str = ft_substr(s1, start, size - end - start);
+	free(s1);
+	if (!str)
+		return (0);
+	return (str);
 }

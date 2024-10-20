@@ -3,26 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 15:21:26 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/10/19 17:24:43 by jla-chon         ###   ########.fr       */
+/*   Updated: 2024/10/20 20:23:01 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int	g_bigsignal;
+
 static char	**dupenv(char **ev)
 {
-	char **env;
-	int	i;
-	
+	char	**env;
+	int		i;
+
 	if (!ev)
-		return (calloc(1, sizeof(char *)));
+		return (ft_calloc(1, sizeof(char *)));
 	i = 0;
 	while (ev[i])
 		i++;
-	env = calloc(sizeof(char *), i + 1);
+	env = ft_calloc(sizeof(char *), i + 1);
 	while (i--)
 		env[i] = ft_strdup(ev[i]);
 	return (env);
@@ -31,8 +33,8 @@ static char	**dupenv(char **ev)
 static t_shell	*fillshell(char **ev)
 {
 	t_shell	*shell;
-	
-	shell = calloc(sizeof(t_shell) , 1);
+
+	shell = ft_calloc(sizeof(t_shell), 1);
 	if (!shell)
 		return (0);
 	shell->env = dupenv(ev);
@@ -41,38 +43,16 @@ static t_shell	*fillshell(char **ev)
 	shell->pipe = 0;
 	shell->tree = 0;
 	shell->type = SHELL;
-}
-
-static void	catcher(int signum)
-{
-	if (signum == SIGINT)
-	{
-		bigsignal = SIGINT;
-		printf("\n");
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-	}
+	return (shell);
 }
 
 
-void	signals(void)
-{
-	struct sigaction int_action;
-    struct sigaction quit_action;
-
-	int_action.sa_handler = catcher;
-	int_action.sa_flags = 0;
-	sigemptyset(&int_action.sa_mask);
-	sigaction(SIGINT, &int_action, 0);
-	signal(SIGQUIT, SIG_IGN);
-}
 
 static int	checkerr(int err)
 {
-	if (bigsignal == SIGINT)
+	if (g_bigsignal == SIGINT)
 	{
-		bigsignal = 0;
+		g_bigsignal = 0;
 		return (130);
 	}
 	return (err);
@@ -80,12 +60,13 @@ static int	checkerr(int err)
 
 int	main(int ac, char **av, char **ev)
 {
-	int	err;
-	t_shell	*shell;
-	char	*buff;
+	int err;
+	t_shell *shell;
+	char *buff;
 
 	if (!ac || !av)
-		return (1);
+		return (333);
+	g_bigsignal = 0;
 	err = 0;
 	shell = fillshell(ev);
 	signals();
@@ -93,7 +74,7 @@ int	main(int ac, char **av, char **ev)
 		return (1);
 	while (1)
 	{
-		bigsignal = 0;
+		g_bigsignal = 0;
 		buff = readline("minishell:~$");
 		if (!buff)
 			break ;

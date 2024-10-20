@@ -1,35 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   tools_parsing.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/06 15:36:46 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/10/20 16:08:35 by dakojic          ###   ########.fr       */
+/*   Created: 2024/09/26 13:19:07 by dakojic           #+#    #+#             */
+/*   Updated: 2024/09/26 13:19:24 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_atoi(const char *nptr)
+int	lfsymbol(char **ptr, char *c)
 {
-	int			i;
-	long		sign;
-	long		res;
+	char	*temp;
 
-	sign = 1;
-	i = 0;
-	res = 0;
-	while (nptr[i] == 32 || (nptr[i] <= 13 && nptr[i] >= 9))
-		i++;
-	if (nptr[i] == '+' || nptr[i] == '-')
-	{
-		if (nptr[i] == '-')
-			sign = -1;
-		i++;
-	}
-	while (nptr[i] >= '0' && nptr[i] <= '9')
-		res = res * 10 + nptr[i++] - '0';
-	return ((int)(res * sign));
+	temp = *ptr;
+	while (*temp && ft_strchr(" \t\n\r\v", *temp))
+		temp++;
+	*ptr = temp;
+	return (*ptr && ft_strchr(c, *temp));
 }

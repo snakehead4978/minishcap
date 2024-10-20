@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 17:15:27 by dakojic           #+#    #+#             */
-/*   Updated: 2024/10/17 16:41:08 by jla-chon         ###   ########.fr       */
+/*   Updated: 2024/10/20 17:39:23 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	ft_pwd(t_execs *execs)
     pwd = getcwd(NULL, 0);
     if(!pwd)
         return (write(1, "Minishell: error: getcwd failed\n", 22), 333);
-    if(write(1, pwd, strlen(pwd)) < 0 || write(1, "\n", 1) < 0)
+    if(write(1, pwd, ft_strlen(pwd)) < 0 || write(1, "\n", 1) < 0)
         write(1, "Error: write failed\n", 21);
     free(pwd);
 	return (0);

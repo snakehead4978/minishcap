@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 12:40:04 by dakojic           #+#    #+#             */
-/*   Updated: 2024/10/17 16:07:19 by jla-chon         ###   ########.fr       */
+/*   Updated: 2024/10/20 17:39:23 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,14 @@ static int n_option(char **cmd, int *i, bool *arg)
     }
     return (0);
 }
+
 int ft_echo(t_execs *execs)
 {
     int i;
     bool n_arg;
 	t_execcmd	*cmd;
 
-	cmd = execs->cmd;
+	cmd = (t_execcmd *)execs->cmd;
     i = 1;
     n_arg = false;
     n_option(cmd->args, &i, &n_arg);

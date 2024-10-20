@@ -3,49 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   misc.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 15:57:43 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/10/17 15:07:24 by jla-chon         ###   ########.fr       */
+/*   Updated: 2024/10/20 19:18:27 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static int	check_char(const char *set, char c)
-{
-	while (*set)
-		if (c == *set++)
-			return (1);
-	return (0);
-}
-
-char	*ft_strtrim(char *s1, char const *set)
-{
-	size_t	start;
-	size_t	end;
-	size_t	size;
-	char	*str;
-
-	if (!s1)
-		return (0);
-	if (!set)
-		return (s1);
-	start = 0;
-	end = 0;
-	size = strlen(s1);
-	while (s1[start] && check_char(set, s1[start]))
-		start++;
-	if (start == size)
-		return (calloc(1, 1));
-	while (check_char(set, s1[size - 1 - end]))
-		end++;
-	str = ft_substr(s1, start, size - end - start);
-	free(s1);
-	if (!str)
-		return (0);
-	return (str);
-}
 
 int	iswhite(char c)
 {
@@ -70,9 +35,9 @@ char	*ft_strcatter(char *str1, char *str2)
 		return (free(str1), final);
 	}
 	if (str1)
-		size = strlen(str1);
-	size += strlen(str2);
-	final = calloc(sizeof(char), size + 1);
+		size = ft_strlen(str1);
+	size += ft_strlen(str2);
+	final = ft_calloc(sizeof(char), size + 1);
 	if (!final)
 		return (free(str1), NULL);
 	while (str1 && str1[i])
@@ -83,21 +48,7 @@ char	*ft_strcatter(char *str1, char *str2)
 	return (free(str1), final);
 }
 
-char	*ft_strdup(char *str)
-{
-	int		size;
-	char	*res;
 
-	size = 0;
-	while (str[size])
-		size++;
-	res = calloc(sizeof(char), size + 1);
-	if (!res)
-		return (0);
-	while (*str)
-		*res++ = *str++;
-	return (res - size);
-}
 
 char	*ft_strstr(char *haystack, char *needle)
 {
@@ -154,7 +105,7 @@ char	*ft_itoa(int num)
 		num = 1;
 	lnum = num;
 	size = ft_itoa_aux(lnum);
-	res = calloc(sizeof(char), size-- + 1);
+	res = ft_calloc(sizeof(char), size-- + 1);
 	if (!res)
 		return (0);
 	if (num < 0)
@@ -185,7 +136,7 @@ char	*ft_itoul(unsigned long num)
 		num /= 10;
 		size++;
 	}
-	res = calloc(sizeof(char), size-- + 1);
+	res = ft_calloc(sizeof(char), size-- + 1);
 	if (!res)
 		return (0);
 	num = tmp;

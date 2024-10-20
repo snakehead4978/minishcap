@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 17:05:04 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/10/15 17:54:54 by jla-chon         ###   ########.fr       */
+/*   Updated: 2024/10/20 20:00:41 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static char	*getdollar(char *str, int *i, t_execs *exec)
 		var = getenv(sub);
 		free(sub);
 		if (!var)
-			return (calloc(sizeof(char), 1));
+			return (ft_calloc(sizeof(char), 1));
 		return (ft_strdup(var));
 	}
 	else
@@ -66,7 +66,7 @@ static char	*getdollar(char *str, int *i, t_execs *exec)
 		*i = j;
 		free(sub);
 		if (!var)
-			return (calloc(sizeof(char), 1));
+			return (ft_calloc(sizeof(char), 1));
 		return (ft_strdup(var));
 	}
 }
@@ -83,7 +83,7 @@ static int	getsize(char *str, int check, t_execs *exec, t_list **list)
 	char	*tmp;
 
 	if (check)
-		return (strlen(str));
+		return (ft_strlen(str));
 	i = 0;
 	size = 0;
 	while (str[i] && size < PIPE_SIZE)
@@ -95,7 +95,7 @@ static int	getsize(char *str, int check, t_execs *exec, t_list **list)
 				return (ft_listfree(list, free), substitution_error(str), -1);
 			if (!listaddback(list, listnew(tmp, free), free))
 				return (-1);
-			size += strlen(tmp);
+			size += ft_strlen(tmp);
 		}
 		else
 		{
@@ -114,7 +114,7 @@ static void	indexdollar(char *str, int *i, int fd, t_list **list)
 	j = *i;
 	dollar = (char *)(*list)->data;
 	*list = (*list)->next;
-	write(fd, dollar, strlen(dollar));
+	write(fd, dollar, ft_strlen(dollar));
 	if (str[j + 1] == '{')
 	{
 		while (str[j] != '}')
@@ -133,14 +133,13 @@ static void	writetofd(char *str, t_list **list, int fd, int check)
 {
 	int	i;
 	int	j;
-	char	*dollar;
 	char	*tmp;
 
 	i = 0;
 	j = i;
 	if (check)
 	{
-		write(fd, str, strlen(str));
+		write(fd, str, ft_strlen(str));
 		return ;
 	}
 	while (str[i])
@@ -218,7 +217,7 @@ int	ft_here(t_execs *exec)
 	cmds = (t_redircmd *)exec->cmd;
 	fd = heredoccer(cmds->heredoc, cmds->quote, exec, &filename);
 	fds = listnew(fdsnew(fd, FD_FILEIN), fdsfree);
-	if (fd == -1 || !listaddback(&exec->fds, fd, fdsfree))
+	if (fd == -1 || !listaddback(&exec->fds, fds, fdsfree))
 		return (execfree(exec), 1);
 	err = ft_sorter(exec, cmds->cmd);
 	ft_removefd(fds);

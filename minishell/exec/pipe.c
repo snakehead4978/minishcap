@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 22:11:04 by snek              #+#    #+#             */
-/*   Updated: 2024/10/19 18:35:10 by jla-chon         ###   ########.fr       */
+/*   Updated: 2024/10/20 20:03:55 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ int	ft_pipe(t_execs *exec)
 
 	if (!exec->cmd)
 		return (0);
-	cmds = (t_pipecmd *)cmds;
+	cmds = (t_pipecmd *)exec->cmd;
 	pipe(fd);
 	fds = listnew(fdsnew(0, 0), fdsfree);
 	tmp = fds->data;
-	fd[3] = fork();
-	if (!fd[3])
+	fd[2] = fork();
+	if (!fd[2])
 	{
 		close(fd[0]);
 		tmp->fd = fd[1];
@@ -51,7 +51,7 @@ int	ft_pipe(t_execs *exec)
 		if (ft_expandcmd(exec, cmds->right))
 			return (1);
 		err = ft_sorter(exec, cmds->right);
-		waitpid(fd[3], &fd[3], 0);
+		waitpid(fd[2], &fd[2], 0);
 	}
 	ft_removefd(fds);
 	return (err);

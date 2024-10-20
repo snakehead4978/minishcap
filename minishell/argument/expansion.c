@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 14:57:13 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/09/15 17:09:48 by jla-chon         ###   ########.fr       */
+/*   Updated: 2024/10/20 17:33:48 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ static char	*findnextquote(char *str)
 int	nodeadder(t_list **lst, char *str1, char **str2, int check)
 {
 	char	*tmp;
-	t_list	*new;
 
 	tmp = ft_substr(*str2, 0, (size_t)(str1 - *str2));
 	if (!tmp)

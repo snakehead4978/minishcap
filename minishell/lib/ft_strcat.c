@@ -1,35 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   ft_strcat.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/06 15:36:46 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/10/20 16:08:35 by dakojic          ###   ########.fr       */
+/*   Created: 2024/10/20 17:47:50 by dakojic           #+#    #+#             */
+/*   Updated: 2024/10/20 19:21:13 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_atoi(const char *nptr)
+char	*ft_strcat(char *dest, char *src)
 {
-	int			i;
-	long		sign;
-	long		res;
+	char	*start;
 
-	sign = 1;
-	i = 0;
-	res = 0;
-	while (nptr[i] == 32 || (nptr[i] <= 13 && nptr[i] >= 9))
-		i++;
-	if (nptr[i] == '+' || nptr[i] == '-')
+	if (!dest || !src)
+		return (dest);
+	start = dest;
+	while (*dest)
+		dest++;
+	while (*src)
 	{
-		if (nptr[i] == '-')
-			sign = -1;
-		i++;
+		*dest = *src;
+		dest++;
+		src++;
 	}
-	while (nptr[i] >= '0' && nptr[i] <= '9')
-		res = res * 10 + nptr[i++] - '0';
-	return ((int)(res * sign));
+	*dest = '\0';
+	return (start);
 }

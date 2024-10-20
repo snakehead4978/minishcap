@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   listfuncs.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 14:39:51 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/10/01 20:52:08 by snek             ###   ########.fr       */
+/*   Updated: 2024/10/20 17:40:12 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_list	*listnew(void *data, void (*f)())
 
 	if (!data)
 		return (0);
-	new = calloc(sizeof(t_list), 1);
+	new = ft_calloc(sizeof(t_list), 1);
 	if (!new)
 		return (f(data), NULL);
 	new->next = 0;

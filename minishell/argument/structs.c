@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 14:53:04 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/10/15 18:02:29 by jla-chon         ###   ########.fr       */
+/*   Updated: 2024/10/20 17:40:12 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_subquote	*subquotenew(char *data, int check)
 {
 	t_subquote	*new;
 
-	new = calloc(sizeof(t_subquote), 1);
+	new = ft_calloc(sizeof(t_subquote), 1);
 	if (!new)
 		return (free(data), NULL);
 	new->check = check;
@@ -34,7 +34,7 @@ t_file	*filenew(char *data)
 {
 	t_file	*new;
 
-	new = calloc(sizeof(t_file), 1);
+	new = ft_calloc(sizeof(t_file), 1);
 	if (!new)
 		return (free(data), NULL);
 	new->filename = data;
@@ -51,7 +51,7 @@ t_fds	*fdsnew(int fd, int type)
 {
 	t_fds	*new;
 
-	new = calloc(sizeof(t_fds), 1);
+	new = ft_calloc(sizeof(t_fds), 1);
 	if (!new)
 		return (close(fd), NULL);
 	new->fd = fd;

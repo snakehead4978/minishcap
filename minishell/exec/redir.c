@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 21:55:37 by snek              #+#    #+#             */
-/*   Updated: 2024/10/15 17:55:18 by jla-chon         ###   ########.fr       */
+/*   Updated: 2024/10/20 20:06:20 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	ft_redir(t_execs *exec)
 		return (printf("minishell: %s: ambiguous redirect\n", cmds->file), freechararray(all), 333);
 	if (!all)
 		return (execfree(exec), 1);
-	wildcard(&all);
+	args(all, exec);
 	fd = open(*all, cmds->mode);
 	freechararray(all);
 	fds = listnew(fdsnew(fd, FD_FILEOUT), fdsfree);

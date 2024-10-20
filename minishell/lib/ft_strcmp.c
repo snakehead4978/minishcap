@@ -1,35 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/06 15:36:46 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/10/20 16:08:35 by dakojic          ###   ########.fr       */
+/*   Created: 2024/07/22 12:55:40 by dakojic           #+#    #+#             */
+/*   Updated: 2024/07/22 13:15:13 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
-int	ft_atoi(const char *nptr)
+int ft_strcmp(const char *s1, const char *s2)
 {
-	int			i;
-	long		sign;
-	long		res;
-
-	sign = 1;
-	i = 0;
-	res = 0;
-	while (nptr[i] == 32 || (nptr[i] <= 13 && nptr[i] >= 9))
-		i++;
-	if (nptr[i] == '+' || nptr[i] == '-')
-	{
-		if (nptr[i] == '-')
-			sign = -1;
-		i++;
-	}
-	while (nptr[i] >= '0' && nptr[i] <= '9')
-		res = res * 10 + nptr[i++] - '0';
-	return ((int)(res * sign));
+    while(*s1 && *s2 && *s1 == *s2)
+    {
+        s1++;
+        s2++;
+    }
+    return (*(unsigned char *)s1 - *(unsigned char *)s2);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 16:21:37 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/10/14 18:10:45 by jla-chon         ###   ########.fr       */
+/*   Updated: 2024/10/20 20:02:09 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static void	ft_printerror(char *str, char *name)
 {
-	write(STDERR_FILENO, str, strlen(str));
-	write(STDERR_FILENO, name, strlen(name));
+	write(STDERR_FILENO, str, ft_strlen(str));
+	write(STDERR_FILENO, name, ft_strlen(name));
 	write(STDERR_FILENO, "\n", 1);
 }
 
@@ -80,5 +80,5 @@ int	ft_command(t_execs *exec, t_execcmd *cmd)
 			perror("access");
 		return (127);
 	}
-	return (ft_paths(exec, cmd->args));
+	return (ft_paths(exec->shell->env, cmd->args));
 }

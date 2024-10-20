@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   files.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 17:00:45 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/09/24 20:21:20 by jla-chon         ###   ########.fr       */
+/*   Updated: 2024/10/20 17:40:37 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,16 @@ static t_list	*filejoin(t_list *files, t_list *list)
 	tmp = list;
 	while (tmp)
 	{
-		size += strlen(((t_subquote *)tmp->data)->str);
+		size += ft_strlen(((t_subquote *)tmp->data)->str);
 		tmp = tmp->next;
 	}
-	new = calloc(sizeof(t_list), 1);
+	new = ft_calloc(sizeof(t_list), 1);
 	new->next = 0;
-	str = calloc(sizeof(char), size + 1);
+	str = ft_calloc(sizeof(char), size + 1);
 	tmp = list;
 	while (tmp)
 	{
-		str = strcat(str, ((t_subquote *)tmp->data)->str);
+		str = ft_strcat(str, ((t_subquote *)tmp->data)->str);
 		tmp = tmp->next;
 	}
 	new->data = str;
@@ -60,7 +60,7 @@ void	filecheck(t_list *files, t_list *node, int mode)
 
 	str = ((t_subquote *)node->data)->str;
 	if (!mode || mode == 2)
-		size = strlen(str);
+		size = ft_strlen(str);
 	while (files)
 	{
 		tmp = files->data;
@@ -80,7 +80,7 @@ void	filecheck(t_list *files, t_list *node, int mode)
 			tmp->search = ft_strstr(tmp->search, str);
 		else
 		{
-			sizetmp = strlen(tmp->search);
+			sizetmp = ft_strlen(tmp->search);
 			if (sizetmp < size || (sizetmp >= size && strncmp(tmp->search + sizetmp - size, str,
 					size)))
 				tmp->search = 0;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   argument.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 15:16:34 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/10/15 17:14:18 by jla-chon         ###   ########.fr       */
+/*   Updated: 2024/10/20 17:40:12 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ char	**args(char **arguments, t_execs *exec)
 		arguments++;
 	}
 	arrayfree(arguments);
-	res = calloc(sizeof(char *), listsize(list) + 1);
+	res = ft_calloc(sizeof(char *), listsize(list) + 1);
 	if (!res)
 		return (ft_listfree(&list, free), NULL);
 	tmplist = list;

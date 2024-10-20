@@ -3,21 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 19:03:54 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/10/19 18:42:51 by jla-chon         ###   ########.fr       */
+/*   Updated: 2024/10/20 20:16:04 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	iswhite(char c)
-{
-	if ((c >= 9 && c <= 13) || c == ' ')
-		return (1);
-	return (0);
-}
 
 static int	ft_setfds(t_execs *exec)
 {
@@ -94,7 +87,7 @@ static int	builtin(t_execs *exec)
 	else if (command == 6)
 		err = ft_env(exec);
 	else
-		ft_exit(exec);
+		err = ft_exit(exec);
 	dup2(exec->stdcopies[0], 0);
 	dup2(exec->stdcopies[1], 1);
 	return (err);
@@ -106,7 +99,7 @@ int	ft_sorter(t_execs *exec, t_cmd *cmd)
 
 	exec->cmd = cmd;
 	err = 0;
-	if (bigsignal == SIGINT)
+	if (g_bigsignal == SIGINT)
 		return (exec->ret);
 	if (!cmd)
 		exec->ret = err;
@@ -150,9 +143,13 @@ int	ft_exec(t_execs *exec)
 			ft_closeallfds(exec);
 			err = ft_command(exec, cmds);
 			if (!err)
+			{
+				signal(SIGQUIT, SIG_DFL);
 				execve(args[0], args, exec->shell->env);
+			}
 			else
 				errno = err;
+			signal(SIGQUIT, SIG_IGN);
 			ft_listfree(&exec->fds, fdsfree);
 			execfree(exec);
 			exit(errno);
@@ -163,7 +160,7 @@ int	ft_exec(t_execs *exec)
 	}
 	else
 		err = builtin(exec);
-	if (bigsignal == SIGINT)
+	if (g_bigsignal == SIGINT)
 		err = 130;
 	if (err == 1)
 		execfree(exec);
@@ -205,7 +202,7 @@ int	executer(t_shell *shell, int err)
 	err = ft_expandcmd(exec, shell->tree);
 	if (err)
 		return (err);
-	err = ft_sorter(exec, exec->shell);
+	err = ft_sorter(exec, exec->shell->tree);
 	if (err != 1)
 		execfree(exec);
 	return (err);

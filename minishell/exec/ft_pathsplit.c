@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pathsplit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 17:27:13 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/10/15 17:50:36 by jla-chon         ###   ########.fr       */
+/*   Updated: 2024/10/20 17:39:23 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ char	**ft_pathsplit(char const *s, char c, char *bonus)
 	char	**res;
 	int		size;
 
-	size = strlen(bonus);
+	size = ft_strlen(bonus);
 	if (!s)
 		return (0);
 	index[2] = 0;

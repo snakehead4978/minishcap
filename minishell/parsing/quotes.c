@@ -1,35 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/06 15:36:46 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/10/20 16:08:35 by dakojic          ###   ########.fr       */
+/*   Created: 2024/10/03 11:20:28 by dakojic           #+#    #+#             */
+/*   Updated: 2024/10/03 11:47:30 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_atoi(const char *nptr)
+static int	quote_skipper(char **s, char end)
 {
-	int			i;
-	long		sign;
-	long		res;
+	char	*str;
 
-	sign = 1;
-	i = 0;
-	res = 0;
-	while (nptr[i] == 32 || (nptr[i] <= 13 && nptr[i] >= 9))
-		i++;
-	if (nptr[i] == '+' || nptr[i] == '-')
+	str = (*s);
+	++str;
+	while (*str && *str != (char)end)
+		++str;
+	if (*str == '\0')
+		return (1);
+	*s = str;
+	return (0);
+}
+
+int	quote_check(char *str)
+{
+	while (*str)
 	{
-		if (nptr[i] == '-')
-			sign = -1;
-		i++;
+		if (*str == '\'' || *str == '\"')
+			if (quote_skipper(&str, *str))
+				return (1);
+		++str;
 	}
-	while (nptr[i] >= '0' && nptr[i] <= '9')
-		res = res * 10 + nptr[i++] - '0';
-	return ((int)(res * sign));
+	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 18:47:58 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/09/14 16:22:30 by jla-chon         ###   ########.fr       */
+/*   Updated: 2024/10/20 19:13:14 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ t_list	*star(t_list *lst)
 {
 	t_list	*files;
 	t_list	*tmp;
-	char	*star;
 	char	*pattern;
 
 	tmp = lst;

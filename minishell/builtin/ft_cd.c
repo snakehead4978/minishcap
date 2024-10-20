@@ -95,19 +95,17 @@ int    ft_cd(t_execs *execs)
 {
     char *oldpwd;
     char *newpwd;
-	int check;
-	int	err;
 	t_execcmd	*cmd;
 
-	cmd = execs->cmd;
-	if(((t_execcmd *)execs->cmd)->args[2])
+	cmd = (t_execcmd *)execs->cmd;
+	if(cmd->args[2])
 	{
 		arrayfree(cmd->args);
 		cmd->args = 0;
 		return (printf("Minishell: cd: too many arguments\n"), 333);
 	}
 	ft_getcwd(&oldpwd, size_pwd(execs->shell->env));
-	if(ft_move(((t_execcmd *)execs->cmd)->args, execs->shell->env) == 1)
+	if(ft_move(cmd->args, execs->shell->env) == 1)
 	{
 		arrayfree(cmd->args);
 		cmd->args = 0;

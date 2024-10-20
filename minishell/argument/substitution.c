@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   substitution.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 14:56:27 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/10/14 14:10:00 by jla-chon         ###   ########.fr       */
+/*   Updated: 2024/10/20 19:10:35 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,14 @@ static char	*getdollar(char **str, int final, t_execs *exec)
 	char	*sub;
 
 	tmp = *str + 1;
-	if (!*tmp && final || *tmp == '"' || *tmp == '\'' || iswhite(*tmp))
+	if (!*tmp && !final)
+		return (ft_calloc(1, sizeof(char)));
+	else if ((!*tmp && final) || *tmp == '"' || *tmp == '\'' || iswhite(*tmp))
 	{
 		*str = tmp;
 		return (ft_strdup("$"));
 	}
-	else if (!strncmp(tmp, "{?", 2))
+	else if (!ft_strncmp(tmp, "{?", 2))
 	{
 		if (*(tmp + 2) != '}')
 			return (0);
@@ -76,7 +78,7 @@ static char	*getdollar(char **str, int final, t_execs *exec)
 		var = getenv(sub);
 		free(sub);
 		if (!var)
-			return (calloc(sizeof(char), 1));
+			return (ft_calloc(sizeof(char), 1));
 		return (ft_strdup(var));
 	}
 	else
@@ -90,7 +92,7 @@ static char	*getdollar(char **str, int final, t_execs *exec)
 		*str = tmp;
 		free(sub);
 		if (!var)
-			return (calloc(sizeof(char), 1));
+			return (ft_calloc(sizeof(char), 1));
 		return (ft_strdup(var));
 	}
 }
@@ -105,16 +107,16 @@ static char	*ft_joiner(t_list *lst)
 	size = 0;
 	while (tmp)
 	{
-		size += strlen(((t_subquote *)tmp->data)->str);
+		size += ft_strlen(((t_subquote *)tmp->data)->str);
 		tmp = tmp->next;
 	}
 	tmp = lst;
-	res = calloc(sizeof(char), size + 1);
+	res = ft_calloc(sizeof(char), size + 1);
 	if (!res)
 		return (ft_listfree(&lst, subquotefree), NULL);
 	while (tmp)
 	{
-		res = strcat(res, ((t_subquote *)tmp->data)->str);
+		res = ft_strcat(res, ((t_subquote *)tmp->data)->str);
 		tmp = tmp->next;
 	}
 	return (ft_listfree(&lst, subquotefree), res);
@@ -134,7 +136,7 @@ char	*dollar(char *str, int final, t_execs *exec)
 		{
 			next = getdollar(&str, final, exec);
 			if (!next)
-				return (free(tmp), ft_listfree(&lst, subquotefree), NULL);
+				return (substitution_error(str), free(tmp), ft_listfree(&lst, subquotefree), NULL);
 			if (!listaddback(&lst, listnew(subquotenew(next, 0), subquotefree),
 					subquotefree))
 				return (free(tmp), NULL);
