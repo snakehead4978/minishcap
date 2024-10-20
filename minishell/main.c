@@ -6,7 +6,7 @@
 /*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 15:21:26 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/10/20 20:23:01 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/10/20 20:30:08 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ int	main(int ac, char **av, char **ev)
 			break ;
 		err = checkerr(err);
 		parsecmd(&shell, buff);
+		print_cmd(shell->tree, 0);
 		err = checkerr(err);
 		err = executer(shell, err);
 		add_history(buff);

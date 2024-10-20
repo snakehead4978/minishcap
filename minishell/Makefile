@@ -34,7 +34,7 @@ SRC_ARG = argument.c expansion.c filelist.c files.c  listfuncs.c listprinters.c 
 
 SRC_EXEC = cmd.c execfree.c ft_pathsplit.c heredoc.c path.c pipe.c redir.c subandor.c
 
-SRC_MAIN = main.c
+SRC_MAIN = main.c printer.c
 
 OBJ_BUILT = $(addprefix $(DIR_BUILT), $(SRC_BUILT:.c=.o))
 

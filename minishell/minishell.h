@@ -6,7 +6,7 @@
 /*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 14:37:54 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/10/20 20:18:55 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/10/20 20:32:10 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -285,6 +285,15 @@ void					strprint(char *data);
 void					fileprint(t_file *data);
 void					printlist(t_list *list, void (*print)());
 void					intprint(int *data);
+void					print_indent(int indent);
+void					print_redircmd(t_redircmd *redir, int indent);
+void					print_execcmd(t_execcmd *exec, int indent);
+void					print_pipecmd(t_pipecmd *pipe, int indent);
+void					print_andcmd(t_andcmd *and, int indent);
+void					print_orcmd(t_orcmd * or, int indent);
+void					print_doublecmd(t_doublecmd *dbl, int indent);
+void					print_subcmd(t_sub *sub, int indent);
+void					print_cmd(t_cmd *cmd, int indent);
 
 // Signal Funcs
 void					signals(void);
