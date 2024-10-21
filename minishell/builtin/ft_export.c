@@ -6,7 +6,7 @@
 /*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:01:59 by dakojic           #+#    #+#             */
-/*   Updated: 2024/10/21 13:21:13 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/10/21 15:06:11 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,12 @@ char	**new_env(char ***env, char *cmd)
 	return (new);
 }
 
+void	line_saver(char *cmd, int *i)
+{
+	ft_printerror("minishell: export: `", cmd, "': not a valid identifier");
+	(*i)++;
+}
+
 void	ft_export2(char **cmd, char ***env, int i)
 {
 	char	*lf;
@@ -69,9 +75,7 @@ void	ft_export2(char **cmd, char ***env, int i)
 	{
 		if (!ft_isalpha(cmd[i][0]))
 		{
-			ft_printerror("minishell: export: `", cmd[i],
-				"': not a valid identifier");
-			i++;
+			line_saver(cmd[i], &i);
 			continue ;
 		}
 		lf = minisplit(cmd[i], '=');
@@ -102,11 +106,11 @@ int	ft_export(t_execs *execs)
 
 	args = ((t_execcmd *)execs->cmd)->args;
 	i = 1;
-	while (args[i] && (!ft_strncmp(args[i], "-p", strlen((args[i]))) && \
-	(args[i + 1] != NULL)))
+	while (args[i] && (!ft_strncmp(args[i], "-p", ft_strlen((args[i])))
+			&& (args[i + 1] != NULL)))
 		i++;
-	if (args[1] == NULL || (!ft_strncmp(args[i], "-p", strlen(args[i]) && \
-	args[i + 1] == NULL)))
+	if (args[1] == NULL || (!(ft_strncmp(args[i], "-p", ft_strlen(args[i])))
+			&& args[i + 1] == NULL))
 	{
 		arrayfree(args);
 		((t_execcmd *)execs->cmd)->args = 0;
@@ -117,6 +121,5 @@ int	ft_export(t_execs *execs)
 	i = 0;
 	arrayfree(args);
 	((t_execcmd *)execs->cmd)->args = 0;
-	print_env(execs->shell->env);
 	return (0);
 }
