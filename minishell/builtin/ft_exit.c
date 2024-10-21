@@ -6,7 +6,7 @@
 /*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 16:17:13 by dakojic           #+#    #+#             */
-/*   Updated: 2024/10/21 11:55:16 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/10/21 12:12:42 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,38 +41,32 @@ static long long	ret_exit(char *x)
 {
 	int			i;
 	long long	ret;
+	char		*str;
 
+	str = "Error: Invalid exit argument. Numeric argument required.\n";
 	i = 0;
 	while (x[i] != '\0')
 	{
-		if (!i && x[i] != '-' && x[i] != '+')
+		if (!i && (x[i] == '-' || x[i] == '+'))
 			;
 		else if ((!i && x[i] != '-' && x[i] != '+') || !(x[i] >= '0'
 				&& x[i] <= '9'))
 		{
-			write(2,
-				"Error: Invalid exit argument. Numeric argument requiredeee.\n",
-				58);
-			return (2);
+			return (write(2, str, 58), 2);
 		}
 		i++;
 	}
 	ret = ft_atol(x);
 	if (ret < 0)
-	{
-		write(2,
-			"Error: Invalid exit argument. Numeric argument requiredeee.\n",
-			58);
-		return (2);
-	}
+		return (write(2, str, 58), 2);
 	return (ret);
 }
 
 int	ft_exit(t_execs *ex)
 {
 	unsigned int	ret;
-	t_shell		*shell;
-	char		**args;
+	t_shell			*shell;
+	char			**args;
 
 	ret = ex->ret;
 	args = ((t_execcmd *)ex->cmd)->args;
