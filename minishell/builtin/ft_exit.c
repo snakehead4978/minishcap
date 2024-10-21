@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 16:17:13 by dakojic           #+#    #+#             */
-/*   Updated: 2024/10/21 03:28:41 by snek             ###   ########.fr       */
+/*   Updated: 2024/10/21 11:55:16 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,28 +39,40 @@ static long long	ft_atol(char *str)
 
 static long long	ret_exit(char *x)
 {
-	int	i;
+	int			i;
+	long long	ret;
 
 	i = 0;
 	while (x[i] != '\0')
 	{
-		if ((!i && x[i] != '-' && x[i] != '+') || !(x[i] >= '0' && x[i] <= '9'))
+		if (!i && x[i] != '-' && x[i] != '+')
+			;
+		else if ((!i && x[i] != '-' && x[i] != '+') || !(x[i] >= '0'
+				&& x[i] <= '9'))
 		{
 			write(2,
-				"Error: Invalid exit argument. Numeric argument required.\n",
+				"Error: Invalid exit argument. Numeric argument requiredeee.\n",
 				58);
 			return (2);
 		}
 		i++;
 	}
-	return (ft_atol(x));
+	ret = ft_atol(x);
+	if (ret < 0)
+	{
+		write(2,
+			"Error: Invalid exit argument. Numeric argument requiredeee.\n",
+			58);
+		return (2);
+	}
+	return (ret);
 }
 
 int	ft_exit(t_execs *ex)
 {
 	unsigned int	ret;
-	t_shell			*shell;
-	char			**args;
+	t_shell		*shell;
+	char		**args;
 
 	ret = ex->ret;
 	args = ((t_execcmd *)ex->cmd)->args;
@@ -70,7 +82,7 @@ int	ft_exit(t_execs *ex)
 	execfree(ex);
 	arrayfree(shell->env);
 	free(shell);
-    rl_clear_history();
+	rl_clear_history();
 	write(2, "exit\n", 5);
 	exit(ret);
 }
