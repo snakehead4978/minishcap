@@ -49,11 +49,8 @@ static long long	ret_exit(char *x)
 	{
 		if (!i && (x[i] == '-' || x[i] == '+'))
 			;
-		else if ((!i && x[i] != '-' && x[i] != '+') || !(x[i] >= '0'
-				&& x[i] <= '9'))
-		{
+		else if (!(x[i] >= '0' && x[i] <= '9'))
 			return (write(2, str, 58), 2);
-		}
 		i++;
 	}
 	ret = ft_atol(x);
@@ -64,7 +61,7 @@ static long long	ret_exit(char *x)
 
 int	ft_exit(t_execs *ex)
 {
-	unsigned int	ret;
+	int	ret;
 	t_shell			*shell;
 	char			**args;
 
@@ -78,5 +75,6 @@ int	ft_exit(t_execs *ex)
 	free(shell);
 	rl_clear_history();
 	write(2, "exit\n", 5);
+	printf("error: %d \n", ret);
 	exit(ret);
 }
