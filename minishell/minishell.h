@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 14:37:54 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/10/21 02:46:55 by snek             ###   ########.fr       */
+/*   Updated: 2024/10/21 12:33:12 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,6 +210,7 @@ char					*ft_filecpy(char *file, char *efile);
 size_t					ft_strlcpy(char *dst, const char *src, size_t size);
 // void					ft_bzero(void *s, size_t n);
 char					*ft_strcat(char *str1, char *str2);
+int						ft_isalpha(int c);
 
 // Moded LIBFT
 char					**args_malloc(int argc, char *ptr_arg, char *ptr_earg,
@@ -218,6 +219,7 @@ char					*empty_string(void);
 void					ft_strcpy_quoteless(char **dest, char *src);
 int						ft_strcmp2(const char *s1, const char *s2);
 int						size_pwd(char **env);
+void					print_env(char **env);
 
 //  List Funcs
 t_list					*listnew(void *data, void (*f)());
@@ -294,8 +296,7 @@ void					print_orcmd(t_orcmd * or, int indent);
 void					print_doublecmd(t_doublecmd *dbl, int indent);
 void					print_subcmd(t_sub *sub, int indent);
 void					print_cmd(t_cmd *cmd, int indent);
-void	ft_printerror(char *str, char *name, char *str2);
-
+void					ft_printerror(char *str, char *name, char *str2);
 
 // Signal Funcs
 void					signals(void);

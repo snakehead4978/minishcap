@@ -6,7 +6,7 @@
 /*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 13:20:17 by dakojic           #+#    #+#             */
-/*   Updated: 2024/10/20 20:15:15 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/10/21 12:28:39 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,4 +74,9 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	}
 	new[cur] = '\0';
 	return (new);
+}
+
+int	ft_isalpha(int c)
+{
+	return ((c >= 65 && c <= 90) || (c >= 97 && c <= 122));
 }

@@ -6,7 +6,7 @@
 /*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 11:11:30 by dakojic           #+#    #+#             */
-/*   Updated: 2024/10/20 17:39:23 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/10/21 12:33:03 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,17 @@ int size_pwd(char **env)
         i++;
     }
     return (ft_strlen(env[i]));
+}
+
+void	print_env(char **env)
+{
+	int	i;
+
+	i = 0;
+	while (env[i] != NULL)
+	{
+		printf("declare -x %s\n", env[i]);
+		i++;
+	}
+	return ;
 }
