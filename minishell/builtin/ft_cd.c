@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_cd.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/21 12:25:43 by dakojic           #+#    #+#             */
+/*   Updated: 2024/10/21 12:26:06 by dakojic          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 /*
-    cd arg1 arg2    bash: cd: too many arguments
-    cd ~ == cd -- == cd $HOME
-    cd - == cd $OLDPWD
-    cd .. == cd ../
-    cd . == cd ./
-    cd / == cd // == cd ////////////////////////////
+	cd arg1 arg2    bash: cd: too many arguments
+	cd ~ == cd -- == cd $HOME
+	cd - == cd $OLDPWD
+	cd .. == cd ../
+	cd . == cd ./
+	cd / == cd // == cd ////////////////////////////
 */
 
 #include "minishell.h"
@@ -36,52 +48,55 @@ char	*get_env(char *name, char **env)
 static void	ft_getcwd(char **pwd, int size)
 {
 	*pwd = malloc(sizeof(char) * (size + 1));
-	if(!pwd)
+	if (!pwd)
 		return ;
 	getcwd(*pwd, size + 1);
 	return ;
 }
 
-static int ft_move(char **cmd, char **env)
+static int	ft_move(char **cmd, char **env)
 {
-	if(cmd[0] && (cmd[1] == NULL || !ft_strcmp(cmd[1], "~") || !ft_strcmp(cmd[1], "--")))
-        chdir(get_env("HOME", env));
-    else if(cmd[0] && !ft_strcmp(cmd[1], "-"))
-	{	
-        chdir(get_env("OLDPWD", env));
+	if (cmd[0] && (cmd[1] == NULL || !ft_strcmp(cmd[1], "~")
+			|| !ft_strcmp(cmd[1], "--")))
+		chdir(get_env("HOME", env));
+	else if (cmd[0] && !ft_strcmp(cmd[1], "-"))
+	{
+		chdir(get_env("OLDPWD", env));
 		printf("%s\n", get_env("OLDPWD", env));
 	}
-	else if(cmd[0] && cmd[1])
-		if(chdir(cmd[1]) != 0)
+	else if (cmd[0] && cmd[1])
+	{
+		if (chdir(cmd[1]) != 0)
 		{
 			ft_printerror("cd: ", cmd[1], ": No such file or directory");
 			free_array(cmd);
 			return (1);
 		}
+	}
 	free_array(cmd);
 	return (0);
 }
 
-static void ft_switch_pwd(char *newpwd, char *oldpwd, char ***env)
+static void	ft_switch_pwd(char *newpwd, char *oldpwd, char ***env)
 {
-	int i;
-	int j;
-	char *tmp;
+	int		i;
+	int		j;
+	char	*tmp;
 
 	i = -1;
-	while((*env)[++i])
+	while ((*env)[++i])
 	{
 		j = 0;
-		while((*env)[i][j] && (*env)[i][j] != '=')
+		while ((*env)[i][j] && (*env)[i][j] != '=')
 			j++;
 		tmp = ft_substr((*env)[i], 0, j);
-		if(!ft_strcmp2(tmp, "PWD"))
+		if (!ft_strcmp2(tmp, "PWD"))
 		{
 			free((*env)[i]);
 			(*env)[i] = ft_strdup("PWD=");
 			(*env)[i] = ft_strjoin((*env)[i], newpwd);
 		}
-		if(!ft_strcmp2(tmp, "OLDPWD"))
+		if (!ft_strcmp2(tmp, "OLDPWD"))
 		{
 			free((*env)[i]);
 			(*env)[i] = ft_strdup("OLDPWD=");
@@ -91,31 +106,31 @@ static void ft_switch_pwd(char *newpwd, char *oldpwd, char ***env)
 	}
 }
 
-int    ft_cd(t_execs *execs)
+int	ft_cd(t_execs *execs)
 {
-    char *oldpwd;
-    char *newpwd;
+	char		*oldpwd;
+	char		*newpwd;
 	t_execcmd	*cmd;
 
 	cmd = (t_execcmd *)execs->cmd;
-	if(cmd->args[2])
+	if (cmd->args[2])
 	{
 		arrayfree(cmd->args);
 		cmd->args = 0;
 		return (ft_printerror("Minishell: cd: too many arguments", 0, 0), 333);
 	}
 	ft_getcwd(&oldpwd, size_pwd(execs->shell->env));
-	if(ft_move(cmd->args, execs->shell->env) == 1)
+	if (ft_move(cmd->args, execs->shell->env) == 1)
 	{
 		arrayfree(cmd->args);
 		cmd->args = 0;
 		return (free(oldpwd), 333);
 	}
 	ft_getcwd(&newpwd, size_pwd(execs->shell->env));
-    ft_switch_pwd(newpwd, oldpwd, &execs->shell->env);
+	ft_switch_pwd(newpwd, oldpwd, &execs->shell->env);
 	arrayfree(cmd->args);
 	cmd->args = 0;
-	if(execs->shell->env == NULL)
+	if (execs->shell->env == NULL)
 		return (free(oldpwd), free(newpwd), 1);
 	return (free(oldpwd), free(newpwd), 0);
 }
@@ -124,8 +139,8 @@ int    ft_cd(t_execs *execs)
 // {
 //     (void)ac;
 //     (void)av;
-  
-//     char s[100]; 
+
+//     char s[100];
 
 //     char **str = malloc(sizeof(char *) *3);
 //     str[0] = strdup("cd");
