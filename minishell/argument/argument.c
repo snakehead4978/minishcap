@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   argument.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
+/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 15:16:34 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/10/20 17:40:12 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/10/21 03:21:36 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ static t_list	*argument(char *arg, t_execs *exec)
 	}
 	lst = resplitter(tmp);
 	printlist(lst, strprint);
-	ft_listfree(&lst, free);
 	return (lst);
 }
 
@@ -54,11 +53,12 @@ char	**args(char **arguments, t_execs *exec)
 	char	**res;
 
 	list = 0;
-	while (*arguments)
+	i = 0;
+	while (arguments[i])
 	{
-		if (!listaddback(&list, argument(*arguments, exec), free))
+		if (!listaddback(&list, argument(arguments[i], exec), free))
 			return (arrayfree(arguments), NULL);
-		arguments++;
+		i++;
 	}
 	arrayfree(arguments);
 	res = ft_calloc(sizeof(char *), listsize(list) + 1);
@@ -68,7 +68,7 @@ char	**args(char **arguments, t_execs *exec)
 	i = 0;
 	while (tmplist)
 	{
-		res[i++] = tmplist->data;
+		res[i++] = ft_strdup(tmplist->data);
 		tmplist = tmplist->next;
 	}
 	return (ft_listfree(&list, free), res);

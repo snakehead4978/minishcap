@@ -78,7 +78,7 @@ void ft_export2(char **cmd, char ***env)
     {
         if(!ft_isalpha(cmd[i][0]))
         {
-            printf("minishell: export: `%s': not a valid identifier\n", cmd[i]);
+            ft_printerror("minishell: export: `", cmd[i], "': not a valid identifier");
             i++;
             continue;
         }

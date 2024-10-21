@@ -4,7 +4,7 @@ CC = cc
 
 CFLAGS = -Wall -Wextra -Werror -g3
 
-INC = -I.
+INC = -I. 
 
 DIR_BUILT = builtin/
 
@@ -56,7 +56,7 @@ OBJ_ALL = $(OBJ_BUILT) $(OBJ_ARG) $(OBJ_LIB) $(OBJ_PARSE) $(OBJ_EXEC) $(OBJ_MAIN
 all: $(NAME)
 
 $(NAME): $(OBJ_ALL)
-	$(CC) $(CFLAGS) $(INC) -lreadline -o $@ $^
+	$(CC) $(CFLAGS) $(INC) -o $@ $^ -lreadline
 
 clean:
 	rm -rf $(OBJ_ALL)
@@ -66,4 +66,7 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+valg: re
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=supp.supp -s ./$(NAME)
+
+.PHONY: all clean fclean re valg

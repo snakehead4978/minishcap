@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   misc.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
+/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 15:57:43 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/10/20 19:18:27 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/10/21 02:39:02 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,7 @@ int	arrayfree(char **array)
 		return (1);
 	while (array[i])
 		free(array[i++]);
+	free(array[i]);
 	free(array);
 	return (0);
 }

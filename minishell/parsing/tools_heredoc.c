@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools_heredoc.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
+/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 11:13:03 by dakojic           #+#    #+#             */
-/*   Updated: 2024/10/20 19:36:02 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/10/21 03:11:46 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ char	*heredoc_filler(char *end)
 		}
 	}
 	if(!buf && g_bigsignal != SIGINT)
-		printf("minishell: warning: here-document delimited by end-of-file (wanted `%s')\n", end);
+		ft_printerror("minishell: warning: here-document delimited by end-of-file (wanted `", end, "')");
 	if(buf)
 		free(buf);
 	signals();

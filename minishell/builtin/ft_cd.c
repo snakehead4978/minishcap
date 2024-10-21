@@ -54,7 +54,7 @@ static int ft_move(char **cmd, char **env)
 	else if(cmd[0] && cmd[1])
 		if(chdir(cmd[1]) != 0)
 		{
-			printf("cd: %s: No such file or directory\n", cmd[1]);
+			ft_printerror("cd: ", cmd[1], ": No such file or directory");
 			free_array(cmd);
 			return (1);
 		}
@@ -102,7 +102,7 @@ int    ft_cd(t_execs *execs)
 	{
 		arrayfree(cmd->args);
 		cmd->args = 0;
-		return (printf("Minishell: cd: too many arguments\n"), 333);
+		return (ft_printerror("Minishell: cd: too many arguments", 0, 0), 333);
 	}
 	ft_getcwd(&oldpwd, size_pwd(execs->shell->env));
 	if(ft_move(cmd->args, execs->shell->env) == 1)

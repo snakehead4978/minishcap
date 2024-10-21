@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
+/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 14:37:54 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/10/20 20:32:10 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/10/21 02:46:55 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -294,6 +294,8 @@ void					print_orcmd(t_orcmd * or, int indent);
 void					print_doublecmd(t_doublecmd *dbl, int indent);
 void					print_subcmd(t_sub *sub, int indent);
 void					print_cmd(t_cmd *cmd, int indent);
+void	ft_printerror(char *str, char *name, char *str2);
+
 
 // Signal Funcs
 void					signals(void);

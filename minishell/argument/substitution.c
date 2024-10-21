@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   substitution.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
+/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 14:56:27 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/10/20 19:10:35 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/10/21 02:55:36 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	substitution_error(char *str)
 	char	*tmp;
 	int		size;
 
-	size = 1;
+	size = 0;
 	tmp = str + 1;
 	if (*tmp == '{')
 	{
@@ -32,7 +32,7 @@ static void	substitution_error(char *str)
 	tmp = ft_substr(str, 0, size + 2);
 	if (!tmp)
 		return ;
-	printf("minishell: %s: bad substitution\n", tmp);
+	ft_printerror("minishell: ", tmp, ": bad substitution");
 	free(tmp);
 }
 
@@ -83,7 +83,7 @@ static char	*getdollar(char **str, int final, t_execs *exec)
 	}
 	else
 	{
-		while (*tmp && !iswhite(*tmp) && *tmp != '\'' && *tmp != '"')
+		while (*tmp && !iswhite(*tmp) && *tmp != '\'' && *tmp != '"' && *tmp != '$')
 			tmp++;
 		sub = ft_substr(*str, 1, tmp - *str - 1);
 		if (!sub)

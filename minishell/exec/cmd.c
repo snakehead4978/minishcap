@@ -6,7 +6,7 @@
 /*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 19:03:54 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/10/20 23:54:50 by snek             ###   ########.fr       */
+/*   Updated: 2024/10/21 03:27:02 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	ft_setfds(t_execs *exec)
 	int		fdout;
 
 	fdin = 0;
-	fdin = 1;
+	fdout = 1;
 	list = exec->fds;
 	while (list)
 	{
@@ -31,8 +31,8 @@ static int	ft_setfds(t_execs *exec)
 			fdout = fds->fd;
 		list = list->next;
 	}
-	dup2(fdin, 0);
-	dup2(fdout, 1);
+	if (dup2(fdin, 0) == -1 || dup2(fdout, 1) == -1)
+		return (1);
 	return (0);
 }
 
@@ -128,12 +128,14 @@ int	ft_exec(t_execs *exec)
 	char		**args;
 	int			pid;
 	int			err;
+	t_shell		*shell;
 
 	if (!exec->cmd || !((t_execcmd *)exec->cmd)->args)
 		return (0);
+	err = 0;
 	cmds = (t_execcmd *)exec->cmd;
 	args = cmds->args;
-	if (!ft_setfds(exec))
+	if (ft_setfds(exec))
 		return (333);
 	if (!isbuiltin(args[0]))
 	{
@@ -151,7 +153,10 @@ int	ft_exec(t_execs *exec)
 				errno = err;
 			signal(SIGQUIT, SIG_IGN);
 			ft_listfree(&exec->fds, fdsfree);
+			shell = exec->shell;
 			execfree(exec);
+			arrayfree(shell->env);
+			free(shell);
 			exit(errno);
 		}
 		waitpid(pid, &err, 0);
@@ -180,6 +185,8 @@ int	ft_expandcmd(t_execs *exec, t_cmd *cmd)
 	else if (cmd->type == EXEC)
 	{
 		command = (t_execcmd *)cmd;
+		if (!command->args)
+			return (0);
 		command->args = args(command->args, exec);
 		if (!command->args)
 			return (execfree(exec), 1);

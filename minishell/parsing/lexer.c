@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
+/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 14:01:49 by dakojic           #+#    #+#             */
-/*   Updated: 2024/10/20 19:48:21 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/10/21 03:09:18 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	lexer(t_shell **shell, char *str)
 		if (str[i] && ft_strchr("><|&()", str[i]))
 		{
 			if (sub_lexer(&lexer, str, &i))
-				return (printf("Error\n"), free_lexer(lexer), 1);
+				return (ft_printerror("Error", 0, 0), free_lexer(lexer), 1);
 			continue ;
 		}
 		if (str[i] && !ft_strchr(" \t\n\r\v><|&()", str[i]))

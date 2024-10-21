@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
+/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 21:55:37 by snek              #+#    #+#             */
-/*   Updated: 2024/10/20 20:06:20 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/10/21 03:22:17 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,15 @@ void	ft_removefd(t_list *fds)
 	close(((t_fds *)fds->data)->fd);
 }
 
-static void	freechararray(char **all)
+static void	openerror(char **str)
 {
-	int	i;
-
-	if (!all)
-		return ;
-	i = 0;
-	while (all[i])
-		free(all[i++]);
-	free(all[i]);
-	free(all);
+	if (errno == EACCES)
+		ft_printerror("minishell: permission denied: ", *str, 0);
+	else if (errno == ENOENT)
+		ft_printerror("minishell: no such file or directory: ", *str, 0);
+	else
+		ft_printerror("minishell: open error", 0, 0);
+	arrayfree(str);
 }
 
 int	ft_redir(t_execs *exec)
@@ -49,12 +47,16 @@ int	ft_redir(t_execs *exec)
 	*all = cmds->file;
 	all = args(all, exec);
 	if (all && *all && all[1])
-		return (printf("minishell: %s: ambiguous redirect\n", cmds->file), freechararray(all), 333);
+		return (ft_printerror("minishell: ", cmds->file, ": ambiguous redirect"), arrayfree(all), 333);
 	if (!all)
 		return (execfree(exec), 1);
-	args(all, exec);
-	fd = open(*all, cmds->mode);
-	freechararray(all);
+	if (cmds->mode == O_RDONLY)
+		fd = open(*all, cmds->mode);
+	else
+		fd = open(*all, cmds->mode, 0666);
+	if (fd == -1)
+		return (openerror(all), 333);
+	arrayfree(all);
 	fds = listnew(fdsnew(fd, FD_FILEOUT), fdsfree);
 	if (cmds->mode == O_RDONLY)
 		((t_fds *)fds)->type = FD_FILEIN;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   listprinters.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 17:39:39 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/09/14 17:40:14 by jla-chon         ###   ########.fr       */
+/*   Updated: 2024/10/21 00:47:05 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,22 @@
 
 void	subquoteprint(t_subquote *data)
 {
-	printf("%s %d\n", data->str, data->check);
+	printf("QUOTE: %s %d\n", data->str, data->check);
 }
 
 void	strprint(char *data)
 {
-	printf("%s\n", data);
+	printf("STRING: %s\n", data);
 }
 
 void	fileprint(t_file *data)
 {
-	printf("%s\n", data->filename);
+	printf("FILE: %s\n", data->filename);
 }
 
 void	intprint(int *data)
 {
-	printf("%d %d\n", data[0], data[1]);
+	printf("INTS: %d %d\n", data[0], data[1]);
 }
 
 void	printlist(t_list *list, void (*print)())

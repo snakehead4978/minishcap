@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
+/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 19:27:09 by dakojic           #+#    #+#             */
-/*   Updated: 2024/10/20 20:16:26 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/10/21 03:08:52 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	catcher(int signum)
 	if (signum == SIGINT)
 	{
 		g_bigsignal = SIGINT;
-		printf("\n");
+		write(2, "\n", 1);
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();

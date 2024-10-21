@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
+/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 17:05:04 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/10/20 20:00:41 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/10/21 03:21:45 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,6 @@ static char	*getdollar(char *str, int *i, t_execs *exec)
 	}
 }
 
-static void	substitution_error(char *str)
-{
-	printf("minishell: %s: bad substitution\n", str);
-}
-
 static int	getsize(char *str, int check, t_execs *exec, t_list **list)
 {
 	int	i;
@@ -92,7 +87,7 @@ static int	getsize(char *str, int check, t_execs *exec, t_list **list)
 		{
 			tmp = getdollar(str, &i, exec);
 			if (!tmp)
-				return (ft_listfree(list, free), substitution_error(str), -1);
+				return (ft_listfree(list, free), ft_printerror("minishell: ", str, ": bad substitution"), -1);
 			if (!listaddback(list, listnew(tmp, free), free))
 				return (-1);
 			size += ft_strlen(tmp);

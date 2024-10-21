@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_redirs_er.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
+/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 13:24:06 by dakojic           #+#    #+#             */
-/*   Updated: 2024/10/20 19:43:10 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/10/20 23:57:07 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 t_cmd	*redircmd_in2(t_cmd *cmd, char *file, char *efile, int fd)
 {
 	t_redircmd	*redir;
-	t_redircmd	*temp;
+	// t_redircmd	*temp;
 
-	temp = (t_redircmd *)((t_redircmd *)cmd)->cmd;
+	// temp = (t_redircmd *)((t_redircmd *)cmd)->cmd;
 	redir = ft_calloc(1, sizeof(t_redircmd));
 	// redir = malloc(sizeof(*redir));
 	if (!redir)
