@@ -6,7 +6,7 @@
 /*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:25:43 by dakojic           #+#    #+#             */
-/*   Updated: 2024/10/21 12:26:06 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/10/21 15:28:46 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,14 @@ static void	ft_switch_pwd(char *newpwd, char *oldpwd, char ***env)
 	}
 }
 
+void cd_free(char ***str)
+{
+	if((*str)[0])
+		free((*str)[0]);
+	if((*str)[1])
+		free((*str)[1]);
+	free(*str);
+}
 int	ft_cd(t_execs *execs)
 {
 	char		*oldpwd;
@@ -113,7 +121,7 @@ int	ft_cd(t_execs *execs)
 	t_execcmd	*cmd;
 
 	cmd = (t_execcmd *)execs->cmd;
-	if (cmd->args[2])
+	if (cmd->args[1] && cmd->args[2])
 	{
 		arrayfree(cmd->args);
 		cmd->args = 0;
@@ -128,7 +136,7 @@ int	ft_cd(t_execs *execs)
 	}
 	ft_getcwd(&newpwd, size_pwd(execs->shell->env));
 	ft_switch_pwd(newpwd, oldpwd, &execs->shell->env);
-	arrayfree(cmd->args);
+	cd_free(&cmd->args);
 	cmd->args = 0;
 	if (execs->shell->env == NULL)
 		return (free(oldpwd), free(newpwd), 1);
