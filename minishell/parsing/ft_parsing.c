@@ -14,10 +14,11 @@
 
 void	*parsecmd(t_shell **shell, char *str)
 {
-	if (str[0] == '\0' || quote_check(str))
-		return (NULL);
-	if (lexer(shell, str))
-		return (NULL);
+	if (str[0] == '\0' || quote_check(str) || lexer(shell, str))
+	{
+		(*shell)->tree = 0;
+		return (0);
+	}
 	(*shell)->tree = parseline(*shell, &str);
 	return (0);
 }

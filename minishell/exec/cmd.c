@@ -148,18 +148,18 @@ int	ft_exec(t_execs *exec)
 			{
 				signal(SIGQUIT, SIG_DFL);
 				execve(args[0], args, exec->shell->env);
+				signal(SIGQUIT, SIG_IGN);
 			}
-			else
-				errno = err;
-			signal(SIGQUIT, SIG_IGN);
 			ft_listfree(&exec->fds, fdsfree);
 			shell = exec->shell;
 			execfree(exec);
 			arrayfree(shell->env);
 			free(shell);
-			exit(errno);
+			printf("cureent err%d!\n", err);
+			exit(err);
 		}
 		waitpid(pid, &err, 0);
+		printf("cureent numb %d!\n", err);
 		if (err == 131)
 			write(2, "Quit (core dumped)\n", 20);
 	}
@@ -171,6 +171,7 @@ int	ft_exec(t_execs *exec)
 		execfree(exec);
 	else
 		exec->ret = err;
+	// printf("NUMB%d\n", err);
 	return (err);
 }
 
@@ -211,6 +212,9 @@ int	executer(t_shell *shell, int err)
 		return (err);
 	err = ft_sorter(exec, exec->shell->tree);
 	if (err != 1)
+	{
+		printf("FREEING TIME!!!\n");
 		execfree(exec);
+	}
 	return (err);
 }
