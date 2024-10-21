@@ -6,7 +6,7 @@
 /*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 17:15:27 by dakojic           #+#    #+#             */
-/*   Updated: 2024/10/20 17:39:23 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/10/21 12:01:28 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,16 @@
 
 int	ft_pwd(t_execs *execs)
 {
-    char	*pwd;
+	char	*pwd;
 
 	arrayfree(((t_execcmd *)execs->cmd)->args);
 	((t_execcmd *)execs->cmd)->args = 0;
-    pwd = getcwd(NULL, 0);
-    if(!pwd)
-        return (write(1, "Minishell: error: getcwd failed\n", 22), 333);
-    if(write(1, pwd, ft_strlen(pwd)) < 0 || write(1, "\n", 1) < 0)
-        write(1, "Error: write failed\n", 21);
-    free(pwd);
+	pwd = getcwd(NULL, 0);
+	if (!pwd)
+		return (write(1, "Minishell: error: getcwd failed\n", 22), 333);
+	if (write(1, pwd, ft_strlen(pwd)) < 0 || write(1, "\n", 1) < 0)
+		write(1, "Error: write failed\n", 21);
+	free(pwd);
 	return (0);
 }
 
