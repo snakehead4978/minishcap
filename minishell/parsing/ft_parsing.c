@@ -15,7 +15,7 @@
 void	*parsecmd(t_shell **shell, char *str)
 {
 	if (str[0] == '\0' || quote_check(str))
-		return (free(str), NULL);
+		return (NULL);
 	if (lexer(shell, str))
 		return (NULL);
 	(*shell)->tree = parseline(*shell, &str);

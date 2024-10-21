@@ -71,7 +71,7 @@ int	ft_exit(t_execs *ex)
 	ret = ex->ret;
 	args = ((t_execcmd *)ex->cmd)->args;
 	if (args[1])
-		ret = (unsigned int)ret_exit(((t_execcmd *)ex->cmd)->args[1]);
+		ret = (unsigned int)ret_exit(args[1]);
 	shell = ex->shell;
 	execfree(ex);
 	arrayfree(shell->env);

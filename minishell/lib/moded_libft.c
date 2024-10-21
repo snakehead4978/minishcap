@@ -60,15 +60,77 @@ int size_pwd(char **env)
     return (ft_strlen(env[i]));
 }
 
+static void	swap(t_list *node, t_list **list)
+{
+	t_list	*tmp;
+	t_list	*find;
+
+	find = *list;
+	while (find)
+	{
+		if (find->next == node)
+			break ;
+		find = find->next;
+	}
+	tmp = node->next;
+	if (!find)
+		*list = tmp;
+	else
+		find->next = tmp;
+	node->next = tmp->next;
+	tmp->next = node;
+}
+
+static void	sortandfill(t_list **list)
+{
+	t_list	*tmp;
+
+	tmp = *list;
+	if (!tmp)
+		return ;
+	while (tmp->next)
+	{
+		if (strcmp((char *)tmp->data, (char *)tmp->next->data) > 0)
+		{
+			swap(tmp, list);
+			tmp = *list;
+		}
+		else
+			tmp = tmp->next;
+	}
+}
+
+t_list	*sortedlist(char **env)
+{
+	t_list			*list;
+
+	list = 0;
+	while (*env)
+	{
+		if (!listaddback(&list, listnew(ft_strdup(*env), free), free))
+			return (NULL);
+		env++;
+	}
+	sortandfill(&list);
+	return (list);
+}
+
 void	print_env(char **env)
 {
-	int	i;
+	t_list	*list;
+	t_list	*tmp;
+	char	*str;
 
-	i = 0;
-	while (env[i] != NULL)
+	list = sortedlist(env);
+	tmp = list;
+	while (list)
 	{
-		printf("declare -x %s\n", env[i]);
-		i++;
+		str = ft_strchr((char *)list->data, '=');
+		if (str && !str[1])
+			printf("declare -x %s\"\"\n", (char *)list->data);
+		else
+			printf("declare -x %s\n", (char *)list->data);
+		list = list->next;
 	}
-	return ;
+	ft_listfree(&tmp, free);
 }

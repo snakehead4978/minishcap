@@ -49,7 +49,7 @@ static char	*getdollar(char *str, int *i, t_execs *exec)
 		if (!sub)
 			return (0);
 		*i = j + 1;
-		var = getenv(sub);
+		var = get_env(sub, exec->shell->env);
 		free(sub);
 		if (!var)
 			return (ft_calloc(sizeof(char), 1));
@@ -62,7 +62,7 @@ static char	*getdollar(char *str, int *i, t_execs *exec)
 		sub = ft_substr(str + *i, 1, j - *i - 1);
 		if (!sub)
 			return (0);
-		var = getenv(sub);
+		var = get_env(sub, exec->shell->env);
 		*i = j;
 		free(sub);
 		if (!var)

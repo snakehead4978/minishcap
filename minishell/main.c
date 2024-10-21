@@ -80,7 +80,7 @@ int	main(int ac, char **av, char **ev)
 			break ;
 		err = checkerr(err);
 		parsecmd(&shell, buff);
-		print_cmd(shell->tree, 0);
+		// print_cmd(shell->tree, 0);
 		err = checkerr(err);
 		err = executer(shell, err);
 		add_history(buff);

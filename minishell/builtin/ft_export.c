@@ -64,10 +64,28 @@ void	line_saver(char *cmd, int *i)
 	(*i)++;
 }
 
-void	ft_export2(char **cmd, char ***env, int i)
+static void	ft_export3(char ***env, int i, char *lf, char **cmd)
+{
+	int j;
+
+	j = 0;
+	while ((*env)[j] != NULL)
+	{
+		if (!ft_strncmp(lf, (*env)[j], strlen(lf)))
+		{
+			free((*env)[j]);
+			(*env)[j] = ft_strdup(cmd[i]);
+			break ;
+		}
+		j++;
+	}
+	if ((*env)[j] == NULL)
+		*env = new_env(env, cmd[i]);
+}
+
+static void	ft_export2(char **cmd, char ***env, int i)
 {
 	char	*lf;
-	int		j;
 
 	while (!ft_strncmp(cmd[i], "-p", strlen(cmd[i])) && cmd[i + 1] != NULL)
 		i++;
@@ -79,21 +97,11 @@ void	ft_export2(char **cmd, char ***env, int i)
 			continue ;
 		}
 		lf = minisplit(cmd[i], '=');
+		if(!lf)
+			lf = ft_strdup(cmd[i]);
 		if (lf == NULL && i++)
 			continue ;
-		j = 0;
-		while ((*env)[j] != NULL)
-		{
-			if (!ft_strncmp(lf, (*env)[j], strlen(lf)))
-			{
-				free((*env)[j]);
-				(*env)[j] = ft_strdup(cmd[i]);
-				break ;
-			}
-			j++;
-		}
-		if ((*env)[j] == NULL)
-			*env = new_env(env, cmd[i]);
+		ft_export3(env, i, lf, cmd);
 		i++;
 		free(lf);
 	}

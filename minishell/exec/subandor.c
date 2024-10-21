@@ -78,6 +78,7 @@ int	ft_sub(t_execs *exec)
 	}
 	else
 		waitpid(pid, &err, 0);
+	printf("CUrrent error %d\n", err);
 	if (err == 1)
 		err = 333;
 	return (err);

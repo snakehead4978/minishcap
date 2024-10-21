@@ -41,7 +41,6 @@ static t_list	*argument(char *arg, t_execs *exec)
 		lst = lst->next;
 	}
 	lst = resplitter(tmp);
-	printlist(lst, strprint);
 	return (lst);
 }
 

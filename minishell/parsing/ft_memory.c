@@ -41,7 +41,7 @@ void	*ft_calloc(size_t nmemb, size_t size)
 	i = nmemb * size;
 	if (i == 0)
 	{
-		new = malloc(0);
+		new = malloc(1);
 		if (!new)
 			return (0);
 		*new = 0;

@@ -21,9 +21,8 @@ int	ft_pwd(t_execs *execs)
 	((t_execcmd *)execs->cmd)->args = 0;
 	pwd = getcwd(NULL, 0);
 	if (!pwd)
-		return (write(1, "Minishell: error: getcwd failed\n", 22), 333);
-	if (write(1, pwd, ft_strlen(pwd)) < 0 || write(1, "\n", 1) < 0)
-		write(1, "Error: write failed\n", 21);
+		return (write(STDERR_FILENO, "Minishell: error: getcwd failed\n", 22), 333);
+	printf("%s\n", pwd);
 	free(pwd);
 	return (0);
 }

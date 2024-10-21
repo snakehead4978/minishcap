@@ -156,7 +156,10 @@ int	arrayfree(char **array)
 	if (!array)
 		return (1);
 	while (array[i])
+	{
+		// printf("FREEING :%s$\n", array[i]);
 		free(array[i++]);
+	}
 	free(array[i]);
 	free(array);
 	return (0);

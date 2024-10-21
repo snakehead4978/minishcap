@@ -51,6 +51,7 @@ char	**args_malloc(int argc, char *ptr_arg, char *ptr_earg, char **args)
 	}
 	ret[i] = ft_strdup_arg(ptr_arg, ptr_earg);
 	ret[++i] = NULL;
+	printf("ARGS %d %d\n", argc + 2, i);
 	return (ret);
 }
 

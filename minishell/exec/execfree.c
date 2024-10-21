@@ -73,13 +73,14 @@ static int	ft_sorterfree(t_execs *exec, t_cmd *cmd)
 {
 	exec->cmd = cmd;
 	if (!cmd)
-		return (0);
+		return (free(cmd), 0);
 	if (cmd->type == EXEC)
 		ft_execcfree(exec);
 	else if (cmd->type == SUB || cmd->type == REDIR || cmd->type == HERE)
 		ft_solo(exec);
 	else if (cmd->type == PIPE || cmd->type == AND || cmd->type == OR)
 		ft_branch(exec);
+	free(cmd);
 	return (0);
 }
 

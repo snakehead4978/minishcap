@@ -27,7 +27,8 @@ int	ft_env(t_execs *execs)
 		return (0);
 	while (execs->shell->env[i])
 	{
-		printf("%s\n", ((t_shell *)execs->shell)->env[i]);
+		if (ft_strchr(execs->shell->env[i], '='))
+			printf("%s\n", ((t_shell *)execs->shell)->env[i]);
 		i++;
 	}
 	return (0);

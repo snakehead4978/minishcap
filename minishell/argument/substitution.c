@@ -75,7 +75,7 @@ static char	*getdollar(char **str, int final, t_execs *exec)
 		if (!sub)
 			return (0);
 		*str = tmp + 1;
-		var = getenv(sub);
+		var = get_env(sub, exec->shell->env);
 		free(sub);
 		if (!var)
 			return (ft_calloc(sizeof(char), 1));
@@ -88,7 +88,7 @@ static char	*getdollar(char **str, int final, t_execs *exec)
 		sub = ft_substr(*str, 1, tmp - *str - 1);
 		if (!sub)
 			return (0);
-		var = getenv(sub);
+		var = get_env(sub, exec->shell->env);
 		*str = tmp;
 		free(sub);
 		if (!var)

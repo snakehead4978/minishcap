@@ -80,3 +80,19 @@ int	ft_isalpha(int c)
 {
 	return ((c >= 65 && c <= 90) || (c >= 97 && c <= 122));
 }
+
+char	*get_env(char *name, char **env)
+{
+	int		i;
+	int		k;
+	
+	k = ft_strlen(name);
+	i = 0;
+	while (env[i])
+	{
+		if ((!ft_strncmp(env[i], name, k)) && env[i][k] == '=')
+			return (ft_strdup(env[i] + k + 1));
+		i++;
+	}
+	return (NULL);
+}
