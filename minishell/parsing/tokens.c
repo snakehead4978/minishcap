@@ -15,24 +15,34 @@
 static char	*other_token(char *temp, int *check)
 {
 	char	a;
+	char 	lf[2];
 
 	a = *temp;
 	if (!*temp)
 		*check = 0;
 	else
 		*check = 'a';
-	if (a == '\"' || a == '\'')
+		
+	while (temp && *temp == (char)a && (a == '\"' || a == '\''))
 	{
 		temp++;
+		lf[0] = (char)a;
+		lf[1] = '\0';
 		while (temp && *temp != a)
-			temp++;
+		{
+			if(!ft_strchr(lf, *temp))
+				temp++;
+		}
 		temp++;
 		if (*temp == '\'' || *temp == '\"')
-			other_token(temp, check);
+			temp = other_token(temp, check);
 	}
-	else
-		while (*temp && !ft_strchr(" \t\n\r\v<>()|&", *temp))
+	while (*temp && !ft_strchr(" \t\n\r\v<>()|&", *temp))
+	{
 			temp++;
+		if(*temp == '\'' || *temp == '\"')
+			temp = other_token(temp, check);
+	}
 	return (temp);
 }
 

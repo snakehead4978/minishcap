@@ -12,12 +12,23 @@
 
 #include "minishell.h"
 
-void	*parsecmd(t_shell **shell, char *str)
+int	parsecmd(t_shell **shell, char *str)
 {
-	if (str[0] == '\0' || quote_check(str) || lexer(shell, str))
+	if (str[0] == '\0')
 	{
 		(*shell)->tree = 0;
 		return (0);
+	}
+	if(quote_check(str))
+	{
+		write(2, "Unclosed quote(s)\n", 19);
+		(*shell)->tree = 0;
+		return (2);
+	}
+	if(lexer(shell, str))
+	{
+		(*shell)->tree = 0;
+		return (2);
 	}
 	(*shell)->tree = parseline(*shell, &str);
 	return (0);

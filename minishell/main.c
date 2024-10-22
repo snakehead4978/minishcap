@@ -79,8 +79,10 @@ int	main(int ac, char **av, char **ev)
 		if (!buff)
 			break ;
 		err = checkerr(err);
+		// Choper le err 2 a partir de parsecmd en cas de fail
+		// err = parsecmd(&shell, buff);
 		parsecmd(&shell, buff);
-		// print_cmd(shell->tree, 0);
+		print_cmd(shell->tree, 0);
 		err = checkerr(err);
 		err = executer(shell, err);
 		add_history(buff);
