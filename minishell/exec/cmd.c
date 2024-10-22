@@ -6,7 +6,7 @@
 /*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 19:03:54 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/10/21 03:27:02 by snek             ###   ########.fr       */
+/*   Updated: 2024/10/22 02:21:20 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,7 @@ int	ft_exec(t_execs *exec)
 		return (333);
 	if (!isbuiltin(args[0]))
 	{
+		signals_exec();
 		pid = fork();
 		if (!pid)
 		{
@@ -159,7 +160,17 @@ int	ft_exec(t_execs *exec)
 			exit(err);
 		}
 		waitpid(pid, &err, 0);
+		sleep(5);
 		printf("cureent numb %d!\n", err);
+		if (g_bigsignal == SIGINT)
+		{
+			printf("heelo my friend \n");
+			// write(2, "\n", 1);
+			// rl_on_new_line();
+			// rl_replace_line("", 0);
+			// rl_redisplay();
+		}
+		signals();
 		if (err == 131)
 			write(2, "Quit (core dumped)\n", 20);
 	}
@@ -171,7 +182,6 @@ int	ft_exec(t_execs *exec)
 		execfree(exec);
 	else
 		exec->ret = err;
-	// printf("NUMB%d\n", err);
 	return (err);
 }
 
@@ -212,9 +222,6 @@ int	executer(t_shell *shell, int err)
 		return (err);
 	err = ft_sorter(exec, exec->shell->tree);
 	if (err != 1)
-	{
-		printf("FREEING TIME!!!\n");
 		execfree(exec);
-	}
 	return (err);
 }

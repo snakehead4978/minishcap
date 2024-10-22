@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memory2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
+/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 16:09:08 by dakojic           #+#    #+#             */
-/*   Updated: 2024/10/20 19:50:23 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/10/22 01:59:00 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,7 @@ char	**args_malloc(int argc, char *ptr_arg, char *ptr_earg, char **args)
 	}
 	ret[i] = ft_strdup_arg(ptr_arg, ptr_earg);
 	ret[++i] = NULL;
-	printf("ARGS %d %d\n", argc + 2, i);
-	return (ret);
+	return (arrayfree(args), ret);
 }
 
 char	*ft_filecpy(char *file, char *efile)
