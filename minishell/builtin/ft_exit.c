@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
+/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 16:17:13 by dakojic           #+#    #+#             */
-/*   Updated: 2024/10/21 12:12:42 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/10/23 00:30:27 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,19 +62,14 @@ static long long	ret_exit(char *x)
 int	ft_exit(t_execs *ex)
 {
 	int	ret;
-	t_shell			*shell;
 	char			**args;
 
 	ret = ex->ret;
 	args = ((t_execcmd *)ex->cmd)->args;
 	if (args[1])
 		ret = (unsigned int)ret_exit(args[1]);
-	shell = ex->shell;
-	execfree(ex);
-	arrayfree(shell->env);
-	free(shell);
 	rl_clear_history();
 	write(2, "exit\n", 5);
-	printf("error: %d \n", ret);
-	exit(ret);
+	// printf("error: %d \n", ret);
+	return (exit_execfree(ex, ret));
 }

@@ -6,7 +6,7 @@
 /*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 14:56:27 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/10/21 02:55:36 by snek             ###   ########.fr       */
+/*   Updated: 2024/10/22 18:47:52 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static char	*getdollar(char **str, int final, t_execs *exec)
 		free(sub);
 		if (!var)
 			return (ft_calloc(sizeof(char), 1));
-		return (ft_strdup(var));
+		return (var);
 	}
 	else
 	{
@@ -93,7 +93,7 @@ static char	*getdollar(char **str, int final, t_execs *exec)
 		free(sub);
 		if (!var)
 			return (ft_calloc(sizeof(char), 1));
-		return (ft_strdup(var));
+		return (var);
 	}
 }
 

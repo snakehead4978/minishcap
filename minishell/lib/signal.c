@@ -6,7 +6,7 @@
 /*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 19:27:09 by dakojic           #+#    #+#             */
-/*   Updated: 2024/10/22 02:19:36 by snek             ###   ########.fr       */
+/*   Updated: 2024/10/22 18:16:58 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ static void	catcher(int signum)
 {
 	if (signum == SIGINT)
 	{
-		write(2, "IM IN MINISHELL MODE\n", 21);
 		g_bigsignal = SIGINT;
 		write(2, "\n", 1);
 		rl_on_new_line();

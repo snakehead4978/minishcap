@@ -67,6 +67,6 @@ fclean: clean
 re: fclean all
 
 valg: re
-	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=supp.supp -s ./$(NAME)
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=supp.supp -s --track-fds=yes ./$(NAME)
 
 .PHONY: all clean fclean re valg

@@ -6,7 +6,7 @@
 /*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 19:03:54 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/10/22 02:21:20 by snek             ###   ########.fr       */
+/*   Updated: 2024/10/23 03:01:34 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ static int	ft_setfds(t_execs *exec)
 			fdout = fds->fd;
 		list = list->next;
 	}
+	// printf("DUPING %d %d\n", fdin, fdout);
 	if (dup2(fdin, 0) == -1 || dup2(fdout, 1) == -1)
 		return (1);
 	return (0);
@@ -46,6 +47,8 @@ static int	ft_closeallfds(t_execs *exec)
 		close(((t_fds *)lst->data)->fd);
 		lst = lst->next;
 	}
+	ft_listfree(&exec->fds, free);
+	exec->fds = 0;
 	return (0);
 }
 
@@ -73,6 +76,7 @@ static int	builtin(t_execs *exec)
 	int	command;
 	int	err;
 
+	ft_setfds(exec);
 	command = isbuiltin(((t_execcmd *)exec->cmd)->args[0]);
 	if (command == 1)
 		err = ft_echo(exec);
@@ -128,21 +132,19 @@ int	ft_exec(t_execs *exec)
 	char		**args;
 	int			pid;
 	int			err;
-	t_shell		*shell;
 
 	if (!exec->cmd || !((t_execcmd *)exec->cmd)->args)
 		return (0);
 	err = 0;
 	cmds = (t_execcmd *)exec->cmd;
 	args = cmds->args;
-	if (ft_setfds(exec))
-		return (333);
 	if (!isbuiltin(args[0]))
 	{
-		signals_exec();
 		pid = fork();
 		if (!pid)
 		{
+			if (ft_setfds(exec))
+				exit_execfree(exec, 333);
 			ft_closeallfds(exec);
 			err = ft_command(exec, cmds);
 			if (!err)
@@ -151,26 +153,13 @@ int	ft_exec(t_execs *exec)
 				execve(args[0], args, exec->shell->env);
 				signal(SIGQUIT, SIG_IGN);
 			}
-			ft_listfree(&exec->fds, fdsfree);
-			shell = exec->shell;
-			execfree(exec);
-			arrayfree(shell->env);
-			free(shell);
-			printf("cureent err%d!\n", err);
-			exit(err);
+			exit_execfree(exec, err);
 		}
 		waitpid(pid, &err, 0);
-		sleep(5);
-		printf("cureent numb %d!\n", err);
-		if (g_bigsignal == SIGINT)
-		{
-			printf("heelo my friend \n");
-			// write(2, "\n", 1);
-			// rl_on_new_line();
-			// rl_replace_line("", 0);
-			// rl_redisplay();
-		}
-		signals();
+		if (WIFEXITED(err))
+			err = WEXITSTATUS(err);
+		if (err == 1)
+			err = 333;
 		if (err == 131)
 			write(2, "Quit (core dumped)\n", 20);
 	}
@@ -178,10 +167,6 @@ int	ft_exec(t_execs *exec)
 		err = builtin(exec);
 	if (g_bigsignal == SIGINT)
 		err = 130;
-	if (err == 1)
-		execfree(exec);
-	else
-		exec->ret = err;
 	return (err);
 }
 
@@ -200,12 +185,12 @@ int	ft_expandcmd(t_execs *exec, t_cmd *cmd)
 			return (0);
 		command->args = args(command->args, exec);
 		if (!command->args)
-			return (execfree(exec), 1);
+			return (1);
 	}
 	return (0);
 }
 
-int	executer(t_shell *shell, int err)
+int	executer(t_shell *shell, int err, char *buff)
 {
 	t_execs	*exec;
 
@@ -215,11 +200,12 @@ int	executer(t_shell *shell, int err)
 	exec->shell = shell;
 	exec->fds = 0;
 	exec->ret = err;
+	exec->buff = buff;
 	exec->stdcopies[0] = dup(0);
 	exec->stdcopies[1] = dup(1);
 	err = ft_expandcmd(exec, shell->tree);
 	if (err)
-		return (err);
+		return (execfree(exec), err);
 	err = ft_sorter(exec, exec->shell->tree);
 	if (err != 1)
 		execfree(exec);

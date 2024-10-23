@@ -6,7 +6,7 @@
 /*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 21:55:37 by snek              #+#    #+#             */
-/*   Updated: 2024/10/21 03:22:17 by snek             ###   ########.fr       */
+/*   Updated: 2024/10/22 18:38:17 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	ft_redir(t_execs *exec)
 	arrayfree(all);
 	fds = listnew(fdsnew(fd, FD_FILEOUT), fdsfree);
 	if (cmds->mode == O_RDONLY)
-		((t_fds *)fds)->type = FD_FILEIN;
+		((t_fds *)fds->data)->type = FD_FILEIN;
 	if (!listaddback(&exec->fds, fds, fdsfree))
 		return (execfree(exec), 1);
 	err = ft_sorter(exec, cmds->cmd);

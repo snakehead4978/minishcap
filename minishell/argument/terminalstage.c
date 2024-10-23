@@ -6,7 +6,7 @@
 /*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 17:03:32 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/10/21 01:08:08 by snek             ###   ########.fr       */
+/*   Updated: 2024/10/23 03:01:01 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,5 +148,8 @@ t_list	*resplitter(t_list *lst)
 		if (!listaddback(&final, node, free))
 			return (free(str), ft_listfree(&lst, free), NULL);
 	}
+	if (!i)
+		if (!listaddback(&final, listnew(strdup(str), free), free))
+			return (free(str), ft_listfree(&lst, free), NULL);
 	return (free(str), ft_listfree(&lst, free), final);
 }

@@ -6,7 +6,7 @@
 /*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 22:11:04 by snek              #+#    #+#             */
-/*   Updated: 2024/10/21 03:21:47 by snek             ###   ########.fr       */
+/*   Updated: 2024/10/23 02:02:30 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int	ft_pipe(t_execs *exec)
 	t_list	*fds;
 	t_fds	*tmp;
 	int	err;
+	t_shell	*shell;
+	char	*buff;
 
 	if (!exec->cmd)
 		return (0);
@@ -30,15 +32,20 @@ int	ft_pipe(t_execs *exec)
 	if (!fd[2])
 	{
 		close(fd[0]);
+		shell = exec->shell;
+		buff = exec->buff;
 		tmp->fd = fd[1];
-		tmp->type= FD_FILEOUT;
+		tmp->type = FD_FILEOUT;
 		if (!listaddback(&exec->fds, fds, fdsfree))
-			return (execfree(exec), 1);
+			exit_execfree(exec, 1);
 		if (ft_expandcmd(exec, cmds->left))
-			exit(1);
+			exit_execfree(exec, 1);
 		err = ft_sorter(exec, cmds->left);
 		if (err != 1)
 			execfree(exec);
+		free(buff);
+		arrayfree(shell->env);
+		free(shell);
 		exit(err);
 	}
 	else
@@ -49,7 +56,7 @@ int	ft_pipe(t_execs *exec)
 		if (!listaddback(&exec->fds, fds, fdsfree))
 			return (execfree(exec), 1);
 		if (ft_expandcmd(exec, cmds->right))
-			return (1);
+			return (execfree(exec), 1);
 		err = ft_sorter(exec, cmds->right);
 		waitpid(fd[2], &fd[2], 0);
 	}

@@ -6,7 +6,7 @@
 /*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 22:20:13 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/10/21 03:22:08 by snek             ###   ########.fr       */
+/*   Updated: 2024/10/23 02:08:46 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,13 @@ int	ft_and(t_execs *exec)
 	if (!exec->cmd)
 		return (0);
 	cmds = (t_andcmd *)exec->cmd;
-	err = ft_expandcmd(exec, cmds->left);
-	if (err)
-		return (err);
+	if (ft_expandcmd(exec, cmds->left))
+		return (execfree(exec), 1);
 	err = ft_sorter(exec, cmds->left);
 	if (!err)
 	{
-		err = ft_expandcmd(exec, cmds->right);
-		if (err)
-			return (err);		
+		if (ft_expandcmd(exec, cmds->right))
+			return (execfree(exec), 1);
 		err = ft_sorter(exec, cmds->right);
 	}
 	return (err);
@@ -42,15 +40,13 @@ int	ft_or(t_execs *exec)
 	if (!exec->cmd)
 		return (0);
 	cmds = (t_orcmd *)exec->cmd;
-	err = ft_expandcmd(exec, cmds->left);
-	if (err)
-		return (err);
+	if (ft_expandcmd(exec, cmds->left))
+		return (execfree(exec), 1);
 	err = ft_sorter(exec, cmds->left);
 	if (err != 0 && err != 1)
 	{
-		err = ft_expandcmd(exec, cmds->right);
-		if (err)
-			return (err);		
+		if (ft_expandcmd(exec, cmds->right))
+			return (execfree(exec), 1);
 		err = ft_sorter(exec, cmds->right);
 	}
 	return (err);
@@ -61,6 +57,8 @@ int	ft_sub(t_execs *exec)
 	t_sub	*cmds;
 	int	pid;
 	int	err;
+	t_shell	*shell;
+	char	*buff;
 
 	if (!exec->cmd)
 		return (0);
@@ -68,17 +66,20 @@ int	ft_sub(t_execs *exec)
 	pid = fork();
 	if (!pid)
 	{
-		err = ft_expandcmd(exec, cmds->cmd);
-		if (err)
-			exit(err);
+		shell = exec->shell;
+		buff = exec->buff;
+		if (ft_expandcmd(exec, cmds->cmd))
+			exit_execfree(exec, 1);
 		err = ft_sorter(exec, cmds->cmd);
 		if (err != 1)
 			execfree(exec);
+		arrayfree(shell->env);
+		free(buff);
+		free(shell);
 		exit(err);
 	}
 	else
 		waitpid(pid, &err, 0);
-	printf("CUrrent error %d\n", err);
 	if (err == 1)
 		err = 333;
 	return (err);

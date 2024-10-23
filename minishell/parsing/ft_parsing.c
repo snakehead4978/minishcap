@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parsing.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
+/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 13:11:45 by dakojic           #+#    #+#             */
-/*   Updated: 2024/10/20 19:49:57 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/10/23 00:43:14 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	parsecmd(t_shell **shell, char *str)
+int	parsecmd(t_shell **shell, char *str, int err)
 {
 	if (str[0] == '\0')
 	{
 		(*shell)->tree = 0;
-		return (0);
+		return (err);
 	}
 	if(quote_check(str))
 	{
@@ -31,7 +31,7 @@ int	parsecmd(t_shell **shell, char *str)
 		return (2);
 	}
 	(*shell)->tree = parseline(*shell, &str);
-	return (0);
+	return (err);
 }
 
 t_cmd	*parseline(t_shell *shell, char **ptr)

@@ -6,7 +6,7 @@
 /*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 14:37:54 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/10/22 02:06:03 by snek             ###   ########.fr       */
+/*   Updated: 2024/10/23 01:49:04 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,6 +179,7 @@ typedef struct s_execs
 	int ret;
 	t_cmd *cmd;
 	int stdcopies[2];
+	char	*buff;
 } t_execs;
 
 //	Lib and Useful Funcs
@@ -264,6 +265,7 @@ t_cmd *pipecmd(t_cmd *left, t_cmd *right);
 t_cmd *andcmd(t_cmd *left, t_cmd *right);
 t_cmd *orcmd(t_cmd *left, t_cmd *right);
 void ft_removefd(t_list *fds);
+int	exit_execfree(t_execs *exec, int err);
 
 //	Expansion
 t_list *expansion(char *str);
@@ -312,7 +314,7 @@ char **ft_pathsplit(char const *s, char c, char *bonus);
 int ft_command(t_execs *exec, t_execcmd *cmd);
 
 // Exec Main Func
-int executer(t_shell *shell, int err);
+int executer(t_shell *shell, int err, char *buff);
 
 // Exec Funcs
 int ft_sorter(t_execs *exec, t_cmd *cmd);
@@ -338,7 +340,7 @@ t_cmd *parse_double_node(t_shell *shell, char **ptr);
 t_cmd *parse_and(t_shell *shell, char **ptr);
 t_cmd *parse_or(t_shell *shell, char **ptr);
 t_cmd *parseline(t_shell *shell, char **ptr);
-void *parsecmd(t_shell **shell, char *str);
+int	parsecmd(t_shell **shell, char *str, int err);
 int quote_check(char *str);
 
 // Lexer

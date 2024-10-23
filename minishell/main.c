@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
+/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 15:21:26 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/10/20 20:30:08 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/10/23 01:45:06 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,10 +81,11 @@ int	main(int ac, char **av, char **ev)
 		err = checkerr(err);
 		// Choper le err 2 a partir de parsecmd en cas de fail
 		// err = parsecmd(&shell, buff);
-		parsecmd(&shell, buff);
+		err = parsecmd(&shell, buff, err);
+		// printf("current err: %d\n", err);
 		print_cmd(shell->tree, 0);
 		err = checkerr(err);
-		err = executer(shell, err);
+		err = executer(shell, err, buff);
 		add_history(buff);
 		free(buff);
 	}
