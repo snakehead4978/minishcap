@@ -6,7 +6,7 @@
 /*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 14:37:54 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/10/23 01:49:04 by snek             ###   ########.fr       */
+/*   Updated: 2024/10/25 01:53:46 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,9 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
+#include <termios.h>
+#include <sys/ioctl.h>
+
 
 extern int g_bigsignal;
 
