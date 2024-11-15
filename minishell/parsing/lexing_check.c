@@ -17,21 +17,21 @@ static int	type_check3(t_lexer *lex, int *i)
 	if (lex->type == LEX_PIPE)
 	{
 		if (prev_check(lex, "17"))
-			return (ft_printerror("Minishell: syntax error near\
+			return (ft_printerror("Minishell: syntax error near \
 unexpected token `|\'", 0, 0), 1);
 	}
 	else if (lex->type == LEX_OPEN && ++(*i))
 	{
 		if (prev_check(lex, "-04568"))
 		{
-			return (ft_printerror("Minishell: syntax error near\
+			return (ft_printerror("Minishell: syntax error near \
 unexpected token `(\'", 0, 0), 1);
 		}
 	}
 	else if (lex->type == LEX_CLOSE && (*i)-- >= -1)
 	{
 		if (prev_check(lex, "17"))
-			return (ft_printerror("Minishell: syntax error near\
+			return (ft_printerror("Minishell: syntax error near \
 unexpected token `)\'", 0, 0), 1);
 	}
 	return (0);
@@ -47,19 +47,19 @@ static int	type_check2(t_lexer *lex)
 	else if (lex->type == LEX_REDIROUT)
 	{
 		if (prev_check(lex, "-0145678"))
-			return (ft_printerror("Minishell: syntax error near\
+			return (ft_printerror("Minishell: syntax error near \
 unexpected token `<'", 0, 0), 1);
 	}
 	else if (lex->type == LEX_REDIRIN)
 	{
 		if (prev_check(lex, "-0145678"))
-			return (ft_printerror("Minishell: syntax\
+			return (ft_printerror("Minishell: syntax \
 error near unexpected token `>'", 0, 0), 1);
 	}
 	else if (lex->type == LEX_AND)
 	{
 		if (prev_check(lex, "17"))
-			return (ft_printerror("Minishell:  syntax error near\
+			return (ft_printerror("Minishell:  syntax error near \
 unexpected token `&&\'", 0, 0), 1);
 	}
 	return (0);
