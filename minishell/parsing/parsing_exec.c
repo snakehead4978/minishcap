@@ -73,7 +73,7 @@ t_cmd	*parseexec(t_shell *shell, char **ps, int check, int argc)
 	parseredirs_primo(&shell->pipe, &ret, ps, &check);
 	if (!ret)
 		return (NULL);
-	while (!lfsymbol(ps, "|)<>&\0"))
+	while (!lfsymbol(ps, "|)<>\0") && !lfsymbol2(ps, "&"))
 	{
 		if (!parse_single_argument(cmd, ps, argc))
 			break ;

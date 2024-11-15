@@ -23,6 +23,28 @@ char	*ft_strchr(char *s, char c)
 	return (0);
 }
 
+char	*ft_strchr2(char *s, char c)
+{
+	int i;
+
+	i = 0;
+
+	while (s[i])
+	{
+		if (s[i] == c)
+		{
+			printf("Simple & HERE \n");
+			if(s[i + 1] == c)
+			{
+				printf("Double && HERE\n");
+				return (s);
+			}
+		}
+		i++;
+	}
+	return (0);
+}
+
 int	ft_strlen(const char *s)
 {
 	int	i;

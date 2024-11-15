@@ -30,7 +30,7 @@ static char	*ft_strdup_lex(char *src, int size)
 	return (new);
 }
 
-static int	add_lex_node(t_lexer **lex, char *str, int *i)
+int	add_lex_node(t_lexer **lex, char *str, int *i)
 {
 	t_lexer	*new;
 	int		size;
@@ -41,8 +41,10 @@ static int	add_lex_node(t_lexer **lex, char *str, int *i)
 	before = *i;
 	if (!new)
 		return (1);
-	while (str[*i] && (ft_strchr(" \t\n\r\v><|&()", str[*i]) == 0))
-	{
+	while (str[*i] && (ft_strchr(" \t\n\r\v><|()", str[*i]) == 0))
+	{ 
+		if(str[*i] == '&' && str[*i + 1] && str[*i + 1] == '&')
+			break;
 		(*i)++;
 		size++;
 	}

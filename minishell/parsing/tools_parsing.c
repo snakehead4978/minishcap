@@ -22,3 +22,14 @@ int	lfsymbol(char **ptr, char *c)
 	*ptr = temp;
 	return (*ptr && ft_strchr(c, *temp));
 }
+
+int	lfsymbol2(char **ptr, char *c)
+{
+	char	*temp;
+
+	temp = *ptr;
+	while (*temp && ft_strchr(" \t\n\r\v", *temp))
+		temp++;
+	*ptr = temp;
+	return (*ptr && ft_strchr(c, *temp) && ft_strchr(c, *(temp + 1)));
+}

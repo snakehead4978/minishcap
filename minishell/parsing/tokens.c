@@ -22,7 +22,6 @@ static char	*other_token(char *temp, int *check)
 		*check = 0;
 	else
 		*check = 'a';
-		
 	while (temp && *temp == (char)a && (a == '\"' || a == '\''))
 	{
 		temp++;
@@ -37,11 +36,13 @@ static char	*other_token(char *temp, int *check)
 		if (*temp == '\'' || *temp == '\"')
 			temp = other_token(temp, check);
 	}
-	while (*temp && !ft_strchr(" \t\n\r\v<>()|&", *temp))
+	while (*temp && !ft_strchr(" \t\n\r\v<>()|", *temp))
 	{
+		if(*temp == '&' && (*(temp + 1) == '&'))
+				break ;
 			temp++;
-		if(*temp == '\'' || *temp == '\"')
-			temp = other_token(temp, check);
+			if(*temp == '\'' || *temp == '\"')
+				temp = other_token(temp, check);
 	}
 	return (temp);
 }
@@ -82,11 +83,16 @@ int	gettoken(char **ptr, char **ptr_token, char **ptr_endtoken)
 	if (ptr_token)
 		*ptr_token = temp;
 	check = *temp;
-	if (ft_strchr("<>()|&", check))
+	if (ft_strchr("<>()|", check))
 	{
 		temp++;
 		if (check == *temp && check != '(' && check != ')')
 			extratoken(&temp, &check);
+	}
+	else if(*temp == '&' && *(temp + 1) == '&')
+	{
+		temp++;
+		extratoken(&temp, &check);
 	}
 	else
 		temp = other_token(temp, &check);

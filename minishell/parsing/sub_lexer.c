@@ -40,10 +40,18 @@ static int	type_return(int *type, char symbol, char *str, int *i)
 static int	and_return(t_lexer **new, char *str, int *i)
 {
 	(*new)->type = LEX_AND;
-	if (str[++(*i)] == '&')
+	if (str[*i + 1] == '&')
+	{
+		++*i;
 		return (0);
+	}
 	else
-		return (1);
+	{
+		(*new)->type = LEX_WORD;
+		if(add_lex_node(new, str, i))
+			return (1);
+	}
+	return (0);
 }
 
 int	sub_lexer(t_lexer **lex, char *str, int *i)
