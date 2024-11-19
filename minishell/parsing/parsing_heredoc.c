@@ -6,7 +6,7 @@
 /*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 11:24:44 by dakojic           #+#    #+#             */
-/*   Updated: 2024/10/20 19:48:00 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/19 20:14:24 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	init_heredoc(t_lexer *lex, t_shell **shell)
 	node->str = heredoc_filler(temp);
 	free(temp);
 	if (!node->str)
-		return (1);
+		return (free(node), 1);
 	node->stored = 0;
 	node->next = NULL;
 	ft_pipeaddback(shell, node);
