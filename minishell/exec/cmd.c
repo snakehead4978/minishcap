@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 19:03:54 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/10/23 03:01:34 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/19 19:52:57 by jla-chon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,10 @@ int	ft_exec(t_execs *exec)
 			}
 			exit_execfree(exec, err);
 		}
+		signal(SIGINT, SIG_IGN);
 		waitpid(pid, &err, 0);
+		if (WIFSIGNALED(err) && WTERMSIG(err) == SIGINT)
+			g_bigsignal = SIGINT;
 		if (WIFEXITED(err))
 			err = WEXITSTATUS(err);
 		if (err == 1)
@@ -167,7 +170,7 @@ int	ft_exec(t_execs *exec)
 		err = builtin(exec);
 	if (g_bigsignal == SIGINT)
 		err = 130;
-	return (err);
+	return (signals(), err);
 }
 
 int	ft_expandcmd(t_execs *exec, t_cmd *cmd)
