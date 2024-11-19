@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 15:21:26 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/11/15 06:38:29 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/19 19:38:37 by jla-chon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ int	main(int ac, char **av, char **ev)
 		return (1);
 	while (1)
 	{
-		g_bigsignal = 0;
 		buff = readline("minishell:~$");
 		if (!buff)
 			break ;
@@ -86,6 +85,7 @@ int	main(int ac, char **av, char **ev)
 		print_cmd(shell->tree, 0);
 		err = checkerr(err);
 		err = executer(shell, err, buff);
+		err = checkerr(err);
 		add_history(buff);
 		free(buff);
 	}
