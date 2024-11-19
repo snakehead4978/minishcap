@@ -6,7 +6,7 @@
 /*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 10:37:20 by dakojic           #+#    #+#             */
-/*   Updated: 2024/10/20 17:40:12 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/19 19:23:52 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,18 +37,22 @@ static int	type_return(int *type, char symbol, char *str, int *i)
 	return (j[0]);
 }
 
-static int	and_return(t_lexer **new, char *str, int *i)
+int	and_return(t_lexer **lex, char *str, int *i)
 {
-	(*new)->type = LEX_AND;
+	t_lexer	*new;
+
+	new = ft_calloc(sizeof(*new), 1);
+	if (!new)
+		return (1);
 	if (str[*i + 1] == '&')
 	{
+		(new)->type = LEX_AND;
 		++*i;
 		return (0);
 	}
 	else
 	{
-		(*new)->type = LEX_WORD;
-		if(add_lex_node(new, str, i))
+		if(add_lex_node(lex, str, i))
 			return (1);
 	}
 	return (0);

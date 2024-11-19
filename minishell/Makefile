@@ -36,6 +36,8 @@ SRC_EXEC = cmd.c execfree.c ft_pathsplit.c heredoc.c path.c pipe.c redir.c suban
 
 SRC_MAIN = main.c printer.c
 
+SRC_TEST = test.c
+
 OBJ_BUILT = $(addprefix $(DIR_BUILT), $(SRC_BUILT:.c=.o))
 
 OBJ_LIB = $(addprefix $(DIR_LIB), $(SRC_LIB:.c=.o))
@@ -48,7 +50,11 @@ OBJ_EXEC = $(addprefix $(DIR_EXEC), $(SRC_EXEC:.c=.o))
 
 OBJ_MAIN = $(SRC_MAIN:.c=.o)
 
+OBJ_TEST = $(SRC_TEST:.c=.o)
+
 OBJ_ALL = $(OBJ_BUILT) $(OBJ_ARG) $(OBJ_LIB) $(OBJ_PARSE) $(OBJ_EXEC) $(OBJ_MAIN)
+
+OBJ_TESTER = $(OBJ_BUILT) $(OBJ_ARG) $(OBJ_LIB) $(OBJ_PARSE) $(OBJ_EXEC) $(OBJ_TEST)
 
 .c.o:
 	$(CC) $(CFLAGS) $(INC) -c $^ -o $@
@@ -69,4 +75,7 @@ re: fclean all
 valg: re
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=supp.supp -s --track-fds=yes ./$(NAME)
 
-.PHONY: all clean fclean re valg
+test: $(OBJ_TESTER)
+	$(CC) $(CFLAGS) $(INC) -o $@ $^ -lreadline
+
+.PHONY: all clean fclean re valg test

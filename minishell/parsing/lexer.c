@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 14:01:49 by dakojic           #+#    #+#             */
-/*   Updated: 2024/10/21 03:09:18 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/19 19:21:56 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	add_lex_node(t_lexer **lex, char *str, int *i)
 	while (str[*i] && (ft_strchr(" \t\n\r\v><|()", str[*i]) == 0))
 	{ 
 		if(str[*i] == '&' && str[*i + 1] && str[*i + 1] == '&')
-			break;
+				break;
 		(*i)++;
 		size++;
 	}
@@ -71,8 +71,16 @@ int	lexer(t_shell **shell, char *str)
 			i++;
 		if (str[i] && ft_strchr("><|&()", str[i]))
 		{
-			if (sub_lexer(&lexer, str, &i))
-				return (ft_printerror("Error", 0, 0), free_lexer(lexer), 1);
+			if(str[i] == '&')
+			{
+				if (and_return(&lexer, str, &i))
+					return (ft_printerror("Error", 0, 0), free_lexer(lexer), 1);
+			}
+			else
+			{
+				if(sub_lexer(&lexer, str, &i))
+					return (ft_printerror("Error", 0, 0), free_lexer(lexer), 1);
+			}
 			continue ;
 		}
 		if (str[i] && !ft_strchr(" \t\n\r\v><|&()", str[i]))

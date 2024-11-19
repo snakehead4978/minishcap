@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 23:43:13 by snek              #+#    #+#             */
-/*   Updated: 2024/11/15 06:59:42 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/19 18:52:48 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,70 +26,55 @@
 #include <unistd.h>
 #include <termios.h>
 #include <sys/ioctl.h>
+#include "minishell.h"
 
 int	g_bigsignal;
 
-
-static void	catcher(int signum)
+static char	**dupenv(char **ev)
 {
-	static int a;
+	char	**env;
+	int		i;
 
-	if (signum == SIGINT)
-	{
-		printf("caught %d\n", a++);
-		if (a == 2)
-			g_bigsignal = SIGINT;
-	}
+	if (!ev)
+		return (ft_calloc(1, sizeof(char *)));
+	i = 0;
+	while (ev[i])
+		i++;
+	env = ft_calloc(sizeof(char *), i + 1);
+	while (i--)
+		env[i] = ft_strdup(ev[i]);
+	return (env);
 }
 
-static void	catcher_exec(int signum)
+static t_shell	*fillshell(char **ev)
 {
-	if (signum == SIGINT)
-	{
-		g_bigsignal = SIGINT;
-		write(2, "HUH???\n", 7);
-	}
+	t_shell	*shell;
+
+	shell = ft_calloc(sizeof(t_shell), 1);
+	if (!shell)
+		return (0);
+	shell->env = dupenv(ev);
+	if (!shell->env)
+		return (free(shell), NULL);
+	shell->pipe = 0;
+	shell->tree = 0;
+	shell->type = SHELL;
+	return (shell);
 }
 
-void    signals(void)
+int main(int ac, char **av, char **ev)
 {
-    struct sigaction int_action;
 
-    int_action.sa_handler = catcher;
-    int_action.sa_flags = 0;
-    sigemptyset(&int_action.sa_mask);
-	sigaddset(&int_action.sa_mask, SIGINT);
-    sigaction(SIGINT, &int_action, 0);
-    signal(SIGQUIT, SIG_IGN);
-}
+	int err = 0; 
+	t_shell *shell;
+	char *buff;
 
-int main(void)
-{
-	int pid;
-
-	g_bigsignal = 0;
-	pid = fork();
-	if (!pid)
-	{
-		signals();
-		while (g_bigsignal != SIGINT)
-			;
-		execve("/bin/cat", (char *[]){"/bin/cat", 0}, 0);
-	}
-	else
-	{
-		int err;
-		int stat;
-
-		err = 0;
-		stat = 0;
-		printf("WAITING\n");
-		signals();
-		while ((err == -1 && errno == EINTR) || !err)
-			err = waitpid(pid, &stat, 0);
-		printf("Done waiting %d\n", err);
-		perror("shell");
-		signal(SIGINT, SIG_DFL);
-	}
-	return (0);
+	buff = strdup("echo &");
+	if (!ac || !av)
+		return (333);
+	shell = fillshell(ev);
+	err = parsecmd(&shell, buff, err);
+	arrayfree(shell->env);
+	free(shell);
+	return (err);
 }

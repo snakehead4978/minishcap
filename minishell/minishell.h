@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 14:37:54 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/10/25 01:53:46 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/19 19:24:06 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -359,6 +359,7 @@ char *heredoc_filler(char *end);
 int init_heredoc(t_lexer *lex, t_shell **shell);
 int lexing_check(t_shell **shell, t_lexer *lexer);
 void free_lexer(t_lexer *lexer);
+int	and_return(t_lexer **new, char *str, int *i);
 
 int add_quote_node(t_lexer **lex, char *str, int *i,
 				   char c);
