@@ -6,7 +6,7 @@
 /*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:01:59 by dakojic           #+#    #+#             */
-/*   Updated: 2024/11/20 15:49:36 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/20 16:29:40 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,11 @@ char	**new_env(char ***env, char *cmd)
 	return (new);
 }
 
-void	line_saver(char *cmd, int *i)
+void	line_saver(char *cmd, int *i, int *ret)
 {
 	ft_printerror("minishell: export: `", cmd, "': not a valid identifier");
 	(*i)++;
+	*ret = 1;
 }
 
 static void	ft_export3(char ***env, int i, char *lf, char **cmd)
@@ -84,12 +85,15 @@ static void	ft_export3(char ***env, int i, char *lf, char **cmd)
 }
 int modded_isalphanum(char *s)
 {
-	while(*s++)
-		if((*s < 'a' && *s >'z') && (*s < 'A' && *s >'Z') && (*s < '0' && *s >'9') && *s != '_')
-			return (*s);
+	while(*s)
+	{
+		if((*s < 'a' || *s >'z') && (*s < 'A' || *s >'Z') && (*s < '0' || *s >'9') && *s != '_')
+			return (1);
+		++s;
+	}
 	return (0);
 }
-static void	ft_export2(char **cmd, char ***env, int i)
+static void	ft_export2(char **cmd, char ***env, int i, int *ret)
 {
 	char	*lf;
 
@@ -99,7 +103,7 @@ static void	ft_export2(char **cmd, char ***env, int i)
 	{
 		if (!ft_isalpha(cmd[i][0]) && cmd[i][0] != '_')
 		{
-			line_saver(cmd[i], &i);
+			line_saver(cmd[i], &i, ret);
 			continue ;
 		}
 		lf = minisplit(cmd[i], '=');
@@ -107,7 +111,7 @@ static void	ft_export2(char **cmd, char ***env, int i)
 			lf = ft_strdup(cmd[i]);
 		if(modded_isalphanum(lf))
 		{
-			line_saver(lf, &i);
+			line_saver(lf, &i, ret);
 			free(lf);
 			continue;
 		}
@@ -123,7 +127,9 @@ int	ft_export(t_execs *execs)
 {
 	int		i;
 	char	**args;
+	int 	ret;
 
+	ret = 0;
 	args = ((t_execcmd *)execs->cmd)->args;
 	i = 1;
 	while (args[i] && (!ft_strncmp(args[i], "-p", ft_strlen((args[i])))
@@ -137,9 +143,9 @@ int	ft_export(t_execs *execs)
 		print_env(execs->shell->env);
 		return (0);
 	}
-	ft_export2(args, &(execs->shell->env), 1);
+	ft_export2(args, &(execs->shell->env), 1, &ret);
 	i = 0;
 	arrayfree(args);
 	((t_execcmd *)execs->cmd)->args = 0;
-	return (0);
+	return (ret);
 }
