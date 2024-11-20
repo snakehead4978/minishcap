@@ -6,7 +6,7 @@
 /*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 15:21:26 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/11/19 19:38:37 by jla-chon         ###   ########.fr       */
+/*   Updated: 2024/11/19 20:20:52 by jla-chon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	main(int ac, char **av, char **ev)
 		// err = parsecmd(&shell, buff);
 		err = parsecmd(&shell, buff, err);
 		// printf("current err: %d\n", err);
-		print_cmd(shell->tree, 0);
+		// print_cmd(shell->tree, 0);
 		err = checkerr(err);
 		err = executer(shell, err, buff);
 		err = checkerr(err);
