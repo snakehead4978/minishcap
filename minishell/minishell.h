@@ -6,7 +6,7 @@
 /*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 14:37:54 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/11/19 20:03:02 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/20 13:07:09 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ typedef enum e_lex
 	LEX_CLOSE = 7,
 	LEX_OR = 8,
 	LEX_HERE = 9,
-	LEX_APPEND = 10
+	LEX_APPEND = 10,
+	LEX_END = 11
 } t_lex;
 
 typedef enum e_type

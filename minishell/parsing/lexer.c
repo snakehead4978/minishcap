@@ -6,7 +6,7 @@
 /*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 14:01:49 by dakojic           #+#    #+#             */
-/*   Updated: 2024/11/19 19:21:56 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/20 13:11:30 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ int	add_lex_node(t_lexer **lex, char *str, int *i)
 	t_lexer	*new;
 	int		size;
 	int		before;
-
 	size = 0;
 	new = malloc(sizeof(*new));
 	before = *i;
@@ -55,7 +54,17 @@ int	add_lex_node(t_lexer **lex, char *str, int *i)
 	ft_lstadd_back(lex, &new);
 	return (0);
 }
+int add_ending_node(t_lexer **lexer)
+{
+	t_lexer *new;
 
+	new = ft_calloc(sizeof(*new), 1);
+	if(!new)
+		return (1);
+	new->type = LEX_END;
+	ft_lstadd_back(lexer, &new);
+	return (0);
+}
 int	lexer(t_shell **shell, char *str)
 {
 	int		i;
@@ -70,23 +79,27 @@ int	lexer(t_shell **shell, char *str)
 		while (str[i] && ft_strchr(" \t\n\r\v", str[i]))
 			i++;
 		if (str[i] && ft_strchr("><|&()", str[i]))
-		{
+		{	
 			if(str[i] == '&')
 			{
 				if (and_return(&lexer, str, &i))
-					return (ft_printerror("Error", 0, 0), free_lexer(lexer), 1);
+					return (ft_printerror("Error : Malloc and_return failed", 0, 0), free_lexer(lexer), 1);
+				continue;
 			}
 			else
-			{
-				if(sub_lexer(&lexer, str, &i))
-					return (ft_printerror("Error", 0, 0), free_lexer(lexer), 1);
-			}
-			continue ;
+				sub_lexer(&lexer, str, &i);
 		}
 		if (str[i] && !ft_strchr(" \t\n\r\v><|&()", str[i]))
 			if (add_lex_node(&lexer, str, &i))
 				return (free_lexer(lexer), 1);
 	}
+	// add_ending_node(&lexer);
+	// while(lexer)
+	// {
+		// printf("Type : %d\n", lexer->type);
+		// lexer = lexer->next;
+	// }
+	// (void)shell;
 	if (lexing_check(shell, lexer))
 		return (free_lexer(lexer), free_herepipe(shell), 1);
 	return (free_lexer(lexer), 0);

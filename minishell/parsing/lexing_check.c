@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexing_check.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 11:27:57 by dakojic           #+#    #+#             */
-/*   Updated: 2024/10/21 03:11:12 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/20 13:17:08 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,10 @@ near unexpected token ||", 0, 0), 1);
 	}
 	else if (lex->type == LEX_HERE)
 	{
-		if (prev_check(lex, "0145678") || next_check(lex, "1"))
+		if (prev_check(lex, "0145678"))
 			return (ft_printerror("Minishell: syntax error near \
 unexpected token `<<\'", 0, 0), 1);
-		if (init_heredoc(lex, shell))
+		if (!next_check(lex, "1") && init_heredoc(lex, shell))
 			return (1);
 	}
 	else if (lex->type == LEX_APPEND)
