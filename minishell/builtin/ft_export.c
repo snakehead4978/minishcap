@@ -6,7 +6,7 @@
 /*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:01:59 by dakojic           #+#    #+#             */
-/*   Updated: 2024/11/20 13:57:42 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/20 15:49:36 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,13 @@ static void	ft_export3(char ***env, int i, char *lf, char **cmd)
 	if ((*env)[j] == NULL)
 		*env = new_env(env, cmd[i]);
 }
-
+int modded_isalphanum(char *s)
+{
+	while(*s++)
+		if((*s < 'a' && *s >'z') && (*s < 'A' && *s >'Z') && (*s < '0' && *s >'9') && *s != '_')
+			return (*s);
+	return (0);
+}
 static void	ft_export2(char **cmd, char ***env, int i)
 {
 	char	*lf;
@@ -99,6 +105,12 @@ static void	ft_export2(char **cmd, char ***env, int i)
 		lf = minisplit(cmd[i], '=');
 		if(!lf)
 			lf = ft_strdup(cmd[i]);
+		if(modded_isalphanum(lf))
+		{
+			line_saver(lf, &i);
+			free(lf);
+			continue;
+		}
 		if (lf == NULL && i++)
 			continue ;
 		ft_export3(env, i, lf, cmd);
