@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 19:03:54 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/11/19 19:52:57 by jla-chon         ###   ########.fr       */
+/*   Updated: 2024/11/20 17:34:50 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,7 +187,7 @@ int	ft_expandcmd(t_execs *exec, t_cmd *cmd)
 		if (!command->args)
 			return (0);
 		command->args = args(command->args, exec);
-		if (!command->args)
+		if (!command->args || !command->args[0][0])
 			return (1);
 	}
 	return (0);

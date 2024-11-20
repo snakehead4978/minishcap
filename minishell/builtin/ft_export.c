@@ -6,7 +6,7 @@
 /*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:01:59 by dakojic           #+#    #+#             */
-/*   Updated: 2024/11/20 16:29:40 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/20 17:31:01 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,12 +132,13 @@ int	ft_export(t_execs *execs)
 	ret = 0;
 	args = ((t_execcmd *)execs->cmd)->args;
 	i = 1;
-	while (args[i] && (!ft_strncmp(args[i], "-p", ft_strlen((args[i])))
+	while (args[i] && (!ft_strncmp(args[i], "-p", 3)
 			&& (args[i + 1] != NULL)))
 		i++;
-	if (args[1] == NULL || (!(ft_strncmp(args[i], "-p", ft_strlen(args[i])))
+	if (args[1] == NULL || (!(ft_strncmp(args[i], "-p", 3))
 			&& args[i + 1] == NULL))
 	{
+
 		arrayfree(args);
 		((t_execcmd *)execs->cmd)->args = 0;
 		print_env(execs->shell->env);
