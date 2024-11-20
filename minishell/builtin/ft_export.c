@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:01:59 by dakojic           #+#    #+#             */
-/*   Updated: 2024/10/22 20:13:43 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/20 13:57:42 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ static void	ft_export2(char **cmd, char ***env, int i)
 		i++;
 	while (cmd[i] != NULL)
 	{
-		if (!ft_isalpha(cmd[i][0]))
+		if (!ft_isalpha(cmd[i][0]) && cmd[i][0] != '_')
 		{
 			line_saver(cmd[i], &i);
 			continue ;
