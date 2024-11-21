@@ -6,7 +6,7 @@
 /*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 17:15:27 by dakojic           #+#    #+#             */
-/*   Updated: 2024/10/21 12:01:28 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/20 18:52:38 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,9 @@ int	ft_pwd(t_execs *execs)
 	((t_execcmd *)execs->cmd)->args = 0;
 	pwd = getcwd(NULL, 0);
 	if (!pwd)
-		return (write(STDERR_FILENO, "Minishell: error: getcwd failed\n", 22), 333);
+		return (write(STDERR_FILENO,
+				"pwd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n",
+				109), 333);
 	printf("%s\n", pwd);
 	free(pwd);
 	return (0);

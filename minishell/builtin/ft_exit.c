@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 16:17:13 by dakojic           #+#    #+#             */
-/*   Updated: 2024/10/23 00:30:27 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/21 12:52:31 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,6 @@ static long long	ret_exit(char *x)
 		i++;
 	}
 	ret = ft_atol(x);
-	if (ret < 0)
-		return (write(2, str, 58), 2);
 	return (ret);
 }
 
@@ -70,6 +68,5 @@ int	ft_exit(t_execs *ex)
 		ret = (unsigned int)ret_exit(args[1]);
 	rl_clear_history();
 	write(2, "exit\n", 5);
-	// printf("error: %d \n", ret);
 	return (exit_execfree(ex, ret));
 }

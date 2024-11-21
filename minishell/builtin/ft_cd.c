@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:25:43 by dakojic           #+#    #+#             */
-/*   Updated: 2024/10/22 20:09:06 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/20 18:51:30 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,18 +37,28 @@ static char	*get_env_mine(char *name, char **env)
 	return (NULL);
 }
 
-static void	ft_getcwd(char **pwd, int size)
+static void	ft_getcwd(char **pwd)
 {
-	*pwd = malloc(sizeof(char) * (size + 1));
-	if (!pwd)
-		return ;
-	getcwd(*pwd, size + 1);
+	// char	*tmp;
+	// *pwd = malloc(sizeof(char) * (size + 1));
+	// if (!pwd)
+		// return ;
+	*pwd = getcwd(*pwd, 0);
+	// printf("wut%s\n", *pwd);
+	// tmp = 0;
+	// getcwd(tmp, 0);
+	// printf("wut2%s2\n", tmp);
+	// free(tmp);
+	if(!*pwd)
+		write(2,"cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n", 108);
 	return ;
 }
 
 static int	ft_move(char **cmd, char **env)
 {
-	if (cmd[0] && (cmd[1] == NULL || !ft_strcmp(cmd[1], "~")
+	if((cmd[1] && !cmd[1][0] ) || (!cmd[1] && !get_env_mine("HOME", env)))
+		ft_printerror("cd: HOME not set", 0, 0);
+	else if (cmd[0] && (cmd[1] == NULL || !ft_strcmp(cmd[1], "~")
 			|| !ft_strcmp(cmd[1], "--")))
 		chdir(get_env_mine("HOME", env));
 	else if (cmd[0] && !ft_strcmp(cmd[1], "-"))
@@ -76,6 +86,7 @@ static void	ft_switch_pwd(char *newpwd, char *oldpwd, char ***env)
 	i = -1;
 	while ((*env)[++i])
 	{
+		//CHANGER ICI LA BISE
 		j = 0;
 		while ((*env)[i][j] && (*env)[i][j] != '=')
 			j++;
@@ -110,13 +121,15 @@ int	ft_cd(t_execs *execs)
 	char		*newpwd;
 	t_execcmd	*cmd;
 
+	oldpwd = 0;
+	newpwd = 0;
 	cmd = (t_execcmd *)execs->cmd;
 	if (cmd->args[1] && cmd->args[2])
 		return (ft_printerror("Minishell: cd: too many arguments", 0, 0), 333);
-	ft_getcwd(&oldpwd, size_pwd(execs->shell->env));
+	ft_getcwd(&oldpwd);
 	if (ft_move(cmd->args, execs->shell->env) == 1)
 		return (free(oldpwd), 333);
-	ft_getcwd(&newpwd, size_pwd(execs->shell->env));
+	ft_getcwd(&newpwd);
 	ft_switch_pwd(newpwd, oldpwd, &execs->shell->env);
 	// cd_free(&cmd->args);
 	if (execs->shell->env == NULL)

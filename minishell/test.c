@@ -6,7 +6,7 @@
 /*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 23:43:13 by snek              #+#    #+#             */
-/*   Updated: 2024/11/20 11:13:40 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/21 12:46:34 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int main(int ac, char **av, char **ev)
 	t_shell *shell;
 	char *buff;
 
-	buff = strdup("<");
+	buff = strdup("echo a");
 	if (!ac || !av)
 		return (333);
 	shell = fillshell(ev);
