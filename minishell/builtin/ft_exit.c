@@ -6,7 +6,7 @@
 /*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 16:17:13 by dakojic           #+#    #+#             */
-/*   Updated: 2024/11/21 12:52:31 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/21 13:02:00 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,14 @@ static long long	ret_exit(char *x)
 	long long	ret;
 	char		*str;
 
-	str = "Error: Invalid exit argument. Numeric argument required.\n";
 	i = 0;
 	while (x[i] != '\0')
 	{
 		if (!i && (x[i] == '-' || x[i] == '+'))
 			;
 		else if (!(x[i] >= '0' && x[i] <= '9'))
-			return (write(2, str, 58), 2);
+			return (printf("minishell: exit: %s: numeric argument required\n",
+					x), 2);
 		i++;
 	}
 	ret = ft_atol(x);
@@ -59,8 +59,8 @@ static long long	ret_exit(char *x)
 
 int	ft_exit(t_execs *ex)
 {
-	int	ret;
-	char			**args;
+	int		ret;
+	char	**args;
 
 	ret = ex->ret;
 	args = ((t_execcmd *)ex->cmd)->args;
