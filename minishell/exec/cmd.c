@@ -6,7 +6,7 @@
 /*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 19:03:54 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/11/22 16:33:22 by jla-chon         ###   ########.fr       */
+/*   Updated: 2024/11/22 17:19:53 by jla-chon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ static int	ft_closeallfds(t_execs *exec)
 	lst = exec->fds;
 	while (lst)
 	{
+		// fprintf(stderr, "CLOSING %d\n", ((t_fds *)lst->data)->fd);
 		close(((t_fds *)lst->data)->fd);
 		lst = lst->next;
 	}

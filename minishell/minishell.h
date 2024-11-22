@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 14:37:54 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/11/21 23:47:05 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/22 18:07:30 by jla-chon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -313,6 +313,8 @@ void signals_heredoc(void);
 // Argument Func
 char **args(char **arguments, t_execs *exec);
 int ft_expandcmd(t_execs *exec, t_cmd *cmd);
+char	*argument_heredoc(char *arg);
+
 
 // Command and Path
 char **ft_pathsplit(char const *s, char c, char *bonus);

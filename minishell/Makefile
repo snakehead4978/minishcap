@@ -30,7 +30,7 @@ SRC_PARSE = ft_free.c lexing_check.c tools_heredoc.c parse_redirs.c \
 	ft_memory2.c lexer_checks.c misc.c \
 
 SRC_ARG = argument.c expansion.c filelist.c files.c  listfuncs.c listprinters.c \
-	structs.c substitution.c terminalstage.c wildcard.c
+	structs.c substitution.c terminalstage.c wildcard.c heredocarg.c
 
 SRC_EXEC = cmd.c execfree.c ft_pathsplit.c heredoc.c path.c pipe.c redir.c subandor.c
 
