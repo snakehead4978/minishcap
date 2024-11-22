@@ -6,7 +6,7 @@
 /*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 15:21:26 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/11/19 20:20:52 by jla-chon         ###   ########.fr       */
+/*   Updated: 2024/11/20 16:51:28 by jla-chon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ int	main(int ac, char **av, char **ev)
 		return (1);
 	while (1)
 	{
+		signal(SIGQUIT, SIG_IGN);
 		buff = readline("minishell:~$");
 		if (!buff)
 			break ;
