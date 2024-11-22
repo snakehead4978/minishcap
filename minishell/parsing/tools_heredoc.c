@@ -6,7 +6,7 @@
 /*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 11:13:03 by dakojic           #+#    #+#             */
-/*   Updated: 2024/11/19 19:51:55 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/22 16:24:13 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ char	*heredoc_filler(char *end)
 	in = dup(0);
 	signals_heredoc();
 	buf = ft_calloc(1, sizeof(char));
+	if(!buf)
+		return (printf("HELLO\n\n"), NULL);
 	while (ft_strncmp(end, buf, ft_strlen(end)) != 0)
 	{
 		heredoc = ft_strjoin_heredoc(heredoc, buf);

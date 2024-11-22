@@ -6,16 +6,15 @@
 /*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 11:24:44 by dakojic           #+#    #+#             */
-/*   Updated: 2024/11/22 11:40:42 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/22 17:38:08 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*quote_remove(int *quote, char *str)
+void	quote_remove(int *quote, char *str)
 {
 	int		i;
-	char	*ret;
 	char	*temp;
 
 	temp = str;
@@ -28,25 +27,16 @@ static char	*quote_remove(int *quote, char *str)
 			(*quote)++;
 		temp++;
 	}
-	ret = malloc(sizeof(char) * (1 + i));
-	if (!ret)
-		return (NULL);
-	ft_strcpy_quoteless(&ret, str);
-	return (ret);
 }
 
 int	init_heredoc(t_lexer *lex, t_shell **shell)
 {
-	char		*temp;
 	t_herepipe	*node;
 
 	node = malloc(sizeof(*node));
 	node->quote = 0;
-	temp = quote_remove(&node->quote, lex->next->heredoc);
-	if (!temp)
-		return (free(node), 1);
-	node->str = heredoc_filler(temp);
-	free(temp);
+	quote_remove(&node->quote, lex->next->heredoc);
+	node->str = heredoc_filler(lex->next->heredoc);
 	if (!node->str)
 		return (free(node), 1);
 	node->stored = 0;
