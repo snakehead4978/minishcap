@@ -3,14 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 22:11:04 by snek              #+#    #+#             */
-/*   Updated: 2024/11/21 23:48:24 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/22 16:33:24 by jla-chon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+
+static void	catcher_sigquit(int signum)
+{
+	if (signum == SIGQUIT)
+		g_bigsignal = SIGQUIT;
+}
+
 
 int	ft_pipe(t_execs *exec)
 {
@@ -31,6 +39,7 @@ int	ft_pipe(t_execs *exec)
 	fd[2] = fork();
 	if (!fd[2])
 	{
+		signal(SIGQUIT, catcher_sigquit);
 		close(fd[0]);
 		shell = exec->shell;
 		buff = exec->buff;

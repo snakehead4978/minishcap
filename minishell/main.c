@@ -6,7 +6,11 @@
 /*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 15:21:26 by jla-chon          #+#    #+#             */
+<<<<<<< HEAD
+/*   Updated: 2024/11/20 16:51:28 by jla-chon         ###   ########.fr       */
+=======
 /*   Updated: 2024/11/21 23:47:04 by snek             ###   ########.fr       */
+>>>>>>> 595aafabfbfe61b6496050fe0bf37cbd9ee0403b
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +78,7 @@ int	main(int ac, char **av, char **ev)
 		return (1);
 	while (1)
 	{
+		signal(SIGQUIT, SIG_IGN);
 		buff = readline("minishell:~$");
 		if (!buff)
 			break ;

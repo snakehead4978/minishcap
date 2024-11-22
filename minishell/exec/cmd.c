@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 19:03:54 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/11/22 06:06:21 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/22 16:33:22 by jla-chon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,8 +164,8 @@ int	ft_exec(t_execs *exec)
 			err = WEXITSTATUS(err);
 		if (err == 1)
 			err = 333;
-		if (err == 131)
-			write(2, "Quit (core dumped)\n", 20);
+		if (err == 131 && g_bigsignal != SIGQUIT)
+			write(2, "Quit (core dumped)\n", 19);
 	}
 	else
 		err = builtin(exec);

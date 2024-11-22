@@ -6,7 +6,7 @@
 /*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 19:27:09 by dakojic           #+#    #+#             */
-/*   Updated: 2024/11/19 19:39:10 by jla-chon         ###   ########.fr       */
+/*   Updated: 2024/11/22 16:28:55 by jla-chon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ void    signals(void)
     sigemptyset(&int_action.sa_mask);
 	sigaddset(&int_action.sa_mask, SIGINT);
     sigaction(SIGINT, &int_action, 0);
-    signal(SIGQUIT, SIG_IGN);
 }
 
 void    signals_heredoc(void)
