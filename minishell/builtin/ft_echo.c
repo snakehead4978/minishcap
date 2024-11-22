@@ -6,7 +6,7 @@
 /*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 12:40:04 by dakojic           #+#    #+#             */
-/*   Updated: 2024/10/23 03:01:18 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/21 23:47:35 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	ft_echo(t_execs *execs)
 	if (n_arg == false || (cmd->args[1] && !cmd->args[2] && !cmd->args[1][0]))
 		write(1, "\n", 1);
 	i = 0;
-	arrayfree(cmd->args);
+	arrayfree(&cmd->args);
 	cmd->args = 0;
 	return (0);
 }

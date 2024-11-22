@@ -6,7 +6,7 @@
 /*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 22:11:04 by snek              #+#    #+#             */
-/*   Updated: 2024/11/20 16:58:34 by jla-chon         ###   ########.fr       */
+/*   Updated: 2024/11/22 16:33:24 by jla-chon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	ft_pipe(t_execs *exec)
 		if (err != 1)
 			execfree(exec);
 		free(buff);
-		arrayfree(shell->env);
+		arrayfree(&shell->env);
 		free(shell);
 		exit(err);
 	}

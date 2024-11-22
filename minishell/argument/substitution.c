@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   substitution.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
+/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 14:56:27 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/11/20 13:32:52 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/22 01:04:36 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,10 @@ static char	*untilnonalpha(char **str, t_execs *exec)
 	if (!final)
 		return (0);
 	*str = tmp + check;
-	tmp = get_env(final, exec->shell->env);
+	if (!exec)
+		tmp = getenv(final);
+	else
+		tmp = get_env(final, exec->shell->env);
 	free(final);
 	if (!tmp)
 		return (ft_calloc(sizeof(char), 1));
@@ -71,7 +74,10 @@ static int	isalphanum(char chr)
 static char	*getdollar(char **str, int final, t_execs *exec)
 {
 	if (!*(*str + 1) && !final)
+	{
+		*str += 1;
 		return (ft_calloc(1, sizeof(char)));
+	}
 	else if ((!*(*str + 1) && final) || (!isalphanum(*(*str + 1)) && *(*str + 1) != '{' && *(*str + 1) != '?'))
 	{
 		*str += 1;

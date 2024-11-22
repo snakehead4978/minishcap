@@ -6,7 +6,7 @@
 /*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 22:20:13 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/11/20 16:59:29 by jla-chon         ###   ########.fr       */
+/*   Updated: 2024/11/22 16:33:26 by jla-chon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,14 @@ int	ft_sub(t_execs *exec)
 	t_shell	*shell;
 	char	*buff;
 
+	err = 0;
 	if (!exec->cmd)
 		return (0);
 	cmds = (t_sub *)exec->cmd;
 	pid = fork();
 	if (!pid)
 	{
+		// signal(SIGINT, SIG_IGN);
 		shell = exec->shell;
 		buff = exec->buff;
 		if (ft_expandcmd(exec, cmds->cmd))
@@ -73,13 +75,17 @@ int	ft_sub(t_execs *exec)
 		err = ft_sorter(exec, cmds->cmd);
 		if (err != 1)
 			execfree(exec);
-		arrayfree(shell->env);
+		arrayfree(&shell->env);
 		free(buff);
 		free(shell);
 		exit(err);
 	}
 	else
+	{
+		signal(SIGINT, SIG_IGN);
 		waitpid(pid, &err, 0);
+		signals();
+	}
 	if (err == 1)
 		err = 333;
 	return (err);

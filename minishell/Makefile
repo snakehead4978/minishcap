@@ -75,6 +75,9 @@ re: fclean all
 valg: re
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=supp.supp -s --track-fds=yes ./$(NAME)
 
+env: re
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=supp.supp -s --track-fds=yes env -i ./$(NAME)
+
 test: $(OBJ_TESTER)
 	$(CC) $(CFLAGS) $(INC) -o $@ $^ -lreadline
 

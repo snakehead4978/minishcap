@@ -6,7 +6,7 @@
 /*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 13:22:59 by dakojic           #+#    #+#             */
-/*   Updated: 2024/10/20 19:44:23 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/22 11:51:55 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,14 +76,13 @@ t_cmd	*redircmd_here(t_herepipe **pipe, t_cmd *cmd)
 
 	temp = (*pipe)->next;
 	redir = ft_calloc(1, sizeof(t_redircmd));
-	// redir = malloc(sizeof(*redir));
 	if (!redir)
 		return (NULL);
-	// ft_bzero(redir, sizeof(*redir));
 	redir->type = HERE;
 	redir->cmd = cmd;
 	redir->mode = O_RDONLY;
 	(*pipe)->stored = 1;
+	redir->quote = (*pipe)->quote;
 	if ((*pipe)->str)
 		redir->heredoc = ft_strdup((*pipe)->str);
 	if (!redir->heredoc)

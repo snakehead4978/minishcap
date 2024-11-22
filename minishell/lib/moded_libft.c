@@ -6,7 +6,7 @@
 /*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 11:11:30 by dakojic           #+#    #+#             */
-/*   Updated: 2024/11/20 15:21:42 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/20 18:52:41 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,19 +46,19 @@ int	ft_strcmp2(const char *s1, const char *s2)
     return (1);
 }
 
-int size_pwd(char **env)
-{
-    int i;
+// int size_pwd(char **env)
+// {
+//     int i;
 
-    i = 0;
-    while(env[i])
-    {
-        if(!ft_strcmp2(env[i], "PWD"))
-            break;
-        i++;
-    }
-    return (ft_strlen(env[i]));
-}
+//     i = 0;
+//     while(env[i])
+//     {
+//         if(!ft_strcmp2(env[i], "PWD"))
+//             break;
+//         i++;
+//     }
+//     return (ft_strlen(env[i]));
+// }
 
 static void	swap(t_list *node, t_list **list)
 {
