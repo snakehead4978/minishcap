@@ -6,7 +6,7 @@
 /*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 15:16:34 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/10/23 02:41:07 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/22 01:26:57 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,10 @@ char	**args(char **arguments, t_execs *exec)
 	while (arguments[i])
 	{
 		if (!listaddback(&list, argument(arguments[i], exec), free))
-			return (arrayfree(arguments), NULL);
+			return (arrayfree(&arguments), NULL);
 		i++;
 	}
-	arrayfree(arguments);
+	arrayfree(&arguments);
 	res = ft_calloc(sizeof(char *), listsize(list) + 1);
 	if (!res)
 		return (ft_listfree(&list, free), NULL);

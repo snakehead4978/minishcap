@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
+/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 17:15:27 by dakojic           #+#    #+#             */
-/*   Updated: 2024/11/20 18:52:38 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/21 23:47:57 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	ft_pwd(t_execs *execs)
 {
 	char	*pwd;
 
-	arrayfree(((t_execcmd *)execs->cmd)->args);
+	arrayfree(&((t_execcmd *)execs->cmd)->args);
 	((t_execcmd *)execs->cmd)->args = 0;
 	pwd = getcwd(NULL, 0);
 	if (!pwd)

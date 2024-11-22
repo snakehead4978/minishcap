@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
+/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:01:59 by dakojic           #+#    #+#             */
-/*   Updated: 2024/11/20 17:31:01 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/21 23:47:56 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,14 +139,14 @@ int	ft_export(t_execs *execs)
 			&& args[i + 1] == NULL))
 	{
 
-		arrayfree(args);
+		arrayfree(&args);
 		((t_execcmd *)execs->cmd)->args = 0;
 		print_env(execs->shell->env);
 		return (0);
 	}
 	ft_export2(args, &(execs->shell->env), 1, &ret);
 	i = 0;
-	arrayfree(args);
+	arrayfree(&args);
 	((t_execcmd *)execs->cmd)->args = 0;
 	return (ret);
 }

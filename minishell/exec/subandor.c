@@ -6,7 +6,7 @@
 /*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 22:20:13 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/10/23 02:08:46 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/21 23:48:51 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	ft_sub(t_execs *exec)
 		err = ft_sorter(exec, cmds->cmd);
 		if (err != 1)
 			execfree(exec);
-		arrayfree(shell->env);
+		arrayfree(&shell->env);
 		free(buff);
 		free(shell);
 		exit(err);
