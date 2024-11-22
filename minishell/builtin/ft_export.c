@@ -6,7 +6,7 @@
 /*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:01:59 by dakojic           #+#    #+#             */
-/*   Updated: 2024/11/21 23:47:56 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/22 06:21:47 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	line_saver(char *cmd, int *i, int *ret)
 {
 	ft_printerror("minishell: export: `", cmd, "': not a valid identifier");
 	(*i)++;
-	*ret = 1;
+	*ret = 333;
 }
 
 static void	ft_export3(char ***env, int i, char *lf, char **cmd)

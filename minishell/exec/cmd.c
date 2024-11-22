@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
+/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 19:03:54 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/11/20 17:34:50 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/22 06:06:21 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,6 +151,7 @@ int	ft_exec(t_execs *exec)
 			{
 				signal(SIGQUIT, SIG_DFL);
 				execve(args[0], args, exec->shell->env);
+				printf("YALLAH\n");
 				signal(SIGQUIT, SIG_IGN);
 			}
 			exit_execfree(exec, err);
@@ -187,7 +188,7 @@ int	ft_expandcmd(t_execs *exec, t_cmd *cmd)
 		if (!command->args)
 			return (0);
 		command->args = args(command->args, exec);
-		if (!command->args || !command->args[0][0])
+		if (!command->args || !command->args[0])
 			return (1);
 	}
 	return (0);

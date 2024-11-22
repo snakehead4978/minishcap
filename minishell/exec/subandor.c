@@ -6,7 +6,7 @@
 /*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 22:20:13 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/11/21 23:48:51 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/22 06:19:16 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,14 @@ int	ft_sub(t_execs *exec)
 	t_shell	*shell;
 	char	*buff;
 
+	err = 0;
 	if (!exec->cmd)
 		return (0);
 	cmds = (t_sub *)exec->cmd;
 	pid = fork();
 	if (!pid)
 	{
+		// signal(SIGINT, SIG_IGN);
 		shell = exec->shell;
 		buff = exec->buff;
 		if (ft_expandcmd(exec, cmds->cmd))
@@ -79,7 +81,11 @@ int	ft_sub(t_execs *exec)
 		exit(err);
 	}
 	else
+	{
+		signal(SIGINT, SIG_IGN);
 		waitpid(pid, &err, 0);
+		signals();
+	}
 	if (err == 1)
 		err = 333;
 	return (err);

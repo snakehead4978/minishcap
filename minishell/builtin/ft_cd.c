@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
+/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:25:43 by dakojic           #+#    #+#             */
-/*   Updated: 2024/11/20 18:51:30 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/22 04:31:31 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,12 +121,12 @@ int	ft_cd(t_execs *execs)
 	char		*newpwd;
 	t_execcmd	*cmd;
 
-	oldpwd = 0;
+	// oldpwd = 0;
 	newpwd = 0;
 	cmd = (t_execcmd *)execs->cmd;
 	if (cmd->args[1] && cmd->args[2])
-		return (ft_printerror("Minishell: cd: too many arguments", 0, 0), 333);
-	ft_getcwd(&oldpwd);
+		return (ft_printerror("Minishell: cd: too many arguments", 0, 0), 333);	
+	oldpwd = ft_strdup(get_env_mine("OLDPWD", execs->shell->env));
 	if (ft_move(cmd->args, execs->shell->env) == 1)
 		return (free(oldpwd), 333);
 	ft_getcwd(&newpwd);
