@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_redirs_er.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 13:24:06 by dakojic           #+#    #+#             */
-/*   Updated: 2024/10/20 23:57:07 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/22 11:51:44 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,10 +82,8 @@ t_cmd	*redircmd_here2(t_herepipe **pipe, t_cmd *cmd)
 
 	temp = (*pipe)->next;
 	redir = ft_calloc(1, sizeof(t_redircmd));
-	// redir = malloc(sizeof(*redir));
 	if (!redir)
 		return (NULL);
-	// ft_bzero(redir, sizeof(*redir));
 	redir->type = HERE;
 	redir->cmd = cmd;
 	redir->file = NULL;
@@ -93,11 +91,12 @@ t_cmd	*redircmd_here2(t_herepipe **pipe, t_cmd *cmd)
 	redir->mode = O_RDONLY;
 	redir->fd = 0;
 	(*pipe)->stored = 1;
+	redir->quote = (*pipe)->quote;
 	if ((*pipe)->str)
 		redir->heredoc = ft_strdup((*pipe)->str);
 	if (!redir->heredoc)
 		return (free(redir), NULL);
-	free((*pipe)->str);
+	free((*pipe)->str); 
 	free(*pipe);
 	*pipe = temp;
 	redir->cmd = ((t_redircmd *)cmd)->cmd;
