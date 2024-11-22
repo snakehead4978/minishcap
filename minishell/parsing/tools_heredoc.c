@@ -6,7 +6,7 @@
 /*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 11:13:03 by dakojic           #+#    #+#             */
-/*   Updated: 2024/11/22 16:24:13 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/22 18:55:37 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,17 @@ static char	*ft_strjoin_heredoc(char *s1, char const *s2)
 	free(s1);
 	return (new);
 }
-
+static int ft_strcmphere(const char *s1, const char *s2)
+{
+    while(*s1 && *s2 && *s1 == *s2)
+    {
+        s1++;
+        s2++;
+    }
+	if(*s1 == '\0' && *s2 == '\n')
+		return (0);
+    return (*(unsigned char *)s1 - *(unsigned char *)s2);
+}
 char	*heredoc_filler(char *end)
 {
 	char	*buf;
@@ -65,8 +75,8 @@ char	*heredoc_filler(char *end)
 	signals_heredoc();
 	buf = ft_calloc(1, sizeof(char));
 	if(!buf)
-		return (printf("HELLO\n\n"), NULL);
-	while (ft_strncmp(end, buf, ft_strlen(end)) != 0)
+		return (NULL);
+	while (!heredoc || (ft_strcmphere(end, buf) != 0))
 	{
 		heredoc = ft_strjoin_heredoc(heredoc, buf);
 		free(buf);
