@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
+/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 14:37:54 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/11/20 13:07:09 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/21 23:47:05 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,7 +198,7 @@ char *ft_strcatter(char *str1, char *str2);
 char *ft_strdup(char *str);
 char *ft_strstr(char *haystack, char *needle);
 char *ft_itoa(int num);
-int arrayfree(char **array);
+int arrayfree(char ***array);
 char **ft_pathsplit(char const *s, char c, char *bonus);
 char *ft_itoul(unsigned long num);
 int ft_strncmp(const char *s1, const char *s2, size_t n);

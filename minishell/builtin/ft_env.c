@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
+/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:01:38 by dakojic           #+#    #+#             */
-/*   Updated: 2024/10/21 12:01:39 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/21 23:47:39 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ft_env(t_execs *execs)
 
 	args = ((t_execcmd *)execs->cmd)->args;
 	i = 0;
-	arrayfree(args);
+	arrayfree(&args);
 	((t_execcmd *)execs->cmd)->args = 0;
 	if (!execs->shell->env[0])
 		return (0);

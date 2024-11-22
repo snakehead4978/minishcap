@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
+/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:01:53 by dakojic           #+#    #+#             */
-/*   Updated: 2024/10/21 12:22:50 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/21 23:48:05 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,12 +91,12 @@ int	ft_unset(t_execs *execs)
 	j = 0;
 	if (((t_execcmd *)execs->cmd)->args[1] == NULL)
 	{
-		arrayfree(cmd->args);
+		arrayfree(&cmd->args);
 		cmd->args = 0;
 		return (0);
 	}
 	j = ft_unset2(cmd->args, &execs->shell->env, j, 0);
-	arrayfree(cmd->args);
+	arrayfree(&cmd->args);
 	cmd->args = 0;
 	return (j);
 }

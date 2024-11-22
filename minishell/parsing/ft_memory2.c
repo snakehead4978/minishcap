@@ -6,7 +6,7 @@
 /*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 16:09:08 by dakojic           #+#    #+#             */
-/*   Updated: 2024/10/22 01:59:00 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/21 23:49:34 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char	**args_malloc(int argc, char *ptr_arg, char *ptr_earg, char **args)
 	}
 	ret[i] = ft_strdup_arg(ptr_arg, ptr_earg);
 	ret[++i] = NULL;
-	return (arrayfree(args), ret);
+	return (arrayfree(&args), ret);
 }
 
 char	*ft_filecpy(char *file, char *efile)

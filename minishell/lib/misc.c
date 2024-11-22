@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   misc.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
+/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 15:57:43 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/10/21 15:30:46 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/21 23:46:57 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,19 +148,20 @@ char	*ft_itoul(unsigned long num)
 	return (res);
 }
 
-int	arrayfree(char **array)
+int	arrayfree(char ***array)
 {
 	int	i;
 
 	i = 0;
-	if (!array)
+	if (!*array)
 		return (1);
-	while (array[i])
+	while ((*array)[i])
 	{
 		// printf("FREEING :%s$\n", array[i]);
-		free(array[i++]);
+		free((*array)[i++]);
 	}
-	free(array[i]);
-	free(array);
+	free((*array)[i]);
+	free(*array);
+	*array = 0;
 	return (0);
 }

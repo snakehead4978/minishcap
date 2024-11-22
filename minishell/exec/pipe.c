@@ -6,7 +6,7 @@
 /*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 22:11:04 by snek              #+#    #+#             */
-/*   Updated: 2024/10/23 02:02:30 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/21 23:48:24 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	ft_pipe(t_execs *exec)
 		if (err != 1)
 			execfree(exec);
 		free(buff);
-		arrayfree(shell->env);
+		arrayfree(&shell->env);
 		free(shell);
 		exit(err);
 	}

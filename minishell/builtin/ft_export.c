@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
+/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:01:59 by dakojic           #+#    #+#             */
-/*   Updated: 2024/11/20 17:31:01 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/22 06:21:47 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	line_saver(char *cmd, int *i, int *ret)
 {
 	ft_printerror("minishell: export: `", cmd, "': not a valid identifier");
 	(*i)++;
-	*ret = 1;
+	*ret = 333;
 }
 
 static void	ft_export3(char ***env, int i, char *lf, char **cmd)
@@ -139,14 +139,14 @@ int	ft_export(t_execs *execs)
 			&& args[i + 1] == NULL))
 	{
 
-		arrayfree(args);
+		arrayfree(&args);
 		((t_execcmd *)execs->cmd)->args = 0;
 		print_env(execs->shell->env);
 		return (0);
 	}
 	ft_export2(args, &(execs->shell->env), 1, &ret);
 	i = 0;
-	arrayfree(args);
+	arrayfree(&args);
 	((t_execcmd *)execs->cmd)->args = 0;
 	return (ret);
 }

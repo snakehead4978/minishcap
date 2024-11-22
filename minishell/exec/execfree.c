@@ -6,7 +6,7 @@
 /*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 18:28:34 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/10/23 01:49:59 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/22 00:45:14 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	ft_execcfree(t_execs *exec)
 	t_execcmd	*cmd;
 
 	cmd = (t_execcmd *)exec->cmd;
-	arrayfree(cmd->args);
+	arrayfree(&cmd->args);
 	return (0);
 }
 
@@ -35,7 +35,11 @@ static int	ft_solo(t_execs *exec)
 		down = ((t_redircmd *)cmd)->cmd;
 	}
 	else if (cmd->type == REDIR)
+	{
+		free(((t_redircmd *)cmd)->file);
+		((t_redircmd *)cmd)->file = 0;
 		down = ((t_redircmd *)cmd)->cmd;
+	}
 	else
 		down = ((t_sub *)cmd)->cmd;
 	ft_sorterfree(exec, down);
@@ -115,7 +119,7 @@ int	exit_execfree(t_execs *exec, int err)
 	ft_listfree(&exec->fds, fdsfree);
 	ft_sorterfree(exec, exec->shell->tree);
 	free(exec->buff);
-	arrayfree(shell->env);
+	arrayfree(&shell->env);
 	free(shell);
 	free(exec);
 	exit(err);
