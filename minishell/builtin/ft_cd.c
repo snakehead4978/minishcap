@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:25:43 by dakojic           #+#    #+#             */
-/*   Updated: 2024/11/22 04:31:31 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/23 13:15:59 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,52 @@ static int	ft_move(char **cmd, char **env)
 	}
 	return (0);
 }
+/*int	ft_strcmp2(const char *s1, const char *s2)
+{
+	unsigned char	*s3;
+	unsigned char	*s4;
 
+	s3 = (unsigned char *)s1;
+	s4 = (unsigned char *)s2;
+	while (*s3 == *s4 && *s3 != '\0')
+	{
+		++s3;
+		++s4;
+	}
+	if(*s3 == '=' && *s4 == '\0')
+        return (0);
+    return (1);
+}
+*/
+
+char	*ft_strjoin_free(char *s1, char const *s2)
+{
+	size_t	len;
+	size_t	cur;
+	size_t	i;
+	char	*new;
+
+	cur = 0;
+	i = 0;
+	if (!s1 || !s2)
+		return (NULL);
+	len = ft_strlen(s1) + ft_strlen(s2);
+	new = (char *)malloc(sizeof (char) * len + 1);
+	if (!new)
+		return (NULL);
+	while (s1[cur] != '\0')
+	{
+		new[cur] = s1[cur];
+		cur++;
+	}
+	while (s2[i] != '\0')
+	{
+		new[cur++] = s2[i++];
+	}
+	new[cur] = '\0';
+	free(s1);
+	return (new);
+}
 static void	ft_switch_pwd(char *newpwd, char *oldpwd, char ***env)
 {
 	int		i;
@@ -86,22 +131,21 @@ static void	ft_switch_pwd(char *newpwd, char *oldpwd, char ***env)
 	i = -1;
 	while ((*env)[++i])
 	{
-		//CHANGER ICI LA BISE
 		j = 0;
 		while ((*env)[i][j] && (*env)[i][j] != '=')
 			j++;
-		tmp = ft_substr((*env)[i], 0, j);
+		tmp = ft_substr((*env)[i], 0, j + 1);
 		if (!ft_strcmp2(tmp, "PWD"))
 		{
 			free((*env)[i]);
 			(*env)[i] = ft_strdup("PWD=");
-			(*env)[i] = ft_strjoin((*env)[i], newpwd);
+			(*env)[i] = ft_strjoin_free((*env)[i], newpwd);
 		}
 		if (!ft_strcmp2(tmp, "OLDPWD"))
 		{
 			free((*env)[i]);
 			(*env)[i] = ft_strdup("OLDPWD=");
-			(*env)[i] = ft_strjoin((*env)[i], oldpwd);
+			(*env)[i] = ft_strjoin_free((*env)[i], oldpwd);
 		}
 		free(tmp);
 	}
@@ -126,7 +170,7 @@ int	ft_cd(t_execs *execs)
 	cmd = (t_execcmd *)execs->cmd;
 	if (cmd->args[1] && cmd->args[2])
 		return (ft_printerror("Minishell: cd: too many arguments", 0, 0), 333);	
-	oldpwd = ft_strdup(get_env_mine("OLDPWD", execs->shell->env));
+	oldpwd = ft_strdup(get_env_mine("PWD", execs->shell->env));
 	if (ft_move(cmd->args, execs->shell->env) == 1)
 		return (free(oldpwd), 333);
 	ft_getcwd(&newpwd);
