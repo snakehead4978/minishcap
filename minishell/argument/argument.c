@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   argument.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 15:16:34 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/11/22 17:35:26 by jla-chon         ###   ########.fr       */
+/*   Updated: 2024/11/24 23:15:22 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 static t_list	*argument(char *arg, t_execs *exec)
 {
@@ -73,11 +72,3 @@ char	**args(char **arguments, t_execs *exec)
 	}
 	return (ft_listfree(&list, free), res);
 }
-
-// int main(int ac, char **av)
-// {
-// 	if (ac <= 1)
-// 		return (0);
-// 	argument(av[1], 0);
-// 	return (0);
-// }

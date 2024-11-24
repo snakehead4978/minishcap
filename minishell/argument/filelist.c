@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   filelist.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 16:29:23 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/11/19 21:17:01 by jla-chon         ###   ########.fr       */
+/*   Updated: 2024/11/24 23:21:42 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,11 @@ static int	shellstrcmp(char *a, char *b)
 	char	at;
 	char	bt;
 
-	atemp = a;
-	btemp = b;	
-	while (*a && *b)
+	atemp = a--;
+	btemp = b--;
+	if (!a || !b)
+		return (0);	
+	while (*++a && *++b)
 	{
 		at = *a;
 		bt = *b;
@@ -52,18 +54,12 @@ static int	shellstrcmp(char *a, char *b)
 			bt = *b + 32;
 		if (at != bt)
 			return (at - bt);
-		a++;
-		b++;
 	}
 	if (!*a || !*b)
 		return (at - bt);
-	while (*atemp && *btemp)
-	{
+	while (*++atemp && *++btemp)
 		if (*atemp != *btemp)
 			break ;
-		atemp++;
-		btemp++;
-	}
 	return (*btemp - *atemp);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   subandor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 22:20:13 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/11/22 16:33:26 by jla-chon         ###   ########.fr       */
+/*   Updated: 2024/11/24 23:14:54 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,21 @@ int	ft_or(t_execs *exec)
 	return (err);
 }
 
+static void	ft_sub2(t_execs *exec, t_shell *shell, char *buff, t_sub *cmds)
+{
+	int	err;
+
+	if (ft_expandcmd(exec, cmds->cmd))
+		exit_execfree(exec, 1);
+	err = ft_sorter(exec, cmds->cmd);
+	if (err != 1)
+		execfree(exec);
+	arrayfree(&shell->env);
+	free(buff);
+	free(shell);
+	exit(err);
+}
+
 int	ft_sub(t_execs *exec)
 {	
 	t_sub	*cmds;
@@ -66,20 +81,7 @@ int	ft_sub(t_execs *exec)
 	cmds = (t_sub *)exec->cmd;
 	pid = fork();
 	if (!pid)
-	{
-		// signal(SIGINT, SIG_IGN);
-		shell = exec->shell;
-		buff = exec->buff;
-		if (ft_expandcmd(exec, cmds->cmd))
-			exit_execfree(exec, 1);
-		err = ft_sorter(exec, cmds->cmd);
-		if (err != 1)
-			execfree(exec);
-		arrayfree(&shell->env);
-		free(buff);
-		free(shell);
-		exit(err);
-	}
+		ft_sub2(exec, exec->shell, exec->buff, cmds);
 	else
 	{
 		signal(SIGINT, SIG_IGN);

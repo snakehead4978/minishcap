@@ -1,42 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   listprinters.c                                     :+:      :+:    :+:   */
+/*   ft_write.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/14 17:39:39 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/11/24 23:37:05 by snek             ###   ########.fr       */
+/*   Created: 2024/11/24 20:55:44 by snek              #+#    #+#             */
+/*   Updated: 2024/11/24 21:16:43 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	subquoteprint(t_subquote *data)
+int	ft_write(int fd, char *str, int size)
 {
-	printf("QUOTE: %s %d\n", data->str, data->check);
-}
-
-void	strprint(char *data)
-{
-	printf("STRING: %s\n", data);
-}
-
-void	fileprint(t_file *data)
-{
-	printf("FILE: %s\n", data->filename);
-}
-
-void	intprint(int *data)
-{
-	printf("INTS: %d %d\n", data[0], data[1]);
-}
-
-void	printlist(t_list *list, void (*print)())
-{
-	while (list)
+	if (write(fd, str, size) == -1)
 	{
-		print(list->data);
-		list = list->next;
+		perror("minishell: write error ");
+		return (1);
 	}
+	return (0);	
 }

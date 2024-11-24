@@ -6,7 +6,7 @@
 /*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:01:59 by dakojic           #+#    #+#             */
-/*   Updated: 2024/11/22 06:21:47 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/24 21:21:26 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,8 @@ int	ft_export(t_execs *execs)
 
 		arrayfree(&args);
 		((t_execcmd *)execs->cmd)->args = 0;
+		if (ft_write(1, "", 0))
+			return (execfree(execs), 1);
 		print_env(execs->shell->env);
 		return (0);
 	}

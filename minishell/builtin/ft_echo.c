@@ -6,7 +6,7 @@
 /*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 12:40:04 by dakojic           #+#    #+#             */
-/*   Updated: 2024/11/21 23:47:35 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/24 21:12:34 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ int	ft_echo(t_execs *execs)
 	bool		n_arg;
 	t_execcmd	*cmd;
 
+	if (ft_write(1, "", 0))
+		return (execfree(execs), 1);
 	cmd = (t_execcmd *)execs->cmd;
 	i = 1;
 	n_arg = false;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 14:37:54 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/11/22 18:07:30 by jla-chon         ###   ########.fr       */
+/*   Updated: 2024/11/24 21:53:35 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,6 +218,7 @@ size_t ft_strlcpy(char *dst, const char *src, size_t size);
 char *ft_strcat(char *str1, char *str2);
 int ft_isalpha(int c);
 char *get_env(char *name, char **env);
+int	ft_write(int fd, char *str, int size);
 
 // Moded LIBFT
 char **args_malloc(int argc, char *ptr_arg, char *ptr_earg,
@@ -315,6 +316,9 @@ char **args(char **arguments, t_execs *exec);
 int ft_expandcmd(t_execs *exec, t_cmd *cmd);
 char	*argument_heredoc(char *arg);
 
+// fds
+int	ft_setfds(t_execs *exec);
+int	ft_closeallfds(t_execs *exec);
 
 // Command and Path
 char **ft_pathsplit(char const *s, char c, char *bonus);
@@ -383,6 +387,8 @@ void print_cmd(t_cmd *cmd, int indent);
 
 // Built-in
 
+int	isbuiltin(char *cmd);
+int	builtin(t_execs *exec);
 int ft_cd(t_execs *execs);
 int ft_echo(t_execs *execs);
 int ft_env(t_execs *execs);

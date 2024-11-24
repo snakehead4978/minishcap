@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   terminalstage.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 17:03:32 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/11/22 17:52:47 by jla-chon         ###   ########.fr       */
+/*   Updated: 2024/11/24 23:43:03 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,20 @@ static t_list	*quotetostr(t_list *node)
 	return (node);
 }
 
+static int	resplitter2(char *str, t_list *lst, t_list *final)
+{
+	t_list	*node;
+
+	node = ft_calloc(sizeof(t_list), 1);
+	if (!node)
+		return (free(str), ft_listfree(&lst, free), 1);
+	node->data = 0;
+	node->next = 0;
+	if (!listaddback(&final, node, free))
+		return (free(str), ft_listfree(&lst, free), 1);
+	return (0);
+}
+
 t_list	*resplitter(t_list *lst)
 {
 	t_list	*quote;
@@ -149,14 +163,7 @@ t_list	*resplitter(t_list *lst)
 			return (free(str), ft_listfree(&lst, free), NULL);
 	}
 	if (!i)
-	{
-		node = ft_calloc(sizeof(t_list), 1);
-		if (!node)
-			return (free(str), ft_listfree(&lst, free), NULL);
-		node->data = 0;
-		node->next = 0;
-		if (!listaddback(&final, node, free))
-			return (free(str), ft_listfree(&lst, free), NULL);
-	}
+		if (resplitter2(str, lst, final))
+			return (0);
 	return (free(str), ft_listfree(&lst, free), final);
 }

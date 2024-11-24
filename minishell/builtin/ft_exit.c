@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
+/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 16:17:13 by dakojic           #+#    #+#             */
-/*   Updated: 2024/11/21 13:08:38 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/24 21:20:34 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,6 @@ int	ft_exit(t_execs *ex)
 	if (args[1])
 		ret = (unsigned int)ret_exit(args[1]);
 	rl_clear_history();
-	write(1, "exit\n", 5);
+	write(2, "exit\n", 5);
 	return (exit_execfree(ex, ret));
 }

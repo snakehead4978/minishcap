@@ -6,7 +6,7 @@
 /*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:01:38 by dakojic           #+#    #+#             */
-/*   Updated: 2024/11/21 23:47:39 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/24 21:16:51 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ int	ft_env(t_execs *execs)
 	((t_execcmd *)execs->cmd)->args = 0;
 	if (!execs->shell->env[0])
 		return (0);
+	if (ft_write(1, "", 0))
+		return (execfree(execs), 1);
 	while (execs->shell->env[i])
 	{
 		if (ft_strchr(execs->shell->env[i], '='))

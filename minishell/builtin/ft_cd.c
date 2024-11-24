@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
+/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:25:43 by dakojic           #+#    #+#             */
-/*   Updated: 2024/11/23 13:15:59 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/24 21:43:24 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ static int	ft_move(char **cmd, char **env)
 	else if (cmd[0] && !ft_strcmp(cmd[1], "-"))
 	{
 		chdir(get_env_mine("OLDPWD", env));
+		if (ft_write(1, "", 0))
+			return (1);
 		printf("%s\n", get_env_mine("OLDPWD", env));
 	}
 	else if (cmd[0] && cmd[1])
@@ -76,6 +78,7 @@ static int	ft_move(char **cmd, char **env)
 	}
 	return (0);
 }
+
 /*int	ft_strcmp2(const char *s1, const char *s2)
 {
 	unsigned char	*s3;
@@ -163,6 +166,7 @@ int	ft_cd(t_execs *execs)
 {
 	char		*oldpwd;
 	char		*newpwd;
+	int			i;
 	t_execcmd	*cmd;
 
 	// oldpwd = 0;
@@ -171,8 +175,11 @@ int	ft_cd(t_execs *execs)
 	if (cmd->args[1] && cmd->args[2])
 		return (ft_printerror("Minishell: cd: too many arguments", 0, 0), 333);	
 	oldpwd = ft_strdup(get_env_mine("PWD", execs->shell->env));
-	if (ft_move(cmd->args, execs->shell->env) == 1)
+	i = ft_move(cmd->args, execs->shell->env);
+	if (i == 1)
 		return (free(oldpwd), 333);
+	if (i == 2)
+		return (free(oldpwd), execfree(execs), 1);
 	ft_getcwd(&newpwd);
 	ft_switch_pwd(newpwd, oldpwd, &execs->shell->env);
 	// cd_free(&cmd->args);

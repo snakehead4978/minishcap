@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredocarg.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
+/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 17:35:33 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/11/22 18:42:52 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/24 23:37:01 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,15 +136,12 @@ static char	*dollarquotehere(char *str)
 	return (free(tmp), ft_joiner(lst));
 }
 
-static char	*limitsetter(t_list *lst)
+static char	*limitsetter(t_list *lst, int i, int j)
 {
 	char	*str;
-	int		i;
-	int		j;
 	t_subquote	*node;
 	t_list	*tmp;
 
-	i = 0;
 	tmp = lst;
 	while (lst)
 	{
@@ -206,5 +203,5 @@ char	*argument_heredoc(char *arg)
 		lst = lst->next;
 	}
 	lst = tmp;
-	return (limitsetter(lst));
+	return (limitsetter(lst, 0, 0));
 }
