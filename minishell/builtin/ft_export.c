@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:01:59 by dakojic           #+#    #+#             */
-/*   Updated: 2024/11/24 21:21:26 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/25 17:19:40 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,49 +14,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-
-char	*minisplit(char *s, int c)
-{
-	char	*new;
-	int		i;
-
-	i = 0;
-	while (s[i] && s[i] != (char)c)
-		i++;
-	if (s[i] == '\0')
-		return (NULL);
-	new = (char *)malloc(sizeof(char) * (i + 1));
-	i = 0;
-	while (s[i] != c)
-	{
-		new[i] = s[i];
-		i++;
-	}
-	new[i] = '\0';
-	return (new);
-}
-
-char	**new_env(char ***env, char *cmd)
-{
-	char	**new;
-	int		i;
-
-	i = 0;
-	while ((*env)[i] != NULL)
-		i++;
-	new = (char **)malloc(sizeof(char *) * (i + 2));
-	i = 0;
-	while ((*env)[i] != NULL)
-	{
-		new[i] = ft_strdup((*env)[i]);
-		free((*env)[i]);
-		i++;
-	}
-	new[i] = ft_strdup(cmd);
-	new[i + 1] = NULL;
-	free(*env);
-	return (new);
-}
 
 void	line_saver(char *cmd, int *i, int *ret)
 {
@@ -67,7 +24,7 @@ void	line_saver(char *cmd, int *i, int *ret)
 
 static void	ft_export3(char ***env, int i, char *lf, char **cmd)
 {
-	int j;
+	int	j;
 
 	j = 0;
 	while ((*env)[j] != NULL)
@@ -83,23 +40,26 @@ static void	ft_export3(char ***env, int i, char *lf, char **cmd)
 	if ((*env)[j] == NULL)
 		*env = new_env(env, cmd[i]);
 }
-int modded_isalphanum(char *s)
+
+int	modded_isalphanum(char *s)
 {
-	while(*s)
+	while (*s)
 	{
-		if((*s < 'a' || *s >'z') && (*s < 'A' || *s >'Z') && (*s < '0' || *s >'9') && *s != '_')
+		if ((*s < 'a' || *s > 'z') && (*s < 'A' || *s > 'Z') && (*s < '0'
+				|| *s > '9') && *s != '_')
 			return (1);
 		++s;
 	}
 	return (0);
 }
+
 static void	ft_export2(char **cmd, char ***env, int i, int *ret)
 {
 	char	*lf;
 
 	while (!ft_strncmp(cmd[i], "-p", strlen(cmd[i])) && cmd[i + 1] != NULL)
 		i++;
-	while (cmd[i] != NULL)
+	while (cmd[i++] != NULL)
 	{
 		if (!ft_isalpha(cmd[i][0]) && cmd[i][0] != '_')
 		{
@@ -107,18 +67,17 @@ static void	ft_export2(char **cmd, char ***env, int i, int *ret)
 			continue ;
 		}
 		lf = minisplit(cmd[i], '=');
-		if(!lf)
+		if (!lf)
 			lf = ft_strdup(cmd[i]);
-		if(modded_isalphanum(lf))
+		if (modded_isalphanum(lf))
 		{
 			line_saver(lf, &i, ret);
 			free(lf);
-			continue;
+			continue ;
 		}
 		if (lf == NULL && i++)
 			continue ;
 		ft_export3(env, i, lf, cmd);
-		i++;
 		free(lf);
 	}
 }
@@ -127,18 +86,16 @@ int	ft_export(t_execs *execs)
 {
 	int		i;
 	char	**args;
-	int 	ret;
+	int		ret;
 
 	ret = 0;
 	args = ((t_execcmd *)execs->cmd)->args;
 	i = 1;
-	while (args[i] && (!ft_strncmp(args[i], "-p", 3)
-			&& (args[i + 1] != NULL)))
+	while (args[i] && (!ft_strncmp(args[i], "-p", 3) && (args[i + 1] != NULL)))
 		i++;
-	if (args[1] == NULL || (!(ft_strncmp(args[i], "-p", 3))
-			&& args[i + 1] == NULL))
+	if (args[1] == NULL || (!(ft_strncmp(args[i], "-p", 3)) && args[i
+				+ 1] == NULL))
 	{
-
 		arrayfree(&args);
 		((t_execcmd *)execs->cmd)->args = 0;
 		if (ft_write(1, "", 0))

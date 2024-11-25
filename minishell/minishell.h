@@ -6,7 +6,7 @@
 /*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 14:37:54 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/11/25 16:16:38 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/25 17:25:17 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -397,4 +397,11 @@ int ft_export(t_execs *execs);
 int ft_pwd(t_execs *execs);
 int ft_unset(t_execs *execs);
 char	**new_env(char ***env, char *cmd);
+char	*minisplit(char *s, int c);
+char	**new_env(char ***env, char *cmd);
+char	*get_env_mine(char *name, char **env);
+void	ft_getcwd(char **pwd);
+int	move_back(char **env);
+int	ft_move(char **cmd, char **env);
+char	*ft_strjoin_free(char *s1, char const *s2);
 #endif

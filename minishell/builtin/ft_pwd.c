@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 17:15:27 by dakojic           #+#    #+#             */
-/*   Updated: 2024/11/24 21:26:54 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/25 17:14:38 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,9 @@ int	ft_pwd(t_execs *execs)
 	pwd = getcwd(NULL, 0);
 	if (!pwd)
 		return (write(STDERR_FILENO,
-				"pwd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n",
+				"pwd: error retrieving\
+				current directory: getcwd: cannot access parent\
+				directories: No such file or directory\n",
 				109), 333);
 	if (ft_write(1, "", 0))
 		return (execfree(execs), 1);
