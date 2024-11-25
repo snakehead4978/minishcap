@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 16:17:13 by dakojic           #+#    #+#             */
-/*   Updated: 2024/11/24 21:20:34 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/25 12:51:31 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,11 @@ static long long	ret_exit(char *x)
 		if (!i && (x[i] == '-' || x[i] == '+'))
 			;
 		else if (!(x[i] >= '0' && x[i] <= '9'))
-			return (printf("minishell: exit: %s: numeric argument required\n",
-					x), 2);
+		{	
+			write(2, "minishell: exit: ", 17);
+			write(2, &x, ft_strlen(x));
+			return (write(2, ": numeric argument required\n", 28), 2);
+		}
 		i++;
 	}
 	ret = ft_atol(x);

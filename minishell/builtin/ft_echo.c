@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 12:40:04 by dakojic           #+#    #+#             */
-/*   Updated: 2024/11/24 21:12:34 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/25 12:51:28 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	ft_echo(t_execs *execs)
 	t_execcmd	*cmd;
 
 	if (ft_write(1, "", 0))
-		return (execfree(execs), 1);
+		return (333);
 	cmd = (t_execcmd *)execs->cmd;
 	i = 1;
 	n_arg = false;
