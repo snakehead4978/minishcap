@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 14:37:54 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/11/24 21:53:35 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/25 16:16:38 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -396,5 +396,5 @@ int ft_exit(t_execs *ex);
 int ft_export(t_execs *execs);
 int ft_pwd(t_execs *execs);
 int ft_unset(t_execs *execs);
-
+char	**new_env(char ***env, char *cmd);
 #endif

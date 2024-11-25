@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 22:11:04 by snek              #+#    #+#             */
-/*   Updated: 2024/11/24 23:04:06 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/25 12:15:20 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ int	ft_pipe(t_execs *exec)
 	t_fds	*tmp;
 	int	err;
 
+	err = 0;
 	if (!exec->cmd)
 		return (0);
 	cmds = (t_pipecmd *)exec->cmd;

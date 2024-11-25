@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 21:55:37 by snek              #+#    #+#             */
-/*   Updated: 2024/11/24 23:10:49 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/25 12:16:12 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static int	ft_redir2(t_execs *exec, char **all, t_redircmd *cmds, int *fd)
 int	ft_redir(t_execs *exec)
 {
 	t_list	*fds;
-	char	**all;
+	//char	**all;
 	int		fd;
 	t_redircmd	*cmds;
 	int		err;

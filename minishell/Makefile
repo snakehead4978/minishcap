@@ -3,7 +3,7 @@ NAME = minishell
 CC = cc
 
 CFLAGS = -Wall -Wextra -Werror -g3
-
+#CFLAGS = -g3
 INC = -I. 
 
 DIR_BUILT = builtin/
@@ -20,7 +20,7 @@ SRC_BUILT = ft_cd.c ft_echo.c ft_env.c ft_export.c ft_pwd.c ft_unset.c ft_exit.c
 
 SRC_LIB = ft_atoi.c ft_split.c ft_strdup.c ft_strncmp.c ft_strtrim.c \
 	ft_substr.c libft.c misc.c moded_libft.c ft_strcat.c ft_strcmp.c \
-	ft_substr.c signal.c
+	ft_substr.c signal.c ft_write.c
 
 SRC_PARSE = ft_free.c lexing_check.c tools_heredoc.c parse_redirs.c \
 	ft_memory.c ft_free2.c init_structs.c \
