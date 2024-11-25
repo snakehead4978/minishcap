@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_heredoc.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
+/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 11:24:44 by dakojic           #+#    #+#             */
-/*   Updated: 2024/11/22 18:46:20 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/25 17:18:03 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,7 @@ int	init_heredoc(t_lexer *lex, t_shell **shell)
 	node = malloc(sizeof(*node));
 	node->quote = 0;
 	quote_remove(&node->quote, lex->next->heredoc);
-	tmp = argument_heredoc(lex->next->heredoc);
-	printf("EQW %p OO\n", tmp);
+	tmp = argument_heredoc(lex->next->heredoc, 0, 0);
 	node->str = heredoc_filler(tmp);
 	free(tmp);
 	if (!node->str)

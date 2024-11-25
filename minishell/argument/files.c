@@ -6,7 +6,7 @@
 /*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 17:00:45 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/11/24 23:35:54 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/25 17:26:14 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,8 @@ static void	filecheck2(t_file *tmp, char *str, int size, int mode)
 	else
 	{
 		sizetmp = ft_strlen(tmp->search);
-		if (sizetmp < size || (sizetmp >= size && strncmp(tmp->search + sizetmp - size, str,
-				size)))
+		if (sizetmp < size || (sizetmp >= size
+				&& strncmp(tmp->search + sizetmp - size, str, size)))
 			tmp->search = 0;
 	}
 }

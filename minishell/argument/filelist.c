@@ -6,7 +6,7 @@
 /*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 16:29:23 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/11/24 23:21:42 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/25 17:20:10 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,17 +33,15 @@ static void	swap(t_list *node, t_list **list)
 	tmp->next = node;
 }
 
-static int	shellstrcmp(char *a, char *b)
+static int	shellstrcmp(char *a, char *b, char *atemp, char *btemp)
 {
-	char	*atemp;
-	char	*btemp;
 	char	at;
 	char	bt;
 
+	if (!a || !b)
+		return (0);
 	atemp = a--;
 	btemp = b--;
-	if (!a || !b)
-		return (0);	
 	while (*++a && *++b)
 	{
 		at = *a;
@@ -73,7 +71,7 @@ static void	sortandfill(t_list **list)
 	while (tmp->next)
 	{
 		if (shellstrcmp(((t_file *)tmp->data)->filename,
-				((t_file *)tmp->next->data)->filename) > 0)
+				((t_file *)tmp->next->data)->filename, 0, 0) > 0)
 		{
 			swap(tmp, list);
 			tmp = *list;

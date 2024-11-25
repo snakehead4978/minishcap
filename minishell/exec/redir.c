@@ -6,7 +6,7 @@
 /*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 21:55:37 by snek              #+#    #+#             */
-/*   Updated: 2024/11/25 17:14:23 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/25 18:01:20 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int	ft_redir2(t_execs *exec, char **all, t_redircmd *cmds, int *fd)
 {
 	all = ft_calloc(sizeof(char *), 2);
 	*all = ft_strdup(cmds->file);
-	all = args(all, exec);
+	all = args(all, exec, 0, 0);
 	if (!all)
 		return (execfree(exec), 1);
 	if (*all && all[1])
