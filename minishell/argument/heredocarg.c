@@ -6,7 +6,7 @@
 /*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 17:35:33 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/11/24 23:37:01 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/25 17:10:24 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,8 @@ static char	*ft_joiner(t_list *lst)
 	return (ft_listfree(&lst, subquotefree), res);
 }
 
-static char	*dollarhere(char *str, int final)
+static char	*dollarhere(char *str, int final, t_list *lst, char *tmp)
 {
-	t_list	*lst;
-	char	*tmp;
 	char	*next;
 
 	lst = 0;
@@ -105,10 +103,8 @@ static char	*dollarhere(char *str, int final)
 	return (free(tmp), ft_joiner(lst));
 }
 
-static char	*dollarquotehere(char *str)
+static char	*dollarquotehere(char *str, t_list *lst, char *tmp)
 {
-	t_list	*lst;
-	char	*tmp;
 	char	*next;
 
 	lst = 0;
@@ -138,9 +134,9 @@ static char	*dollarquotehere(char *str)
 
 static char	*limitsetter(t_list *lst, int i, int j)
 {
-	char	*str;
+	char		*str;
 	t_subquote	*node;
-	t_list	*tmp;
+	t_list		*tmp;
 
 	tmp = lst;
 	while (lst)
@@ -190,18 +186,17 @@ char	*argument_heredoc(char *arg)
 		var = lst->data;
 		if (!var->check)
 		{
-			var->str = dollarhere(var->str, !lst->next);
+			var->str = dollarhere(var->str, !lst->next, 0, 0);
 			if (!var->str)
 				return (ft_listfree(&lst, subquotefree), NULL);
 		}
 		else if (*var->str == '"')
 		{
-			var->str = dollarquotehere(var->str);
+			var->str = dollarquotehere(var->str, 0, 0);
 			if (!var->str)
 				return (ft_listfree(&lst, subquotefree), NULL);
 		}
 		lst = lst->next;
 	}
-	lst = tmp;
-	return (limitsetter(lst, 0, 0));
+	return (limitsetter(tmp, 0, 0));
 }
