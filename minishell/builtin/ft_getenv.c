@@ -6,7 +6,7 @@
 /*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 18:37:51 by dakojic           #+#    #+#             */
-/*   Updated: 2024/11/25 17:11:00 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/25 19:36:12 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ static char	*ft_substrr(char const *s, unsigned int start, size_t len)
 
 char	*get_env(char *name, char **env)
 {
-	int i;
-	int j;
-	char *new;
+	int		i;
+	int		j;
+	char	*new;
 
 	i = 0;
 	while (env[i])

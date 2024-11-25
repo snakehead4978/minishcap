@@ -6,7 +6,7 @@
 /*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 17:23:41 by dakojic           #+#    #+#             */
-/*   Updated: 2024/11/25 17:51:24 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/25 19:35:39 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,14 @@ void	ft_getcwd(char **pwd)
 {
 	*pwd = getcwd(*pwd, 0);
 	if (!*pwd)
-    {
+	{
 		write(2,
 			"cd: error retrieving current directory: getcwd:\
 cannot access parent directories: No such file or directory\n",
 			108);
-        *pwd = ft_strdup("");
-    }
-    return ;
+		*pwd = ft_strdup("");
+	}
+	return ;
 }
 
 int	move_back(char **env)
