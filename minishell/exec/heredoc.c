@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
+/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 17:05:04 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/11/22 11:53:02 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/25 18:33:16 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*getdollar(char *str, int *i, t_execs *exec)
+static char	*getdollarherehere(char *str, int *i, t_execs *exec)
 {
 	char	*var;
 	char	*sub;
@@ -85,7 +85,7 @@ static int	getsize(char *str, int check, t_execs *exec, t_list **list)
 	{
 		if (str[i] == '$')
 		{
-			tmp = getdollar(str, &i, exec);
+			tmp = getdollarherehere(str, &i, exec);
 			if (!tmp)
 				return (ft_listfree(list, free), ft_printerror("minishell: ", str, ": bad substitution"), -1);
 			if (!listaddback(list, listnew(tmp, free), free))

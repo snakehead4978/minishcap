@@ -20,7 +20,7 @@ SRC_BUILT = ft_cd.c ft_cd2.c ft_echo.c ft_env.c ft_export.c ft_pwd.c ft_unset.c 
 
 SRC_LIB = ft_atoi.c ft_split.c ft_strdup.c ft_strncmp.c ft_strtrim.c \
 	ft_substr.c libft.c misc.c moded_libft.c ft_strcat.c ft_strcmp.c \
-	ft_substr.c signal.c ft_write.c
+	ft_substr.c signal.c ft_write.c ft_isalphanum.c
 
 SRC_PARSE = ft_free.c lexing_check.c tools_heredoc.c parse_redirs.c \
 	ft_memory.c ft_free2.c init_structs.c \
@@ -30,7 +30,8 @@ SRC_PARSE = ft_free.c lexing_check.c tools_heredoc.c parse_redirs.c \
 	ft_memory2.c lexer_checks.c misc.c line_savers.c\
 
 SRC_ARG = argument.c expansion.c filelist.c files.c  listfuncs.c listprinters.c \
-	structs.c substitution.c terminalstage.c wildcard.c heredocarg.c
+	structs.c substitution.c terminalstage.c wildcard.c heredocarg.c dollar.c dollarhere.c \
+	structsfree.c subquote.c
 
 SRC_EXEC = cmd.c execfree.c ft_pathsplit.c heredoc.c path.c pipe.c redir.c subandor.c fds.c mainexec.c
 

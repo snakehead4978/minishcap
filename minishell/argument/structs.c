@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
+/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 14:53:04 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/10/20 17:40:12 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/25 18:08:34 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,6 @@ t_subquote	*subquotenew(char *data, int check)
 	return (new);
 }
 
-void	subquotefree(t_subquote *data)
-{
-	free(data->str);
-	free(data);
-}
-
 t_file	*filenew(char *data)
 {
 	t_file	*new;
@@ -39,12 +33,6 @@ t_file	*filenew(char *data)
 		return (free(data), NULL);
 	new->filename = data;
 	return (new);
-}
-
-void	filefree(t_file *data)
-{
-	free(data->filename);
-	free(data);
 }
 
 t_fds	*fdsnew(int fd, int type)
@@ -57,10 +45,4 @@ t_fds	*fdsnew(int fd, int type)
 	new->fd = fd;
 	new->type = type;
 	return (new);
-}
-
-void	fdsfree(t_fds *fds)
-{
-	close(fds->fd);
-	free(fds);
 }

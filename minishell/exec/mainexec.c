@@ -6,7 +6,7 @@
 /*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 21:48:08 by snek              #+#    #+#             */
-/*   Updated: 2024/11/24 21:48:38 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/25 18:01:27 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	ft_expandcmd(t_execs *exec, t_cmd *cmd)
 		command = (t_execcmd *)cmd;
 		if (!command->args)
 			return (0);
-		command->args = args(command->args, exec);
+		command->args = args(command->args, exec, 0, 0);
 		if (!command->args || !command->args[0])
 			return (1);
 	}

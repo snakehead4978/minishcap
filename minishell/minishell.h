@@ -6,7 +6,7 @@
 /*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 14:37:54 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/11/25 19:10:54 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/25 19:32:59 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -219,6 +219,7 @@ char *ft_strcat(char *str1, char *str2);
 int ft_isalpha(int c);
 char *get_env(char *name, char **env);
 int	ft_write(int fd, char *str, int size);
+int	ft_isalphanum(char chr);
 
 // Moded LIBFT
 char **args_malloc(int argc, char *ptr_arg, char *ptr_earg,
@@ -277,12 +278,20 @@ int	exit_execfree(t_execs *exec, int err);
 //	Expansion
 t_list *expansion(char *str);
 
-// 	Substitution
-char *dollar(char *str, int final, t_execs *exec);
+// 	Substitution Heredoc
+char	*getdollarhere(char **str, int final);
+char	*dollarhere(char *str, int final, t_list *lst, char *tmp);
+char	*dollarquotehere(char *str, t_list *lst, char *tmp);
+
+// Substitution
+void	substitution_error(char *str);
+char	*getdollar(char **str, int final, t_execs *exec);
+char *dollar(char *str, int final, t_execs *exec, t_list *lst);
 char *dollarquote(char *str, t_execs *exec);
 
 // Wildcard and Dequote
-t_list *resplitter(t_list *lst);
+t_list	*sub_unquoted(char *str, t_list **quote, int *index, char *res);
+t_list	*resplitter(t_list *lst, t_list *quote, t_list *final, int i);
 t_list *star(t_list *lst);
 
 //  File Funcs
@@ -312,9 +321,9 @@ void signals(void);
 void signals_heredoc(void);
 
 // Argument Func
-char **args(char **arguments, t_execs *exec);
+char	**args(char **arguments, t_execs *exec, t_list *list, int i);
 int ft_expandcmd(t_execs *exec, t_cmd *cmd);
-char	*argument_heredoc(char *arg);
+char	*argument_heredoc(char *arg, t_list *tmp, t_list *lst);
 
 // fds
 int	ft_setfds(t_execs *exec);

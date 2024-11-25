@@ -6,22 +6,18 @@
 /*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 17:03:32 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/11/24 23:43:03 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/25 18:27:25 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*listjoiner(t_list **quote, t_list *lst)
+static char	*listjoiner(t_list **quote, t_list *lst, int i, char *str)
 {
 	t_list		*tmp;
 	t_subquote	*node;
-	int			i;
 	int			*pair;
-	char		*str;
 
-	str = 0;
-	i = 0;
 	tmp = lst;
 	while (tmp)
 	{
@@ -43,72 +39,6 @@ static char	*listjoiner(t_list **quote, t_list *lst)
 		tmp = tmp->next;
 	}
 	return (ft_listfree(&lst, subquotefree), ft_strtrim(str, " \t\n\v\f\r"));
-}
-
-static int	unquoted_aux(char **res, char *str, t_list **new, int check)
-{
-	if (!str)
-		return (free(*res), ft_listfree(new, subquotefree), 0);
-	*res = ft_strcatter(*res, str);
-	free(str);
-	if (new)
-	{
-		if (!listaddback(new, listnew(subquotenew(*res, check), subquotefree),
-				subquotefree))
-			return (free(*res), 0);
-		*res = 0;
-	}
-	return (1);
-}
-
-static t_list	*sub_unquoted(char *str, t_list **quote, int *index)
-{
-	char	*res;
-	int		i;
-	int		j;
-	t_list	*new;
-
-	new = 0;
-	i = *index;
-	j = i;
-	res = 0;
-	while (str[i] && str[i] != ' ')
-	{
-		if (*quote && *(int *)(*quote)->data == i)
-		{
-			if (!unquoted_aux(&res, ft_substr(str, j, i - j), 0, 0))
-				return (0);
-			j = i + 1;
-			i = ((int *)(*quote)->data)[1];
-			if (!unquoted_aux(&res, ft_substr(str, j, i - j), 0, 0))
-				return (0);
-			j = i + 1;
-			*quote = (*quote)->next;
-		}
-		else
-		{
-			if (str[i] == '*')
-			{
-				if (i != *index)
-				{
-					if (!unquoted_aux(&res, ft_substr(str, j, i - j), &new, 0))
-						return (0);
-				}
-				j = i;
-				while (str[i] == '*')
-					i++;
-				if (!unquoted_aux(&res, ft_substr(str, j, i - j), &new, 1))
-					return (0);
-				j = i;
-			}
-			else
-				i++;
-		}
-	}
-	if (!unquoted_aux(&res, ft_substr(str, j, i - j), &new, 0))
-		return (0);
-	*index = i;
-	return (new);
 }
 
 static t_list	*quotetostr(t_list *node)
@@ -135,26 +65,20 @@ static int	resplitter2(char *str, t_list *lst, t_list *final)
 	return (0);
 }
 
-t_list	*resplitter(t_list *lst)
+t_list	*resplitter(t_list *lst, t_list *quote, t_list *final, int i)
 {
-	t_list	*quote;
-	t_list	*final;
 	char	*str;
 	t_list	*node;
-	int		i;
 
-	final = 0;
-	quote = 0;
-	str = listjoiner(&quote, lst);
+	str = listjoiner(&quote, lst, 0, 0);
 	lst = quote;
-	i = 0;
 	while (str[i])
 	{
 		while (str[i] && iswhite(str[i]))
 			i++;
 		if (!str[i])
 			break ;
-		node = sub_unquoted(str, &quote, &i);
+		node = sub_unquoted(str, &quote, &i, 0);
 		if (node->next || ((t_subquote *)node->data)->check)
 			node = star(node);
 		else
