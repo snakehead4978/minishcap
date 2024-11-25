@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 21:49:12 by snek              #+#    #+#             */
-/*   Updated: 2024/11/24 21:50:11 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/25 17:17:15 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,47 @@ int	builtin(t_execs *exec)
 		dup2(exec->stdcopies[1], 1);
 	}
 	return (err);
+}
+
+char	**new_env(char ***env, char *cmd)
+{
+	char	**new;
+	int		i;
+
+	i = 0;
+	while ((*env)[i] != NULL)
+		i++;
+	new = (char **)malloc(sizeof(char *) * (i + 2));
+	i = 0;
+	while ((*env)[i] != NULL)
+	{
+		new[i] = ft_strdup((*env)[i]);
+		free((*env)[i]);
+		i++;
+	}
+	new[i] = ft_strdup(cmd);
+	new[i + 1] = NULL;
+	free(*env);
+	return (new);
+}
+
+char	*minisplit(char *s, int c)
+{
+	char	*new;
+	int		i;
+
+	i = 0;
+	while (s[i] && s[i] != (char)c)
+		i++;
+	if (s[i] == '\0')
+		return (NULL);
+	new = (char *)malloc(sizeof(char) * (i + 1));
+	i = 0;
+	while (s[i] != c)
+	{
+		new[i] = s[i];
+		i++;
+	}
+	new[i] = '\0';
+	return (new);
 }
