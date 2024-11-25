@@ -1,35 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tools_parsing.c                                    :+:      :+:    :+:   */
+/*   line_savers.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/26 13:19:07 by dakojic           #+#    #+#             */
-/*   Updated: 2024/11/25 18:27:43 by dakojic          ###   ########.fr       */
+/*   Created: 2024/11/25 19:06:22 by dakojic           #+#    #+#             */
+/*   Updated: 2024/11/25 19:17:30 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	lfsymbol(char **ptr, char *c)
+void	saver(int in)
 {
-	char	*temp;
-
-	temp = *ptr;
-	while (*temp && ft_strchr(" \t\n\r\v", *temp))
-		temp++;
-	*ptr = temp;
-	return (*ptr && ft_strchr(c, *temp));
+	signals();
+	dup2(in, 0);
+	close(in);
 }
 
-int	lfsymbol2(char **ptr, char *c)
+void	saver2(int *in, char **buf)
 {
-	char	*temp;
-
-	temp = *ptr;
-	while (*temp && ft_strchr(" \t\n\r\v", *temp))
-		temp++;
-	*ptr = temp;
-	return (*ptr && ft_strchr(c, *temp) && ft_strchr(c, *(temp + 1)));
+	*in = dup(0);
+	signals_heredoc();
+	*buf = ft_calloc(1, sizeof(char));
 }

@@ -6,7 +6,7 @@
 /*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 10:37:20 by dakojic           #+#    #+#             */
-/*   Updated: 2024/11/20 12:59:27 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/25 18:33:51 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,10 @@ static int	type_return(int *type, char symbol, char *str, int *i)
 
 int	and_return(t_lexer **lexer, char *str, int *i)
 {
+	t_lexer	*new;
+
 	if (str[*i + 1] == '&')
 	{
-		t_lexer	*new;
-
 		new = ft_calloc(sizeof(*new), 1);
 		if (!new)
 			return (1);
@@ -52,8 +52,7 @@ int	and_return(t_lexer **lexer, char *str, int *i)
 	}
 	else
 	{
-		printf("JE RENTRE ICI AVEC %c\n", str[*i]);
-		return(add_lex_node(lexer, str, i), 0);
+		return (add_lex_node(lexer, str, i), 0);
 	}
 	return (1);
 }
@@ -75,11 +74,6 @@ int	sub_lexer(t_lexer **lex, char *str, int *i)
 		new->type = LEX_OPEN;
 	else if (str[*i] == ')')
 		new->type = LEX_CLOSE;
-	// else if (str[*i] == '&')
-	// {
-	// 	if (add_lex_node(&new, str, i))
-	// 		return (free(new), 1);
-	// }
 	else if (str[*i] == '|')
 		new->type = type_return(type_setter(LEX_PIPE, LEX_OR), '|', str, i);
 	(*i)++;

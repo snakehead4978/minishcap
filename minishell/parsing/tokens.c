@@ -6,16 +6,30 @@
 /*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 13:03:20 by dakojic           #+#    #+#             */
-/*   Updated: 2024/10/17 11:17:21 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/25 19:13:05 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static char	*other_token(char *temp, int *check);
+
+static char	*process_token(char *temp, int *check)
+{
+	while (*temp && !ft_strchr(" \t\n\r\v<>()|", *temp))
+	{
+		if (*temp == '&' && (*(temp + 1) == '&'))
+			break ;
+		temp++;
+		if (*temp == '\'' || *temp == '\"')
+			temp = other_token(temp, check);
+	}
+	return (temp);
+}
+
 static char	*other_token(char *temp, int *check)
 {
 	char	a;
-	char 	lf[2];
 
 	a = *temp;
 	if (!*temp)
@@ -25,25 +39,16 @@ static char	*other_token(char *temp, int *check)
 	while (temp && *temp == (char)a && (a == '\"' || a == '\''))
 	{
 		temp++;
-		lf[0] = (char)a;
-		lf[1] = '\0';
 		while (temp && *temp != a)
 		{
-			if(!ft_strchr(lf, *temp))
+			if (!ft_strchr("a", *temp))
 				temp++;
 		}
 		temp++;
 		if (*temp == '\'' || *temp == '\"')
 			temp = other_token(temp, check);
 	}
-	while (*temp && !ft_strchr(" \t\n\r\v<>()|", *temp))
-	{
-		if(*temp == '&' && (*(temp + 1) == '&'))
-				break ;
-			temp++;
-			if(*temp == '\'' || *temp == '\"')
-				temp = other_token(temp, check);
-	}
+	temp = process_token(temp, check);
 	return (temp);
 }
 
@@ -71,6 +76,10 @@ static void	extratoken(char **temp, int *check)
 	}
 }
 
+static void	update_ptr(char **ptr, char *temp)
+{
+	*ptr = temp;
+}
 
 int	gettoken(char **ptr, char **ptr_token, char **ptr_endtoken)
 {
@@ -89,7 +98,7 @@ int	gettoken(char **ptr, char **ptr_token, char **ptr_endtoken)
 		if (check == *temp && check != '(' && check != ')')
 			extratoken(&temp, &check);
 	}
-	else if(*temp == '&' && *(temp + 1) == '&')
+	else if (*temp == '&' && *(temp + 1) == '&')
 	{
 		temp++;
 		extratoken(&temp, &check);
@@ -98,6 +107,5 @@ int	gettoken(char **ptr, char **ptr_token, char **ptr_endtoken)
 		temp = other_token(temp, &check);
 	if (ptr_endtoken)
 		*ptr_endtoken = temp;
-	*ptr = temp;
-	return (check);
+	return (update_ptr(ptr, temp), check);
 }

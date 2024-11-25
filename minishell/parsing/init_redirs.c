@@ -6,7 +6,7 @@
 /*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 13:22:59 by dakojic           #+#    #+#             */
-/*   Updated: 2024/11/22 11:51:55 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/25 18:26:03 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,8 @@ t_cmd	*redircmd_out(t_cmd *cmd, char *file, char *efile, int fd)
 	t_redircmd	*redir;
 
 	redir = ft_calloc(1, sizeof(t_redircmd));
-	// redir = malloc(sizeof(*redir));
 	if (!redir)
 		return (NULL);
-	// ft_bzero(redir, sizeof(*redir));
 	redir->type = REDIR;
 	redir->cmd = cmd;
 	redir->file = ft_filecpy(file, efile);
@@ -36,10 +34,8 @@ t_cmd	*redircmd_in(t_cmd *cmd, char *file, char *efile, int fd)
 	t_redircmd	*redir;
 
 	redir = ft_calloc(1, sizeof(t_redircmd));
-	// redir = malloc(sizeof(*redir));
 	if (!redir)
 		return (NULL);
-	// ft_bzero(redir, sizeof(*redir));
 	redir->type = REDIR;
 	redir->cmd = cmd;
 	redir->file = ft_filecpy(file, efile);
@@ -55,10 +51,8 @@ t_cmd	*redircmd_append(t_cmd *cmd, char *file, char *efile, int fd)
 	t_redircmd	*redir;
 
 	redir = ft_calloc(1, sizeof(t_redircmd));
-	// redir = malloc(sizeof(*redir));
 	if (!redir)
 		return (NULL);
-	// ft_bzero(redir, sizeof(*redir));
 	redir->type = REDIR;
 	redir->cmd = cmd;
 	redir->file = ft_filecpy(file, efile);

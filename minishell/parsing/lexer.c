@@ -6,7 +6,7 @@
 /*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 14:01:49 by dakojic           #+#    #+#             */
-/*   Updated: 2024/11/20 13:11:30 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/25 19:26:31 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,16 @@ int	add_lex_node(t_lexer **lex, char *str, int *i)
 	t_lexer	*new;
 	int		size;
 	int		before;
+
 	size = 0;
 	new = malloc(sizeof(*new));
 	before = *i;
 	if (!new)
 		return (1);
 	while (str[*i] && (ft_strchr(" \t\n\r\v><|()", str[*i]) == 0))
-	{ 
-		if(str[*i] == '&' && str[*i + 1] && str[*i + 1] == '&')
-				break;
+	{
+		if (str[*i] == '&' && str[*i + 1] && str[*i + 1] == '&')
+			break ;
 		(*i)++;
 		size++;
 	}
@@ -54,17 +55,48 @@ int	add_lex_node(t_lexer **lex, char *str, int *i)
 	ft_lstadd_back(lex, &new);
 	return (0);
 }
-int add_ending_node(t_lexer **lexer)
+
+int	add_ending_node(t_lexer **lexer)
 {
-	t_lexer *new;
+	t_lexer	*new;
 
 	new = ft_calloc(sizeof(*new), 1);
-	if(!new)
+	if (!new)
 		return (1);
 	new->type = LEX_END;
 	ft_lstadd_back(lexer, &new);
 	return (0);
 }
+
+int	process_lexer(char *str, t_lexer **lexer, int *i)
+{
+	while (str[*i])
+	{
+		while (str[*i] && ft_strchr(" \t\n\r\v", str[*i]))
+			(*i)++;
+		if (str[*i] && ft_strchr("><|&()", str[*i]))
+		{
+			if (str[*i] == '&')
+			{
+				if (and_return(lexer, str, i))
+					return (ft_printerror("Error : Malloc and_return (failed",
+							0, 0), 1);
+				continue ;
+			}
+			else
+			{
+				sub_lexer(lexer, str, i);
+			}
+		}
+		if (str[*i] && !ft_strchr(" \t\n\r\v><|&()", str[*i]))
+		{
+			if (add_lex_node(lexer, str, i))
+				return (1);
+		}
+	}
+	return (0);
+}
+
 int	lexer(t_shell **shell, char *str)
 {
 	int		i;
@@ -74,32 +106,8 @@ int	lexer(t_shell **shell, char *str)
 	lexer = ft_calloc(sizeof(*lexer), 1);
 	if (!lexer)
 		return (1);
-	while (str[i])
-	{
-		while (str[i] && ft_strchr(" \t\n\r\v", str[i]))
-			i++;
-		if (str[i] && ft_strchr("><|&()", str[i]))
-		{	
-			if(str[i] == '&')
-			{
-				if (and_return(&lexer, str, &i))
-					return (ft_printerror("Error : Malloc and_return failed", 0, 0), free_lexer(lexer), 1);
-				continue;
-			}
-			else
-				sub_lexer(&lexer, str, &i);
-		}
-		if (str[i] && !ft_strchr(" \t\n\r\v><|&()", str[i]))
-			if (add_lex_node(&lexer, str, &i))
-				return (free_lexer(lexer), 1);
-	}
-	// add_ending_node(&lexer);
-	// while(lexer)
-	// {
-		// printf("Type : %d\n", lexer->type);
-		// lexer = lexer->next;
-	// }
-	// (void)shell;
+	if (process_lexer(str, &lexer, &i))
+		return (free_lexer(lexer), 1);
 	if (lexing_check(shell, lexer))
 		return (free_lexer(lexer), free_herepipe(shell), 1);
 	return (free_lexer(lexer), 0);

@@ -6,7 +6,7 @@
 /*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 14:37:54 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/11/25 17:25:17 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/25 19:10:54 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -353,6 +353,8 @@ t_cmd *parse_or(t_shell *shell, char **ptr);
 t_cmd *parseline(t_shell *shell, char **ptr);
 int	parsecmd(t_shell **shell, char *str, int err);
 int quote_check(char *str);
+void saver(int in);
+void saver2(int *in, char **buf);
 
 // Lexer
 int	add_lex_node(t_lexer **lex, char *str, int *i);

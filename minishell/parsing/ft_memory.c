@@ -6,7 +6,7 @@
 /*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 12:08:39 by dakojic           #+#    #+#             */
-/*   Updated: 2024/10/20 19:47:38 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/25 18:25:29 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	*ft_memset(void *s, int c, size_t n)
 	size_t			cur;
 	unsigned char	*temp;
 
-	temp = (unsigned char *) s;
+	temp = (unsigned char *)s;
 	cur = 0;
 	while (cur < n)
 	{
@@ -35,8 +35,8 @@ void	*ft_memset(void *s, int c, size_t n)
 
 void	*ft_calloc(size_t nmemb, size_t size)
 {
-	size_t				i;
-	unsigned char		*new;
+	size_t			i;
+	unsigned char	*new;
 
 	i = nmemb * size;
 	if (i == 0)

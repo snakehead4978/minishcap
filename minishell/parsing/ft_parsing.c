@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parsing.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 13:11:45 by dakojic           #+#    #+#             */
-/*   Updated: 2024/10/23 00:43:14 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/25 18:25:38 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@ int	parsecmd(t_shell **shell, char *str, int err)
 		(*shell)->tree = 0;
 		return (err);
 	}
-	if(quote_check(str))
+	if (quote_check(str))
 	{
 		write(2, "Unclosed quote(s)\n", 19);
 		(*shell)->tree = 0;
 		return (2);
 	}
-	if(lexer(shell, str))
+	if (lexer(shell, str))
 	{
 		(*shell)->tree = 0;
 		return (2);
@@ -44,7 +44,7 @@ t_cmd	*parseline(t_shell *shell, char **ptr)
 
 t_cmd	*parse_double_node(t_shell *shell, char **ptr)
 {
-	t_cmd		*cmd;
+	t_cmd	*cmd;
 
 	cmd = parseexec(shell, ptr, 1, 0);
 	while (*ptr)

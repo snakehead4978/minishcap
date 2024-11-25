@@ -6,7 +6,7 @@
 /*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 13:26:02 by dakojic           #+#    #+#             */
-/*   Updated: 2024/10/17 11:19:43 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/25 18:26:57 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	findredir(t_cmd *cmd, t_cmd **temp)
 	while ((*temp)->type == REDIR || (*temp)->type == HERE)
 	{
 		if (((t_redircmd *)(*temp))->cmd->type != REDIR
-		&& ((t_redircmd *)(*temp))->cmd->type != HERE)
+			&& ((t_redircmd *)(*temp))->cmd->type != HERE)
 			break ;
 		*temp = ((t_redircmd *)(*temp))->cmd;
 	}
