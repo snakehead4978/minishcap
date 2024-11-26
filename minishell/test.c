@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
+/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 23:43:13 by snek              #+#    #+#             */
-/*   Updated: 2024/11/22 18:39:00 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/26 21:59:11 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,12 @@ int	g_bigsignal;
 int main(void)
 {
 	// char	*str = strdup('$"HOLA"');
-	char	*all = "$\"'$\"";
-	all = argument_heredoc(all);
+	char	*all;
+	char	*a;
 
-	printf(":%s:\n", all);
-	free(all);
+	a = 0;
+	
+	all = strdup("awd  \n $hi \n awdk \n");
+	heredoccer(all, 0, 0, &a);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 18:09:40 by snek              #+#    #+#             */
-/*   Updated: 2024/11/26 03:55:36 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/26 20:28:08 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,14 @@ static char	*ft_joiner(t_list *lst)
 	return (ft_listfree(&lst, subquotefree), res);
 }
 
-static int	dollar2(char *str, t_list *lst, char *tmp)
+static int	dollar2(char **str, t_list **lst, char *tmp)
 {
 	char	*next;
 
-	next = strchr(str, '$');
+	next = strchr(*str, '$');
 	if (!next)
-		next = strchr(str, '\0');
-	if (nodeadder(&lst, next, &str, 0))
+		next = strchr(*str, '\0');
+	if (nodeadder(lst, next, str, 0))
 		return (free(tmp), free(next), 1);
 	return (0);
 }
@@ -68,20 +68,20 @@ char	*dollar(char *str, int final, t_execs *exec, t_list *lst)
 				return (free(tmp), NULL);
 		}
 		else
-			if (dollar2(str, lst, tmp))
+			if (dollar2(&str, &lst, tmp))
 				return (0);
 	}
 	return (free(tmp), ft_joiner(lst));
 }
 
-static int	dollarquote2(char *str, t_list *lst, char *tmp)
+static int	dollarquote2(char **str, t_list **lst, char *tmp)
 {
 	char	*next;
 
-	next = strchr(str, '$');
+	next = strchr(*str, '$');
 	if (!next)
-		next = strchr(str, '\0');
-	if (nodeadder(&lst, next, &str, 0))
+		next = strchr(*str, '\0');
+	if (nodeadder(lst, next, str, 0))
 		return (free(tmp), 1);
 	return (0);
 }
@@ -106,7 +106,7 @@ char	*dollarquote(char *str, t_execs *exec)
 				return (free(tmp), NULL);
 		}
 		else
-			if (dollarquote2(str, lst, tmp))
+			if (dollarquote2(&str, &lst, tmp))
 				return (0);
 	}
 	return (free(tmp), ft_joiner(lst));

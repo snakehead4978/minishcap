@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
+/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 14:37:54 by jla-chon          #+#    #+#             */
-<<<<<<< Updated upstream
-/*   Updated: 2024/11/25 19:32:59 by dakojic          ###   ########.fr       */
-=======
-/*   Updated: 2024/11/26 03:25:33 by snek             ###   ########.fr       */
->>>>>>> Stashed changes
+/*   Updated: 2024/11/26 21:45:10 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +30,6 @@
 #include <unistd.h>
 #include <termios.h>
 #include <sys/ioctl.h>
-
 
 extern int g_bigsignal;
 
@@ -189,6 +184,9 @@ typedef struct s_execs
 	int stdcopies[2];
 	char	*buff;
 } t_execs;
+
+int	heredoccer(char *heredoc, int check, t_execs *exec, char **filename);
+
 
 //	Lib and Useful Funcs
 char *ft_substr(char const *s, unsigned int start,

@@ -6,7 +6,7 @@
 /*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 17:05:04 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/11/26 04:11:07 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/26 21:57:13 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ static int	getsize(char *str, t_execs *exec, t_list **list)
 	return (size);
 }
 
-static int	heredoccer(char *heredoc, int check, t_execs *exec, char **filename)
+int	heredoccer(char *heredoc, int check, t_execs *exec, char **filename)
 {
 	int		size;
 	int		fd;

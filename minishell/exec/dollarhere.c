@@ -6,7 +6,7 @@
 /*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 19:48:23 by snek              #+#    #+#             */
-/*   Updated: 2024/11/26 03:54:20 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/26 22:03:55 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,10 @@ static char	*untilnonalpha(char *str, int *i, t_execs *exec)
 	if (!final)
 		return (0);
 	*i = j + check;
-	tmp = get_env(final, exec->shell->env);
+	if (!exec)
+		tmp = getenv(final);
+	else
+		tmp = get_env(final, exec->shell->env);
 	free(final);
 	if (!tmp)
 		return (ft_calloc(sizeof(char), 1));
@@ -76,6 +79,7 @@ void	indexdollar(char *str, int *i, int fd, t_list **list)
 	}
 	else
 	{
+		j++;
 		while (str[j] && ft_isalphanum(str[j]))
 			j++;
 	}
