@@ -33,7 +33,8 @@ SRC_ARG = argument.c expansion.c filelist.c files.c  listfuncs.c listprinters.c 
 	structs.c substitution.c terminalstage.c wildcard.c heredocarg.c dollar.c dollarhere.c \
 	structsfree.c subquote.c
 
-SRC_EXEC = cmd.c execfree.c ft_pathsplit.c heredoc.c path.c pipe.c redir.c subandor.c fds.c mainexec.c
+SRC_EXEC = cmd.c execfree.c ft_pathsplit.c heredoc.c path.c pipe.c redir.c subandor.c fds.c mainexec.c \
+	execfreeer.c dollarhere.c execfreeer.c
 
 SRC_MAIN = main.c printer.c
 

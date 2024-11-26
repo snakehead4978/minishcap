@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
+/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 22:11:04 by snek              #+#    #+#             */
-/*   Updated: 2024/11/25 12:15:20 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/25 18:54:05 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 static void	catcher_sigquit(int signum)
 {
@@ -24,7 +23,7 @@ static void	ft_pipe2(t_execs *exec, int fd[3], t_pipecmd *cmds, t_list *fds)
 	t_fds	*tmp;
 	t_shell	*shell;
 	char	*buff;
-	int	err;
+	int		err;
 
 	tmp = fds->data;
 	signal(SIGQUIT, catcher_sigquit);
@@ -46,37 +45,30 @@ static void	ft_pipe2(t_execs *exec, int fd[3], t_pipecmd *cmds, t_list *fds)
 	exit(err);
 }
 
-int	ft_pipe(t_execs *exec)
+int	ft_pipe(t_execs *exec, int err, t_pipecmd *cmds)
 {
-	t_pipecmd	*cmds;
-	int	fd[3];
-	t_list	*fds;
-	t_fds	*tmp;
-	int	err;
+	int			fd[3];
+	t_list		*fds;
+	t_fds		*tmp;
 
-	err = 0;
 	if (!exec->cmd)
 		return (0);
-	cmds = (t_pipecmd *)exec->cmd;
 	pipe(fd);
 	fds = listnew(fdsnew(0, 0), fdsfree);
 	tmp = fds->data;
 	fd[2] = fork();
 	if (!fd[2])
-		ft_pipe2(exec, fd, cmds, fds);
+		return (ft_pipe2(exec, fd, cmds, fds), ft_removefd(fds), err);
 	else
 	{
 		close(fd[1]);
 		tmp->fd = fd[0];
-		tmp->type= FD_FILEIN;
+		tmp->type = FD_FILEIN;
 		if (!listaddback(&exec->fds, fds, fdsfree))
 			return (execfree(exec), 1);
 		if (ft_expandcmd(exec, cmds->right))
 			return (execfree(exec), 1);
 		err = ft_sorter(exec, cmds->right);
-		close(fd[0]);
-		waitpid(fd[2], &fd[2], 0);
+		return (close(fd[0]), waitpid(fd[2], &fd[2], 0), ft_removefd(fds), err);
 	}
-	ft_removefd(fds);
-	return (err);
 }

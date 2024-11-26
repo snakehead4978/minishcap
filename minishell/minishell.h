@@ -6,7 +6,11 @@
 /*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 14:37:54 by jla-chon          #+#    #+#             */
+<<<<<<< Updated upstream
 /*   Updated: 2024/11/25 19:32:59 by dakojic          ###   ########.fr       */
+=======
+/*   Updated: 2024/11/26 03:25:33 by snek             ###   ########.fr       */
+>>>>>>> Stashed changes
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -274,9 +278,14 @@ t_cmd *andcmd(t_cmd *left, t_cmd *right);
 t_cmd *orcmd(t_cmd *left, t_cmd *right);
 void ft_removefd(t_list *fds);
 int	exit_execfree(t_execs *exec, int err);
+int	ft_sorterfree(t_execs *exec, t_cmd *cmd);
 
 //	Expansion
 t_list *expansion(char *str);
+
+//	Substitution Heredoc 2
+void	indexdollar(char *str, int *i, int fd, t_list **list);
+char	*getdollarherehere(char *str, int *i, t_execs *exec);
 
 // 	Substitution Heredoc
 char	*getdollarhere(char **str, int final);
@@ -331,20 +340,20 @@ int	ft_closeallfds(t_execs *exec);
 
 // Command and Path
 char **ft_pathsplit(char const *s, char c, char *bonus);
-int ft_command(t_execs *exec, t_execcmd *cmd);
+int ft_command(t_execs *exec, t_execcmd *cmd, int fd, char *command);
 
 // Exec Main Func
 int executer(t_shell *shell, int err, char *buff);
 
 // Exec Funcs
 int ft_sorter(t_execs *exec, t_cmd *cmd);
-int ft_pipe(t_execs *exec);
-int ft_redir(t_execs *exec);
-int ft_and(t_execs *exec);
-int ft_or(t_execs *exec);
-int ft_sub(t_execs *exec);
-int ft_exec(t_execs *exec);
-int ft_here(t_execs *exec);
+int ft_pipe(t_execs *exec, int err, t_pipecmd *cmd);
+int ft_redir(t_execs *exec, int err, t_redircmd *cmd);
+int ft_and(t_execs *exec, int err, t_andcmd *cmd);
+int ft_or(t_execs *exec, int err, t_orcmd *cmd);
+int ft_sub(t_execs *exec, int err, t_sub *cmd);
+int ft_exec(t_execs *exec, int err, t_execcmd *cmd);
+int ft_here(t_execs *exec, int err, t_redircmd *cmd);
 
 // Parsing
 

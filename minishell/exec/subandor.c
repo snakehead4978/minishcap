@@ -6,20 +6,16 @@
 /*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 22:20:13 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/11/25 17:15:13 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/25 18:59:13 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_and(t_execs *exec)
+int	ft_and(t_execs *exec, int err, t_andcmd *cmds)
 {
-	t_andcmd	*cmds;
-	int	err;
-
 	if (!exec->cmd)
 		return (0);
-	cmds = (t_andcmd *)exec->cmd;
 	if (ft_expandcmd(exec, cmds->left))
 		return (execfree(exec), 1);
 	err = ft_sorter(exec, cmds->left);
@@ -32,14 +28,10 @@ int	ft_and(t_execs *exec)
 	return (err);
 }
 
-int	ft_or(t_execs *exec)
+int	ft_or(t_execs *exec, int err, t_orcmd *cmds)
 {
-	t_orcmd	*cmds;
-	int	err;
-
 	if (!exec->cmd)
 		return (0);
-	cmds = (t_orcmd *)exec->cmd;
 	if (ft_expandcmd(exec, cmds->left))
 		return (execfree(exec), 1);
 	err = ft_sorter(exec, cmds->left);
@@ -67,16 +59,12 @@ static void	ft_sub2(t_execs *exec, t_shell *shell, char *buff, t_sub *cmds)
 	exit(err);
 }
 
-int	ft_sub(t_execs *exec)
-{	
-	t_sub	*cmds;
+int	ft_sub(t_execs *exec, int err, t_sub *cmds)
+{
 	int	pid;
-	int	err;
 
-	err = 0;
 	if (!exec->cmd)
 		return (0);
-	cmds = (t_sub *)exec->cmd;
 	pid = fork();
 	if (!pid)
 		ft_sub2(exec, exec->shell, exec->buff, cmds);

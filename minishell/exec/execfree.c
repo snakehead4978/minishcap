@@ -6,13 +6,11 @@
 /*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 18:28:34 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/11/24 21:12:28 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/25 19:13:39 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static int	ft_sorterfree(t_execs *exec, t_cmd *cmd);
 
 static int	ft_execcfree(t_execs *exec)
 {
@@ -73,7 +71,7 @@ static int	ft_branch(t_execs *exec)
 	return (0);
 }
 
-static int	ft_sorterfree(t_execs *exec, t_cmd *cmd)
+int	ft_sorterfree(t_execs *exec, t_cmd *cmd)
 {
 	exec->cmd = cmd;
 	if (!cmd)
@@ -86,41 +84,4 @@ static int	ft_sorterfree(t_execs *exec, t_cmd *cmd)
 		ft_branch(exec);
 	free(cmd);
 	return (0);
-}
-
-int	execfree(t_execs *exec)
-{
-	int	err;
-
-	if (!exec)
-		return (0);
-	err = exec->ret;
-	dup2(exec->stdcopies[0], 0);
-	dup2(exec->stdcopies[1], 1);
-	close(exec->stdcopies[0]);
-	close(exec->stdcopies[1]);
-	ft_listfree(&exec->fds, fdsfree);
-	ft_sorterfree(exec, exec->shell->tree);
-	free(exec);
-	return (err);
-}
-
-int	exit_execfree(t_execs *exec, int err)
-{
-	t_shell	*shell;
-
-	if (!exec)
-		return (0);
-	shell = exec->shell;
-	dup2(exec->stdcopies[0], 0);
-	dup2(exec->stdcopies[1], 1);
-	close(exec->stdcopies[0]);
-	close(exec->stdcopies[1]);
-	ft_listfree(&exec->fds, fdsfree);
-	ft_sorterfree(exec, exec->shell->tree);
-	free(exec->buff);
-	arrayfree(&shell->env);
-	free(shell);
-	free(exec);
-	exit(err);
 }

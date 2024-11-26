@@ -6,7 +6,7 @@
 /*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 21:46:59 by snek              #+#    #+#             */
-/*   Updated: 2024/11/24 21:53:09 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/25 18:59:20 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ int	ft_setfds(t_execs *exec)
 			fdout = fds->fd;
 		list = list->next;
 	}
-	// printf("DUPING %d %d\n", fdin, fdout);
 	if (dup2(fdin, 0) == -1 || dup2(fdout, 1) == -1)
 		return (1);
 	return (0);
@@ -44,7 +43,6 @@ int	ft_closeallfds(t_execs *exec)
 	lst = exec->fds;
 	while (lst)
 	{
-		// fprintf(stderr, "CLOSING %d\n", ((t_fds *)lst->data)->fd);
 		close(((t_fds *)lst->data)->fd);
 		lst = lst->next;
 	}

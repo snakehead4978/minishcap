@@ -6,128 +6,16 @@
 /*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 17:05:04 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/11/25 18:33:16 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/25 19:54:51 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*getdollarherehere(char *str, int *i, t_execs *exec)
-{
-	char	*var;
-	char	*sub;
-	int		j;
-
-	j = *i + 1;
-	if (!str[j] || str[j] == '"' || str[j] == '\'' || iswhite(str[j]))
-	{
-		(*i)++;
-		return (ft_strdup("$"));
-	}
-	else if (!strncmp(&str[j], "{?", 2))
-	{
-		if (str[j + 2] != '}')
-			return (0);
-		*i += 3;
-		return (ft_itoa(exec->ret));
-	}
-	else if (str[j] == '?')
-	{
-		*i += 1;
-		return (ft_itoa(exec->ret));
-	}
-	else if (str[j] == '{')
-	{
-		while (str[j] != '}')
-		{
-			j++;
-			if (iswhite(str[j]) || !str[j] || (str[j] == '}' && j == *i + 2)
-				|| str[j] == '\'' || str[j] == '"')
-				return (0);
-		}
-		sub = ft_substr(str + *i, 2, j - *i - 2);
-		if (!sub)
-			return (0);
-		*i = j + 1;
-		var = get_env(sub, exec->shell->env);
-		free(sub);
-		if (!var)
-			return (ft_calloc(sizeof(char), 1));
-		return (var);
-	}
-	else
-	{
-		while (str[j] && !iswhite(str[j]) && str[j] != '\'' && str[j] != '"')
-			j++;
-		sub = ft_substr(str + *i, 1, j - *i - 1);
-		if (!sub)
-			return (0);
-		var = get_env(sub, exec->shell->env);
-		*i = j;
-		free(sub);
-		if (!var)
-			return (ft_calloc(sizeof(char), 1));
-		return (var);
-	}
-}
-
-static int	getsize(char *str, int check, t_execs *exec, t_list **list)
-{
-	int	i;
-	int	size;
-	char	*tmp;
-
-	if (check)
-		return (ft_strlen(str));
-	i = 0;
-	size = 0;
-	while (str[i] && size < PIPE_SIZE)
-	{
-		if (str[i] == '$')
-		{
-			tmp = getdollarherehere(str, &i, exec);
-			if (!tmp)
-				return (ft_listfree(list, free), ft_printerror("minishell: ", str, ": bad substitution"), -1);
-			if (!listaddback(list, listnew(tmp, free), free))
-				return (-1);
-			size += ft_strlen(tmp);
-		}
-		else
-		{
-			i++;
-			size++;
-		}
-	}
-	return (size);
-}
-
-static void	indexdollar(char *str, int *i, int fd, t_list **list)
-{
-	char	*dollar;
-	int		j;
-
-	j = *i;
-	dollar = (char *)(*list)->data;
-	*list = (*list)->next;
-	write(fd, dollar, ft_strlen(dollar));
-	if (str[j + 1] == '{')
-	{
-		while (str[j] != '}')
-			j++;
-		j++;
-	}
-	else
-	{
-		while (str[j] && str[j] != '\'' && str[j] != '\"' && !iswhite(str[j]))
-			j++;
-	}
-	*i = j;
-}
-
 static void	writetofd(char *str, t_list **list, int fd, int check)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
 	char	*tmp;
 
 	i = 0;
@@ -173,10 +61,41 @@ static int	heredocforp(char *str, t_list **list, int checkquote, char *name)
 	return (pipes[0]);
 }
 
+static int	getsize(char *str, int check, t_execs *exec, t_list **list)
+{
+	int		i;
+	int		size;
+	char	*tmp;
+
+	if (check)
+		return (ft_strlen(str));
+	i = 0;
+	size = 0;
+	while (str[i] && size < PIPE_SIZE)
+	{
+		if (str[i] == '$')
+		{
+			tmp = getdollarherehere(str, &i, exec);
+			if (!tmp)
+				return (ft_listfree(list, free), ft_printerror("minishell: ", str,
+						": bad substitution"), -1);
+			if (!listaddback(list, listnew(tmp, free), free))
+				return (-1);
+			size += ft_strlen(tmp);
+		}
+		else
+		{
+			i++;
+			size++;
+		}
+	}
+	return (size);
+}
+
 static int	heredoccer(char *heredoc, int check, t_execs *exec, char **filename)
 {
-	int	size;
-	int	fd;
+	int		size;
+	int		fd;
 	t_list	*list;
 	t_list	*node;
 	char	*tmp;
@@ -198,18 +117,15 @@ static int	heredoccer(char *heredoc, int check, t_execs *exec, char **filename)
 	return (ft_listfree(&node, free), fd);
 }
 
-int	ft_here(t_execs *exec)
+int	ft_here(t_execs *exec, int err, t_redircmd *cmds)
 {
-	t_redircmd	*cmds;
 	t_list		*fds;
 	int			fd;
-	int			err;
 	char		*filename;
 
 	if (!exec->cmd)
 		return (0);
 	filename = 0;
-	cmds = (t_redircmd *)exec->cmd;
 	fd = heredoccer(cmds->heredoc, cmds->quote, exec, &filename);
 	fds = listnew(fdsnew(fd, FD_FILEIN), fdsfree);
 	if (fd == -1 || !listaddback(&exec->fds, fds, fdsfree))

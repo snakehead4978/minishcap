@@ -6,7 +6,7 @@
 /*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 16:21:37 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/10/23 01:27:00 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/25 19:11:36 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,19 +38,24 @@ static void	ft_splitfree(char **arr)
 	}
 }
 
-static int	ft_paths(char **ev, char **name)
+static void	miniprint(char *str, int i)
 {
-	int		i;
-	char	**paths;
+	if (!i)
+		ft_printerror("minishell: ", str, ": command not found");
+	else if (i == 1)
+		ft_printerror("minishell: ", str, ": Is a directory");
+	else
+		ft_printerror("minishell: ", str, ": no such file or directory");
+}
+
+static int	ft_paths(char **ev, char **name, int i, char **paths)
+{
 	char	*path;
 
-	i = 0;
-	if (!**name)
-		return (ft_printerror("minishell: ", "''", ": command not found"), 127);
 	while (ev[i] && ft_strncmp(ev[i], "PATH=", 5))
 		i++;
 	if (!ev[i])
-		return (ft_printerror("minishell: ", *name, ": command not found"), 127);
+		return (miniprint(*name, 0), 127);
 	paths = ft_pathsplit(&ev[i][5], ':', "/");
 	if (!paths)
 		return (1);
@@ -68,14 +73,11 @@ static int	ft_paths(char **ev, char **name)
 		}
 		free(path);
 	}
-	return (ft_splitfree(paths), ft_printerror("minishell: ", *name, ": command not found"), 127);
+	return (ft_splitfree(paths), miniprint(*name, 0), 127);
 }
 
-int	ft_command(t_execs *exec, t_execcmd *cmd)
+int	ft_command(t_execs *exec, t_execcmd *cmd, int fd, char *command)
 {
-	char	*command;
-	int		fd;
-
 	command = cmd->args[0];
 	if (ft_strchr(command, '/'))
 	{
@@ -83,7 +85,7 @@ int	ft_command(t_execs *exec, t_execcmd *cmd)
 		if (fd == -1)
 		{
 			if (errno == EISDIR)
-				return (ft_printerror("minishell: ", command, ": Is a directory"), 126);
+				return (miniprint(command, 1), 126);
 		}
 		else
 			close(fd);
@@ -92,10 +94,12 @@ int	ft_command(t_execs *exec, t_execcmd *cmd)
 		if (errno == EACCES)
 			ft_printerror("minishell: ", command, ": permission denied");
 		else if (errno == ENOENT)
-			ft_printerror("minishell: ", command, ": no such file or directory");
+			miniprint(command, 2);
 		else
 			perror("access");
 		return (127);
 	}
-	return (ft_paths(exec->shell->env, cmd->args));
+	if (!**cmd->args)
+		return (ft_printerror("minishell: ", "''", ": command not found"), 127);
+	return (ft_paths(exec->shell->env, cmd->args, 0, 0));
 }

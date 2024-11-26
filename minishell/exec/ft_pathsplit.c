@@ -6,7 +6,7 @@
 /*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 17:27:13 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/10/21 02:23:26 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/25 18:57:27 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,8 @@ char	**ft_pathsplit(char const *s, char c, char *bonus)
 	while (index[2] < index[3])
 	{
 		ft_countwords(s, c, index);
-		res[index[2]] = malloc(sizeof(char) * (ft_findlength(s, c, index) + size + 1));
+		res[index[2]] = ft_calloc(sizeof(char),
+				(ft_findlength(s, c, index) + size +1));
 		if (!res[index[2]])
 			return (ft_freesplit(res, index[2]));
 		ft_fillsplit(res[index[2]], s, index, bonus);

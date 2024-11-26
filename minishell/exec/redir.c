@@ -6,7 +6,7 @@
 /*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 21:55:37 by snek              #+#    #+#             */
-/*   Updated: 2024/11/25 18:01:20 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/25 18:58:56 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ static int	ft_redir2(t_execs *exec, char **all, t_redircmd *cmds, int *fd)
 	if (!all)
 		return (execfree(exec), 1);
 	if (*all && all[1])
-		return (ft_printerror("minishell: ", cmds->file, ": ambiguous redirect"), arrayfree(&all), 333);
+		return (ft_printerror("minishell: ", cmds->file,
+				": ambiguous redirect"), arrayfree(&all), 333);
 	if (cmds->mode == O_RDONLY)
 		*fd = open(*all, cmds->mode);
 	else
@@ -51,16 +52,13 @@ static int	ft_redir2(t_execs *exec, char **all, t_redircmd *cmds, int *fd)
 	return (0);
 }
 
-int	ft_redir(t_execs *exec)
+int	ft_redir(t_execs *exec, int err, t_redircmd *cmds)
 {
 	t_list	*fds;
 	int		fd;
-	t_redircmd	*cmds;
-	int		err;
 
 	if (!exec || !exec->cmd)
 		return (0);
-	cmds = (t_redircmd *)exec->cmd;
 	fd = 0;
 	err = ft_redir2(exec, 0, cmds, &fd);
 	if (err)
