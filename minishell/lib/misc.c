@@ -6,7 +6,7 @@
 /*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 15:57:43 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/11/21 23:46:57 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/26 04:17:15 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,6 @@ char	*ft_strcatter(char *str1, char *str2)
 		final[j++] = str2[i++];
 	return (free(str1), final);
 }
-
-
 
 char	*ft_strstr(char *haystack, char *needle)
 {
@@ -123,8 +121,8 @@ char	*ft_itoa(int num)
 
 char	*ft_itoul(unsigned long num)
 {
-	char	*res;
-	int		size;
+	char			*res;
+	int				size;
 	unsigned long	tmp;
 
 	if (num == 0)
@@ -156,10 +154,7 @@ int	arrayfree(char ***array)
 	if (!*array)
 		return (1);
 	while ((*array)[i])
-	{
-		// printf("FREEING :%s$\n", array[i]);
 		free((*array)[i++]);
-	}
 	free((*array)[i]);
 	free(*array);
 	*array = 0;

@@ -6,7 +6,7 @@
 /*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 19:48:23 by snek              #+#    #+#             */
-/*   Updated: 2024/11/26 03:24:07 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/26 03:54:20 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,7 @@ static char	*untilnonalpha(char *str, int *i, t_execs *exec)
 	j = *i + 1;
 	check = (str[j] == '{');
 	j += check;
-	while (str[j] && !((str[j] < '0' || str[j] > '9') && (str[j] < 'A' || str[j] > 'Z')
-			&& (str[j] < 'a' || str[j] > 'z')))
+	while (str[j] && ft_isalphanum(str[j]))
 		j++;
 	if (check && (str[j] != '}' || *i + 2 == j))
 		return (0);

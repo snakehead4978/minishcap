@@ -6,7 +6,7 @@
 /*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 17:05:04 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/11/25 19:54:51 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/26 04:11:07 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,14 +61,12 @@ static int	heredocforp(char *str, t_list **list, int checkquote, char *name)
 	return (pipes[0]);
 }
 
-static int	getsize(char *str, int check, t_execs *exec, t_list **list)
+static int	getsize(char *str, t_execs *exec, t_list **list)
 {
 	int		i;
 	int		size;
 	char	*tmp;
 
-	if (check)
-		return (ft_strlen(str));
 	i = 0;
 	size = 0;
 	while (str[i] && size < PIPE_SIZE)
@@ -77,8 +75,8 @@ static int	getsize(char *str, int check, t_execs *exec, t_list **list)
 		{
 			tmp = getdollarherehere(str, &i, exec);
 			if (!tmp)
-				return (ft_listfree(list, free), ft_printerror("minishell: ", str,
-						": bad substitution"), -1);
+				return (ft_listfree(list, free), ft_printerror("minishell: ",
+						str, ": bad substitution"), -1);
 			if (!listaddback(list, listnew(tmp, free), free))
 				return (-1);
 			size += ft_strlen(tmp);
@@ -101,7 +99,10 @@ static int	heredoccer(char *heredoc, int check, t_execs *exec, char **filename)
 	char	*tmp;
 
 	list = 0;
-	size = getsize(heredoc, check, exec, &list);
+	if (check)
+		size = ft_strlen(heredoc);
+	else
+		size = getsize(heredoc, exec, &list);
 	node = list;
 	if (size == -1)
 		return (-1);

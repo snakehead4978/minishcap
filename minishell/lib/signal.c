@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 19:27:09 by dakojic           #+#    #+#             */
-/*   Updated: 2024/11/22 16:28:55 by jla-chon         ###   ########.fr       */
+/*   Updated: 2024/11/26 04:13:58 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void    catcher_heredoc(int signum)
+static void	catcher_heredoc(int signum)
 {
-    if (signum == SIGINT)
-    {
-        g_bigsignal = SIGINT;
+	if (signum == SIGINT)
+	{
+		g_bigsignal = SIGINT;
 		close(0);
-    }
+	}
 }
 
 static void	catcher(int signum)
@@ -33,25 +33,24 @@ static void	catcher(int signum)
 	}
 }
 
-void    signals(void)
+void	signals(void)
 {
-    struct sigaction int_action;
+	struct sigaction	int_action;
 
-    int_action.sa_handler = catcher;
-    int_action.sa_flags = 0;
-    sigemptyset(&int_action.sa_mask);
+	int_action.sa_handler = catcher;
+	int_action.sa_flags = 0;
+	sigemptyset(&int_action.sa_mask);
 	sigaddset(&int_action.sa_mask, SIGINT);
-    sigaction(SIGINT, &int_action, 0);
+	sigaction(SIGINT, &int_action, 0);
 }
 
-void    signals_heredoc(void)
+void	signals_heredoc(void)
 {
-    struct sigaction int_action;
+	struct sigaction	int_action;
 
-    int_action.sa_handler = catcher_heredoc;
-    int_action.sa_flags = 0;
-    sigemptyset(&int_action.sa_mask);
+	int_action.sa_handler = catcher_heredoc;
+	int_action.sa_flags = 0;
+	sigemptyset(&int_action.sa_mask);
 	sigaddset(&int_action.sa_mask, SIGINT);
-    sigaction(SIGINT, &int_action, 0);
+	sigaction(SIGINT, &int_action, 0);
 }
-

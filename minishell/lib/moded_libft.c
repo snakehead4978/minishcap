@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   moded_libft.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
+/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 11:11:30 by dakojic           #+#    #+#             */
-/*   Updated: 2024/11/25 15:59:06 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/26 04:20:12 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ int	ft_strcmp2(const char *s1, const char *s2)
 		++s3;
 		++s4;
 	}
-	if(*s3 == '\0' && *s4 == '\0')
-        return (0);
-    return (1);
+	if (*s3 == '\0' && *s4 == '\0')
+		return (0);
+	return (1);
 }
 
 // int size_pwd(char **env)

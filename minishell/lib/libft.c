@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
+/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 13:20:17 by dakojic           #+#    #+#             */
-/*   Updated: 2024/10/21 12:28:39 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/26 04:19:36 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,15 @@ char	*ft_strchr(char *s, char c)
 
 char	*ft_strchr2(char *s, char c)
 {
-	int i;
+	int	i;
 
 	i = 0;
-
 	while (s[i])
 	{
 		if (s[i] == c)
 		{
 			printf("Simple & HERE \n");
-			if(s[i + 1] == c)
+			if (s[i + 1] == c)
 			{
 				printf("Double && HERE\n");
 				return (s);
@@ -107,7 +106,7 @@ char	*get_env(char *name, char **env)
 {
 	int		i;
 	int		k;
-	
+
 	k = ft_strlen(name);
 	i = 0;
 	while (env[i])

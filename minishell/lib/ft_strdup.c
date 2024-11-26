@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
+/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 16:22:14 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/11/25 14:02:11 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/26 04:15:47 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ char	*ft_strdup(char *s)
 {
 	size_t	i;
 	char	*new;
-	if(!s)
+
+	if (!s)
 		return (0);
 	i = 0;
 	while (s[i])

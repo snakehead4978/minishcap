@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 15:21:26 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/11/22 16:41:06 by jla-chon         ###   ########.fr       */
+/*   Updated: 2024/11/26 04:23:06 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,6 @@ static t_shell	*fillshell(char **ev)
 	return (shell);
 }
 
-
-
 static int	checkerr(int err)
 {
 	if (g_bigsignal == SIGINT)
@@ -60,9 +58,9 @@ static int	checkerr(int err)
 
 int	main(int ac, char **av, char **ev)
 {
-	int err;
-	t_shell *shell;
-	char *buff;
+	int		err;
+	t_shell	*shell;
+	char	*buff;
 
 	if (!ac || !av)
 		return (333);
