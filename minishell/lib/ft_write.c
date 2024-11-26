@@ -6,7 +6,7 @@
 /*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 20:55:44 by snek              #+#    #+#             */
-/*   Updated: 2024/11/26 04:16:25 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/26 22:38:56 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,15 @@
 
 int	ft_write(int fd, char *str, int size)
 {
-	if (write(fd, str, size) == -1)
+	int	err;
+
+	err = write(fd, str, size);
+	if (err ==  -1 && errno != EPIPE)
 	{
 		perror("minishell: write error ");
 		return (1);
 	}
+	else if (err == -1 && errno == EPIPE)
+		return (1);
 	return (0);
 }

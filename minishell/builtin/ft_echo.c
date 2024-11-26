@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
+/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 12:40:04 by dakojic           #+#    #+#             */
-/*   Updated: 2024/11/25 17:11:14 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/26 22:54:54 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,11 @@ int	ft_echo(t_execs *execs)
 	{
 		write(1, cmd->args[i], ft_strlen(cmd->args[i]));
 		if (cmd->args[i + 1] != 0)
-			write(1, " ", 1);
+			ft_write(1, " ", 1);
 		i++;
 	}
 	if (n_arg == false || (cmd->args[1] && !cmd->args[2] && !cmd->args[1][0]))
-		write(1, "\n", 1);
+		ft_write(1, "\n", 1);
 	i = 0;
 	arrayfree(&cmd->args);
 	cmd->args = 0;

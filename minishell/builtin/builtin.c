@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
+/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 21:49:12 by snek              #+#    #+#             */
-/*   Updated: 2024/11/25 19:34:50 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/26 23:01:35 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int	builtin(t_execs *exec)
 	int	command;
 	int	err;
 
+	signal(SIGPIPE, SIG_IGN);
 	ft_setfds(exec);
 	command = isbuiltin(((t_execcmd *)exec->cmd)->args[0]);
 	if (command == 1)
@@ -52,12 +53,10 @@ int	builtin(t_execs *exec)
 		err = ft_env(exec);
 	else
 		err = ft_exit(exec);
-	if (err != 1)
-	{
-		dup2(exec->stdcopies[0], 0);
-		dup2(exec->stdcopies[1], 1);
-	}
-	return (err);
+	if (err != 1 && dup2(exec->stdcopies[0], 0) != -1
+		&& dup2(exec->stdcopies[1], 1) != -1)
+		return (signal(SIGPIPE, SIG_DFL), err);
+	return (signal(SIGPIPE, SIG_DFL), err);
 }
 
 char	**new_env(char ***env, char *cmd)

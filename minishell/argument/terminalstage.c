@@ -6,7 +6,7 @@
 /*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 17:03:32 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/11/25 18:27:25 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/26 22:19:17 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static t_list	*quotetostr(t_list *node)
 	return (node);
 }
 
-static int	resplitter2(char *str, t_list *lst, t_list *final)
+static int	resplitter2(char *str, t_list *lst, t_list **final)
 {
 	t_list	*node;
 
@@ -60,7 +60,7 @@ static int	resplitter2(char *str, t_list *lst, t_list *final)
 		return (free(str), ft_listfree(&lst, free), 1);
 	node->data = 0;
 	node->next = 0;
-	if (!listaddback(&final, node, free))
+	if (!listaddback(final, node, free))
 		return (free(str), ft_listfree(&lst, free), 1);
 	return (0);
 }
@@ -87,7 +87,7 @@ t_list	*resplitter(t_list *lst, t_list *quote, t_list *final, int i)
 			return (free(str), ft_listfree(&lst, free), NULL);
 	}
 	if (!i)
-		if (resplitter2(str, lst, final))
+		if (resplitter2(str, lst, &final))
 			return (0);
 	return (free(str), ft_listfree(&lst, free), final);
 }

@@ -6,7 +6,7 @@
 /*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 22:11:04 by snek              #+#    #+#             */
-/*   Updated: 2024/11/25 18:54:05 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/26 22:45:25 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	ft_pipe(t_execs *exec, int err, t_pipecmd *cmds)
 	tmp = fds->data;
 	fd[2] = fork();
 	if (!fd[2])
-		return (ft_pipe2(exec, fd, cmds, fds), ft_removefd(fds), err);
+		ft_pipe2(exec, fd, cmds, fds);
 	else
 	{
 		close(fd[1]);
@@ -69,6 +69,6 @@ int	ft_pipe(t_execs *exec, int err, t_pipecmd *cmds)
 		if (ft_expandcmd(exec, cmds->right))
 			return (execfree(exec), 1);
 		err = ft_sorter(exec, cmds->right);
-		return (close(fd[0]), waitpid(fd[2], &fd[2], 0), ft_removefd(fds), err);
 	}
+	return (close(fd[0]), waitpid(fd[2], &fd[2], 0), ft_removefd(fds), err);
 }
