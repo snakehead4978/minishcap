@@ -6,7 +6,7 @@
 /*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 11:11:30 by dakojic           #+#    #+#             */
-/*   Updated: 2024/11/26 04:20:12 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/27 20:33:45 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ static void	sortandfill(t_list **list)
 		return ;
 	while (tmp->next)
 	{
-		if (strcmp((char *)tmp->data, (char *)tmp->next->data) > 0)
+		if (ft_strcmp((char *)tmp->data, (char *)tmp->next->data) > 0)
 		{
 			swap(tmp, list);
 			tmp = *list;

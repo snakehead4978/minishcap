@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
+/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:25:43 by dakojic           #+#    #+#             */
-/*   Updated: 2024/11/25 17:27:40 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/27 20:33:37 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	add_var(char ***env, char *lf, char *to_add)
 	j = 0;
 	while ((*env)[j] != NULL)
 	{
-		if (!ft_strncmp(lf, (*env)[j], strlen(lf)))
+		if (!ft_strncmp(lf, (*env)[j], ft_strlen(lf)))
 		{
 			free((*env)[j]);
 			(*env)[j] = ft_strdup(to_add);

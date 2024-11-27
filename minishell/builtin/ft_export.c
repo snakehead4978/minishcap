@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
+/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:01:59 by dakojic           #+#    #+#             */
-/*   Updated: 2024/11/25 17:19:40 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/27 20:33:37 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void	ft_export3(char ***env, int i, char *lf, char **cmd)
 	j = 0;
 	while ((*env)[j] != NULL)
 	{
-		if (!ft_strncmp(lf, (*env)[j], strlen(lf)))
+		if (!ft_strncmp(lf, (*env)[j], ft_strlen(lf)))
 		{
 			free((*env)[j]);
 			(*env)[j] = ft_strdup(cmd[i]);
@@ -57,7 +57,7 @@ static void	ft_export2(char **cmd, char ***env, int i, int *ret)
 {
 	char	*lf;
 
-	while (!ft_strncmp(cmd[i], "-p", strlen(cmd[i])) && cmd[i + 1] != NULL)
+	while (!ft_strncmp(cmd[i], "-p", ft_strlen(cmd[i])) && cmd[i + 1] != NULL)
 		i++;
 	while (cmd[i++] != NULL)
 	{

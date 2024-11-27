@@ -6,7 +6,7 @@
 /*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 19:48:23 by snek              #+#    #+#             */
-/*   Updated: 2024/11/26 22:03:55 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/27 20:30:35 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	*getdollarherehere(char *str, int *i, t_execs *exec)
 		*i += 1;
 		return (ft_strdup("$"));
 	}
-	else if (!strncmp(str + *i + 1, "{?", 2))
+	else if (!ft_strncmp(str + *i + 1, "{?", 2))
 	{
 		if (!str[*i + 1] || str[*i + 2] != '}')
 			return (0);

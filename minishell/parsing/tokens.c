@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
+/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 13:03:20 by dakojic           #+#    #+#             */
-/*   Updated: 2024/11/25 19:13:05 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/27 21:12:42 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ static char	*other_token(char *temp, int *check)
 		*check = 0;
 	else
 		*check = 'a';
+	printf("this is temp: %s\n", temp);
 	while (temp && *temp == (char)a && (a == '\"' || a == '\''))
 	{
 		temp++;

@@ -6,7 +6,7 @@
 /*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 19:03:54 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/11/26 22:39:16 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/27 20:58:25 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ int	ft_exec(t_execs *exec, int err, t_execcmd *cmds)
 {
 	char		**args;
 
+	printf("IM HERE wit %s:\n", cmds->args[0]);
 	if (!exec->cmd || !((t_execcmd *)exec->cmd)->args)
 		return (0);
 	args = cmds->args;

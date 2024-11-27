@@ -6,7 +6,7 @@
 /*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 23:43:13 by snek              #+#    #+#             */
-/*   Updated: 2024/11/26 21:59:11 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/27 20:45:58 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,12 +83,10 @@ int	g_bigsignal;
 int main(void)
 {
 	// char	*str = strdup('$"HOLA"');
-	char	*all;
-	char	*a;
+	char	**all;
 
-	a = 0;
-	
-	all = strdup("awd  \n $hi \n awdk \n");
-	heredoccer(all, 0, 0, &a);
+	all = calloc(sizeof(char *), 2);
+	all[0] = strdup("\"HOLA\"");
+	args(all, 0, 0, 0);
 	return (0);
 }
