@@ -67,10 +67,10 @@ $(NAME): $(OBJ_ALL)
 	$(CC) $(CFLAGS) $(INC) -o $@ $^ -lreadline
 
 clean:
-	rm -rf $(OBJ_ALL)
+	rm -rf $(OBJ_ALL) $(OBJ_TEST)
 
 fclean: clean
-	rm -rf $(NAME)
+	rm -rf $(NAME) test
 
 re: fclean all
 

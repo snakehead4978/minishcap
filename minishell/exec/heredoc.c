@@ -6,7 +6,7 @@
 /*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 17:05:04 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/11/26 21:57:13 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/27 20:21:49 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ static void	writetofd(char *str, t_list **list, int fd, int check)
 	}
 	while (str[i])
 	{
-		tmp = strchr(str + i, '$');
+		tmp = ft_strchrreal(str + i, '$');
 		if (!tmp)
-			tmp = strchr(str + i, '\0');
+			tmp = ft_strchrreal(str + i, '\0');
 		i += (tmp - (str + i));
 		write(fd, str + j, i - j);
 		if (str[i] == '$')

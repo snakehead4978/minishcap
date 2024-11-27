@@ -6,7 +6,7 @@
 /*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 14:57:13 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/10/21 01:17:57 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/27 20:21:43 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@ static char	*findnextquote(char *str)
 	char	*squote;
 
 	if (*str == '"' || *str == '\'')
-		return (strchr(str + 1, *str) + 1);
-	dquote = strchr(str, '"');
-	squote = strchr(str, '\'');
+		return (ft_strchrreal(str + 1, *str) + 1);
+	dquote = ft_strchrreal(str, '"');
+	squote = ft_strchrreal(str, '\'');
 	if (!dquote)
 	{
 		if (!squote)
-			return (strchr(str, '\0'));
+			return (ft_strchrreal(str, '\0'));
 		return (squote);
 	}
 	else if (!squote)

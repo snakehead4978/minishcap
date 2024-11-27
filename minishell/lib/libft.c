@@ -6,7 +6,7 @@
 /*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 13:20:17 by dakojic           #+#    #+#             */
-/*   Updated: 2024/11/26 04:19:36 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/27 20:20:50 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,19 @@ char	*ft_strchr(char *s, char c)
 			return (s);
 		s++;
 	}
+	return (0);
+}
+
+char	*ft_strchrreal(char *s, char c)
+{
+	while (*s)
+	{
+		if (*s == c)
+			return (s);
+		s++;
+	}
+	if (*s == c)
+		return (s);
 	return (0);
 }
 

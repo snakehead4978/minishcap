@@ -6,7 +6,7 @@
 /*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 14:37:54 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/11/26 21:45:10 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/27 20:20:57 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,6 +209,7 @@ int ft_strcmp(const char *s1, const char *s2);
 void *ft_calloc(size_t nmemb, size_t size);
 char *ft_strchr(char *s, char c);
 char *ft_strchr2(char *s, char c);
+char	*ft_strchrreal(char *s, char c);
 // void					ft_bzero(void *s, size_t n);
 int ft_strlen(const char *s);
 char **ft_split(char const *str, char c);

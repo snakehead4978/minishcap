@@ -6,7 +6,7 @@
 /*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 18:09:40 by snek              #+#    #+#             */
-/*   Updated: 2024/11/26 20:28:08 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/27 20:21:32 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ static int	dollar2(char **str, t_list **lst, char *tmp)
 {
 	char	*next;
 
-	next = strchr(*str, '$');
+	next = ft_strchrreal(*str, '$');
 	if (!next)
-		next = strchr(*str, '\0');
+		next = ft_strchrreal(*str, '\0');
 	if (nodeadder(lst, next, str, 0))
 		return (free(tmp), free(next), 1);
 	return (0);
@@ -78,9 +78,9 @@ static int	dollarquote2(char **str, t_list **lst, char *tmp)
 {
 	char	*next;
 
-	next = strchr(*str, '$');
+	next = ft_strchrreal(*str, '$');
 	if (!next)
-		next = strchr(*str, '\0');
+		next = ft_strchrreal(*str, '\0');
 	if (nodeadder(lst, next, str, 0))
 		return (free(tmp), 1);
 	return (0);

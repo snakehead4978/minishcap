@@ -6,7 +6,7 @@
 /*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 16:21:37 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/11/25 19:11:36 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/27 20:23:28 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static int	ft_paths(char **ev, char **name, int i, char **paths)
 int	ft_command(t_execs *exec, t_execcmd *cmd, int fd, char *command)
 {
 	command = cmd->args[0];
-	if (ft_strchr(command, '/'))
+	if (ft_strchrreal(command, '/'))
 	{
 		fd = open(command, O_WRONLY);
 		if (fd == -1)

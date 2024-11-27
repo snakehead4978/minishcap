@@ -6,7 +6,7 @@
 /*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 18:03:29 by snek              #+#    #+#             */
-/*   Updated: 2024/11/26 03:55:11 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/27 20:21:41 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,9 @@ char	*dollarhere(char *str, int final, t_list *lst, char *tmp)
 		}
 		else
 		{
-			next = strchr(str, '$');
+			next = ft_strchrreal(str, '$');
 			if (!next)
-				next = strchr(str, '\0');
+				next = ft_strchrreal(str, '\0');
 			if (nodeadder(&lst, next, &str, 0))
 				return (free(tmp), free(next), NULL);
 		}
@@ -116,9 +116,9 @@ char	*dollarquotehere(char *str, t_list *lst, char *tmp)
 		}
 		else
 		{
-			next = strchr(str, '$');
+			next = ft_strchrreal(str, '$');
 			if (!next)
-				next = strchr(str, '\0');
+				next = ft_strchrreal(str, '\0');
 			if (nodeadder(&lst, next, &str, 0))
 				return (free(tmp), NULL);
 		}
