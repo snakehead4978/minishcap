@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parsing.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 13:11:45 by dakojic           #+#    #+#             */
-/*   Updated: 2024/11/27 21:02:38 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/28 13:29:45 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ t_cmd	*parse_double_node(t_shell *shell, char **ptr)
 	t_cmd	*cmd;
 
 	cmd = parseexec(shell, ptr, 1, 0);
-		printf("ME HERE!\n");
 	while (*ptr)
 	{
 		if (lfsymbol(ptr, "|"))

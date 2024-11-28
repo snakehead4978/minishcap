@@ -6,7 +6,7 @@
 /*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 17:15:27 by dakojic           #+#    #+#             */
-/*   Updated: 2024/11/25 17:14:38 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/28 12:18:37 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,8 @@ int	ft_pwd(t_execs *execs)
 	if (!pwd)
 		return (write(STDERR_FILENO,
 				"pwd: error retrieving\
-				current directory: getcwd: cannot access parent\
-				directories: No such file or directory\n",
-				109), 333);
+current directory: getcwd: cannot access parent\
+directories: No such file or directory\n", 109), 333);
 	if (ft_write(1, "", 0))
 		return (execfree(execs), 1);
 	printf("%s\n", pwd);

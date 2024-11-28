@@ -3,25 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   libft.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 13:20:17 by dakojic           #+#    #+#             */
-/*   Updated: 2024/11/27 20:20:50 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/28 13:28:05 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	*ft_strchr(char *s, char c)
-{
-	while (*s)
-	{
-		if (*s == c)
-			return (s);
-		s++;
-	}
-	return (0);
-}
 
 char	*ft_strchrreal(char *s, char c)
 {
@@ -45,26 +34,14 @@ char	*ft_strchr2(char *s, char c)
 	{
 		if (s[i] == c)
 		{
-			printf("Simple & HERE \n");
 			if (s[i + 1] == c)
 			{
-				printf("Double && HERE\n");
 				return (s);
 			}
 		}
 		i++;
 	}
 	return (0);
-}
-
-int	ft_strlen(const char *s)
-{
-	int	i;
-
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
 }
 
 size_t	ft_strlcpy(char *dst, const char *src, size_t size)
@@ -108,25 +85,4 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	}
 	new[cur] = '\0';
 	return (new);
-}
-
-int	ft_isalpha(int c)
-{
-	return ((c >= 65 && c <= 90) || (c >= 97 && c <= 122));
-}
-
-char	*get_env(char *name, char **env)
-{
-	int		i;
-	int		k;
-
-	k = ft_strlen(name);
-	i = 0;
-	while (env[i])
-	{
-		if ((!ft_strncmp(env[i], name, k)) && env[i][k] == '=')
-			return (ft_strdup(env[i] + k + 1));
-		i++;
-	}
-	return (NULL);
 }

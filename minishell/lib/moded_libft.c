@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   moded_libft.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 11:11:30 by dakojic           #+#    #+#             */
-/*   Updated: 2024/11/27 20:33:45 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/28 13:28:49 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,77 +60,24 @@ int	ft_strcmp2(const char *s1, const char *s2)
 //     return (ft_strlen(env[i]));
 // }
 
-static void	swap(t_list *node, t_list **list)
+int	arrayfree(char ***array)
 {
-	t_list	*tmp;
-	t_list	*find;
+	int	i;
 
-	find = *list;
-	while (find)
-	{
-		if (find->next == node)
-			break ;
-		find = find->next;
-	}
-	tmp = node->next;
-	if (!find)
-		*list = tmp;
-	else
-		find->next = tmp;
-	node->next = tmp->next;
-	tmp->next = node;
+	i = 0;
+	if (!*array)
+		return (1);
+	while ((*array)[i])
+		free((*array)[i++]);
+	free((*array)[i]);
+	free(*array);
+	*array = 0;
+	return (0);
 }
 
-static void	sortandfill(t_list **list)
+int	iswhite(char c)
 {
-	t_list	*tmp;
-
-	tmp = *list;
-	if (!tmp)
-		return ;
-	while (tmp->next)
-	{
-		if (ft_strcmp((char *)tmp->data, (char *)tmp->next->data) > 0)
-		{
-			swap(tmp, list);
-			tmp = *list;
-		}
-		else
-			tmp = tmp->next;
-	}
-}
-
-t_list	*sortedlist(char **env)
-{
-	t_list			*list;
-
-	list = 0;
-	while (*env)
-	{
-		if (!listaddback(&list, listnew(ft_strdup(*env), free), free))
-			return (NULL);
-		env++;
-	}
-	sortandfill(&list);
-	return (list);
-}
-
-void	print_env(char **env)
-{
-	t_list	*list;
-	t_list	*tmp;
-	char	*str;
-
-	list = sortedlist(env);
-	tmp = list;
-	while (list)
-	{
-		str = ft_strchr((char *)list->data, '=');
-		if (str && !str[1])
-			printf("declare -x %s\"\"\n", (char *)list->data);
-		else
-			printf("declare -x %s\n", (char *)list->data);
-		list = list->next;
-	}
-	ft_listfree(&tmp, free);
+	if ((c >= 9 && c <= 13) || c == ' ')
+		return (1);
+	return (0);
 }

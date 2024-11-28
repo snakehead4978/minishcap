@@ -3,21 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   misc.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 15:57:43 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/11/26 04:17:15 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/28 13:08:54 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	iswhite(char c)
-{
-	if ((c >= 9 && c <= 13) || c == ' ')
-		return (1);
-	return (0);
-}
 
 char	*ft_strcatter(char *str1, char *str2)
 {
@@ -144,19 +137,4 @@ char	*ft_itoul(unsigned long num)
 		num /= 10;
 	}
 	return (res);
-}
-
-int	arrayfree(char ***array)
-{
-	int	i;
-
-	i = 0;
-	if (!*array)
-		return (1);
-	while ((*array)[i])
-		free((*array)[i++]);
-	free((*array)[i]);
-	free(*array);
-	*array = 0;
-	return (0);
 }

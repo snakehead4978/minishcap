@@ -6,7 +6,7 @@
 /*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 16:17:13 by dakojic           #+#    #+#             */
-/*   Updated: 2024/11/25 17:11:09 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/28 13:41:43 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static long long	ret_exit(char *x)
 		else if (!(x[i] >= '0' && x[i] <= '9'))
 		{
 			write(2, "minishell: exit: ", 17);
-			write(2, &x, ft_strlen(x));
+			write(2, x, ft_strlen(x));
 			return (write(2, ": numeric argument required\n", 28), 2);
 		}
 		i++;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 15:21:26 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/11/27 21:01:45 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/28 16:31:21 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,14 @@ static int	checkerr(int err)
 	return (err);
 }
 
+static void	init(int *err, t_shell **shell, char **ev)
+{
+	g_bigsignal = 0;
+	err = 0;
+	*shell = fillshell(ev);
+	signals();
+}
+
 int	main(int ac, char **av, char **ev)
 {
 	int		err;
@@ -64,10 +72,7 @@ int	main(int ac, char **av, char **ev)
 
 	if (!ac || !av)
 		return (333);
-	g_bigsignal = 0;
-	err = 0;
-	shell = fillshell(ev);
-	signals();
+	init(&err, &shell, ev);
 	if (!shell)
 		return (1);
 	while (1)
@@ -77,11 +82,7 @@ int	main(int ac, char **av, char **ev)
 		if (!buff)
 			break ;
 		err = checkerr(err);
-		// Choper le err 2 a partir de parsecmd en cas de fail
-		// err = parsecmd(&shell, buff);
 		err = parsecmd(&shell, buff, err);
-		// printf("current err: %d\n", err);
-		// print_cmd(shell->tree, 0);
 		err = checkerr(err);
 		err = executer(shell, err, buff);
 		err = checkerr(err);
@@ -89,7 +90,5 @@ int	main(int ac, char **av, char **ev)
 		free(buff);
 	}
 	arrayfree(&shell->env);
-	free(shell);
-	rl_clear_history();
-	return (err);
+	return (free(shell), rl_clear_history(), err);
 }
