@@ -6,7 +6,7 @@
 /*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 15:21:26 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/11/28 16:31:21 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/28 16:54:59 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static int	checkerr(int err)
 static void	init(int *err, t_shell **shell, char **ev)
 {
 	g_bigsignal = 0;
-	err = 0;
+	*err = 0;
 	*shell = fillshell(ev);
 	signals();
 }

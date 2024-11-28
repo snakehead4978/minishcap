@@ -6,7 +6,7 @@
 /*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 11:27:57 by dakojic           #+#    #+#             */
-/*   Updated: 2024/11/25 18:30:03 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/28 18:40:41 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,13 @@ static int	type_check2(t_lexer *lex)
 	{
 		if (prev_check(lex, "-0145678"))
 			return (ft_printerror("Minishell: syntax error near \
-unexpected token `<'", 0, 0), 1);
+unexpected token `<\'", 0, 0), 1);
 	}
 	else if (lex->type == LEX_REDIRIN)
 	{
 		if (prev_check(lex, "-0145678"))
 			return (ft_printerror("Minishell: syntax \
-error near unexpected token `>'", 0, 0), 1);
+error near unexpected token `>\'", 0, 0), 1);
 	}
 	else if (lex->type == LEX_AND)
 	{
@@ -73,7 +73,7 @@ static int	type_check(t_lexer *lex, int *i, t_shell **shell)
 	{
 		if (prev_check(lex, "17"))
 			return (ft_printerror("Minishell: syntax error \
-near unexpected token ||", 0, 0), 1);
+near unexpected token `||\'", 0, 0), 1);
 	}
 	else if (lex->type == LEX_HERE)
 	{
@@ -87,7 +87,7 @@ unexpected token `<<\'", 0, 0), 1);
 	{
 		if (prev_check(lex, "-0145678"))
 			return (ft_printerror("Minishell: syntax error near \
-unexpected token `>>'", 0, 0), 1);
+unexpected token `>>\'", 0, 0), 1);
 	}
 	return (0);
 }

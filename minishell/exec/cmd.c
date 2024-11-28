@@ -6,7 +6,7 @@
 /*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 19:03:54 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/11/28 13:20:35 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/28 19:01:11 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ static int	ft_exec2(t_execs *exec, char **args, int err, t_execcmd *cmds)
 		if (ft_setfds(exec))
 			exit_execfree(exec, 333);
 		ft_closeallfds(exec);
+		if (!args[0])
+			exit_execfree(exec, 0);
 		err = ft_command(exec, cmds, 0, 0);
 		if (!err)
 		{

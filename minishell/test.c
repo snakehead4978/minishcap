@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 23:43:13 by snek              #+#    #+#             */
-/*   Updated: 2024/11/27 20:45:58 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/28 17:10:58 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,63 +30,63 @@
 
 int	g_bigsignal;
 
-// static char	**dupenv(char **ev)
-// {
-// 	char	**env;
-// 	int		i;
-
-// 	if (!ev)
-// 		return (ft_calloc(1, sizeof(char *)));
-// 	i = 0;
-// 	while (ev[i])
-// 		i++;
-// 	env = ft_calloc(sizeof(char *), i + 1);
-// 	while (i--)
-// 		env[i] = ft_strdup(ev[i]);
-// 	return (env);
-// }
-
-// static t_shell	*fillshell(char **ev)
-// {
-// 	t_shell	*shell;
-
-// 	shell = ft_calloc(sizeof(t_shell), 1);
-// 	if (!shell)
-// 		return (0);
-// 	shell->env = dupenv(ev);
-// 	if (!shell->env)
-// 		return (free(shell), NULL);
-// 	shell->pipe = 0;
-// 	shell->tree = 0;
-// 	shell->type = SHELL;
-// 	return (shell);
-// }
-
-// int main(int ac, char **av, char **ev)
-// {
-
-// 	int err = 0; 
-// 	t_shell *shell;
-// 	char *buff;
-
-// 	buff = strdup("echo a");
-// 	if (!ac || !av)
-// 		return (333);
-// 	shell = fillshell(ev);
-// 	err = parsecmd(&shell, buff, err);
-// 	arrayfree(&shell->env);
-// 	free(shell);
-// 	return (err);
-// }
-
-
-int main(void)
+static char	**dupenv(char **ev)
 {
-	// char	*str = strdup('$"HOLA"');
-	char	**all;
+	char	**env;
+	int		i;
 
-	all = calloc(sizeof(char *), 2);
-	all[0] = strdup("\"HOLA\"");
-	args(all, 0, 0, 0);
-	return (0);
+	if (!ev)
+		return (ft_calloc(1, sizeof(char *)));
+	i = 0;
+	while (ev[i])
+		i++;
+	env = ft_calloc(sizeof(char *), i + 1);
+	while (i--)
+		env[i] = ft_strdup(ev[i]);
+	return (env);
 }
+
+static t_shell	*fillshell(char **ev)
+{
+	t_shell	*shell;
+
+	shell = ft_calloc(sizeof(t_shell), 1);
+	if (!shell)
+		return (0);
+	shell->env = dupenv(ev);
+	if (!shell->env)
+		return (free(shell), NULL);
+	shell->pipe = 0;
+	shell->tree = 0;
+	shell->type = SHELL;
+	return (shell);
+}
+
+int main(int ac, char **av, char **ev)
+{
+
+	int err = 0; 
+	t_shell *shell;
+	char *buff;
+
+	buff = strdup("export a=12");
+	if (!ac || !av)
+		return (333);
+	shell = fillshell(ev);
+	err = parsecmd(&shell, buff, err);
+	arrayfree(&shell->env);
+	free(shell);
+	return (err);
+}
+
+
+// int main(void)
+// {
+// 	// char	*str = strdup('$"HOLA"');
+// 	char	**all;
+
+// 	all = calloc(sizeof(char *), 2);
+// 	all[0] = strdup("\"HOLA\"");
+// 	args(all, 0, 0, 0);
+// 	return (0);
+// }

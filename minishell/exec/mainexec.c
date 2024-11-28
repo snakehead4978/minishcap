@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mainexec.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 21:48:08 by snek              #+#    #+#             */
-/*   Updated: 2024/11/27 20:59:50 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/28 18:59:51 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	ft_expandcmd(t_execs *exec, t_cmd *cmd)
 		if (!command->args)
 			return (0);
 		command->args = args(command->args, exec, 0, 0);
-		if (!command->args || !command->args[0])
+		if (!command->args)
 			return (1);
 	}
 	return (0);

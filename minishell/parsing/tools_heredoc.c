@@ -6,7 +6,7 @@
 /*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 11:13:03 by dakojic           #+#    #+#             */
-/*   Updated: 2024/11/25 19:13:44 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/28 18:26:13 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ static char	*ft_strjoin_heredoc(char *s1, char const *s2)
 	i = 0;
 	if (!s2)
 		return (NULL);
+	if(!s1)
+		return(ft_calloc(sizeof(char), 1));
 	cur = ft_strlen_heredoc(s1) + ft_strlen_heredoc(s2);
 	new = (char *)malloc(sizeof(char) * cur + 2);
 	cur = 0;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:01:59 by dakojic           #+#    #+#             */
-/*   Updated: 2024/11/27 20:33:37 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/28 19:52:25 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,9 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-void	line_saver(char *cmd, int *i, int *ret)
+static void	line_saver(char *cmd, int *ret)
 {
 	ft_printerror("minishell: export: `", cmd, "': not a valid identifier");
-	(*i)++;
 	*ret = 333;
 }
 
@@ -41,7 +40,7 @@ static void	ft_export3(char ***env, int i, char *lf, char **cmd)
 		*env = new_env(env, cmd[i]);
 }
 
-int	modded_isalphanum(char *s)
+static int	modded_isalphanum(char *s)
 {
 	while (*s)
 	{
@@ -57,13 +56,13 @@ static void	ft_export2(char **cmd, char ***env, int i, int *ret)
 {
 	char	*lf;
 
-	while (!ft_strncmp(cmd[i], "-p", ft_strlen(cmd[i])) && cmd[i + 1] != NULL)
+	while (!ft_strncmp(cmd[i +1], "-p", ft_strlen(cmd[i +1])) && cmd[i + 2] != NULL)
 		i++;
-	while (cmd[i++] != NULL)
+	while (cmd[i++ + 1] != NULL)
 	{
 		if (!ft_isalpha(cmd[i][0]) && cmd[i][0] != '_')
 		{
-			line_saver(cmd[i], &i, ret);
+			line_saver(cmd[i], ret);
 			continue ;
 		}
 		lf = minisplit(cmd[i], '=');
@@ -71,7 +70,7 @@ static void	ft_export2(char **cmd, char ***env, int i, int *ret)
 			lf = ft_strdup(cmd[i]);
 		if (modded_isalphanum(lf))
 		{
-			line_saver(lf, &i, ret);
+			line_saver(cmd[i], ret);
 			free(lf);
 			continue ;
 		}
@@ -103,8 +102,7 @@ int	ft_export(t_execs *execs)
 		print_env(execs->shell->env);
 		return (0);
 	}
-	ft_export2(args, &(execs->shell->env), 1, &ret);
-	i = 0;
+	ft_export2(args, &(execs->shell->env), 0, &ret);
 	arrayfree(&args);
 	((t_execcmd *)execs->cmd)->args = 0;
 	return (ret);

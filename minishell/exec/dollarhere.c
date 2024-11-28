@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollarhere.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 19:48:23 by snek              #+#    #+#             */
-/*   Updated: 2024/11/27 20:30:35 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/28 18:30:28 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,11 @@ char	*getdollarherehere(char *str, int *i, t_execs *exec)
 	if (!str[*i + 1] || !ft_isalphanum(str[*i + 1]))
 	{
 		*i += 1;
+		if (str[*i] == '$')
+		{
+			*i += 1;
+			return (ft_strdup("$$"));
+		}
 		return (ft_strdup("$"));
 	}
 	else if (!ft_strncmp(str + *i + 1, "{?", 2))
@@ -76,6 +81,10 @@ void	indexdollar(char *str, int *i, int fd, t_list **list)
 		while (str[j] != '}')
 			j++;
 		j++;
+	}
+	else if (str[j + 1] == '$')
+	{
+		j += 2;
 	}
 	else
 	{

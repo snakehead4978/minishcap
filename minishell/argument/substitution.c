@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   substitution.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 14:56:27 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/11/25 18:30:54 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/28 18:04:58 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,9 @@ char	*getdollar(char **str, int final, t_execs *exec)
 			&& *(*str + 1) != '{' && *(*str + 1) != '?'))
 	{
 		*str += 1;
+		if (*((*str)++) == '$')			
+			return (ft_strdup("$$"));
+		*str -= 1;
 		return (ft_strdup("$"));
 	}
 	else if (!ft_strncmp((*str + 1), "{?", 2))

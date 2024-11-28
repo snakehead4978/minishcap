@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollarhere.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 18:03:29 by snek              #+#    #+#             */
-/*   Updated: 2024/11/27 20:21:41 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/28 17:58:43 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,11 @@ char	*getdollarhere(char **str, int final)
 	}
 	else if ((!*(*str + 1) && final) || !ft_isalphanum(*(*str + 1)))
 	{
+		if (*(*str + 1) == '$')
+		{
+			*str += 2;
+			return (ft_strdup("$$"));
+		}	
 		*str += 1;
 		return (ft_strdup("$"));
 	}
