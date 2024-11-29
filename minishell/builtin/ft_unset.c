@@ -6,7 +6,7 @@
 /*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:01:53 by dakojic           #+#    #+#             */
-/*   Updated: 2024/11/25 17:10:52 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/29 23:03:40 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	ft_unset2(char **cmd, char ***env, int j, int i)
 			}
 		}
 		if ((*env)[i] == NULL && cmd[j + 1] == NULL)
-			return (333);
+			return (0);
 		if (size == -1)
 		{
 			cpy = unset_env(env, i);

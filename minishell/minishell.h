@@ -6,7 +6,7 @@
 /*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 14:37:54 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/11/28 12:20:55 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/30 00:17:08 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -275,7 +275,7 @@ t_cmd					*execcmd(void);
 t_cmd					*pipecmd(t_cmd *left, t_cmd *right);
 t_cmd					*andcmd(t_cmd *left, t_cmd *right);
 t_cmd					*orcmd(t_cmd *left, t_cmd *right);
-void					ft_removefd(t_list *fds);
+void					ft_removefd(t_list *fds, t_execs *exec);
 int						exit_execfree(t_execs *exec, int err);
 int						ft_sorterfree(t_execs *exec, t_cmd *cmd);
 
@@ -322,10 +322,9 @@ void					print_redircmd(t_redircmd *redir, int indent);
 void					print_execcmd(t_execcmd *exec, int indent);
 void					print_pipecmd(t_pipecmd *pipe, int indent);
 void					print_andcmd(t_andcmd *and, int indent);
-void					print_orcmd(t_orcmd *or, int indent);
+void					print_orcmd(t_orcmd * or, int indent);
 void					print_doublecmd(t_doublecmd *dbl, int indent);
 void					print_subcmd(t_sub *sub, int indent);
-void					print_cmd(t_cmd *cmd, int indent);
 void					ft_printerror(char *str, char *name, char *str2);
 
 // Signal Funcs
@@ -344,8 +343,7 @@ int						ft_closeallfds(t_execs *exec);
 
 // Command and Path
 char					**ft_pathsplit(char const *s, char c, char *bonus);
-int						ft_command(t_execs *exec, t_execcmd *cmd, int fd,
-							char *command);
+int						ft_command(t_execs *exec, t_execcmd *cmd, char *command);
 
 // Exec Main Func
 int						executer(t_shell *shell, int err, char *buff);
@@ -394,9 +392,8 @@ int						and_return(t_lexer **new, char *str, int *i);
 
 int						add_quote_node(t_lexer **lex, char *str, int *i,
 							char c);
-void					skip_quotes(char *str, int *i, int *size);
 void					ft_pipeaddback(t_shell **shell, t_herepipe *new);
-
+int						skip_quotes(char *str, int *i, int *size, int check);
 // Printer
 
 void					printer(t_cmd *cmd, int s, int level);
@@ -406,9 +403,9 @@ void					print_execcmd(t_execcmd *exec, int indent);
 void					print_pipecmd(t_pipecmd *pipe, int indent);
 void					print_andcmd(t_andcmd *and, int indent);
 void					print_doublecmd(t_doublecmd *dbl, int indent);
-void					print_orcmd(t_orcmd *or, int indent);
+void					print_orcmd(t_orcmd * or, int indent);
 void					print_subcmd(t_sub *sub, int indent);
-void					print_cmd(t_cmd *cmd, int indent);
+void					print_cmd(void);
 
 // Built-in
 

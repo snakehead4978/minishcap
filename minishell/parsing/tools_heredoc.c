@@ -6,7 +6,7 @@
 /*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 11:13:03 by dakojic           #+#    #+#             */
-/*   Updated: 2024/11/28 18:26:13 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/29 23:31:39 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ static char	*ft_strjoin_heredoc(char *s1, char const *s2)
 	i = 0;
 	if (!s2)
 		return (NULL);
-	if(!s1)
-		return(ft_calloc(sizeof(char), 1));
+	if (!s1)
+		return (ft_calloc(sizeof(char), 1));
 	cur = ft_strlen_heredoc(s1) + ft_strlen_heredoc(s2);
 	new = (char *)malloc(sizeof(char) * cur + 2);
 	cur = 0;
@@ -57,6 +57,8 @@ static char	*ft_strjoin_heredoc(char *s1, char const *s2)
 
 static int	ft_strcmphere(const char *s1, const char *s2)
 {
+	if (!s1 || !s2)
+		return (0);
 	while (*s1 && *s2 && *s1 == *s2)
 	{
 		s1++;
@@ -91,8 +93,10 @@ char	*heredoc_filler(char *end)
 	}
 	if (!buf && g_bigsignal != SIGINT)
 		ft_printerror("minishell: warning: here-document delimited \
-by end-of-file (wanted `", end, "')");
+by end-of-file (wanted `",
+			end,
+			"')");
 	if (buf)
 		free(buf);
-	return (saver(in), heredoc);
+	return (signals(), saver(in), heredoc);
 }

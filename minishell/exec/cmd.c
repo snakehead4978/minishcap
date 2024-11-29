@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 19:03:54 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/11/28 21:09:13 by jla-chon         ###   ########.fr       */
+/*   Updated: 2024/11/30 00:30:21 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,13 @@ static int	ft_exec2(t_execs *exec, char **args, int err, t_execcmd *cmds)
 	if (!pid)
 	{
 		if (ft_setfds(exec))
+		{
 			exit_execfree(exec, 333);
+		}
 		ft_closeallfds(exec);
 		if (!args[0])
 			exit_execfree(exec, 0);
-		err = ft_command(exec, cmds, 0, 0);
+		err = ft_command(exec, cmds, 0);
 		if (!err)
 		{
 			signal(SIGQUIT, SIG_DFL);

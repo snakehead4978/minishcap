@@ -6,7 +6,7 @@
 /*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 19:48:23 by snek              #+#    #+#             */
-/*   Updated: 2024/11/28 18:30:28 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/30 00:34:33 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static char	*untilnonalpha(char *str, int *i, t_execs *exec)
 
 char	*getdollarherehere(char *str, int *i, t_execs *exec)
 {
-	if (!str[*i + 1] || !ft_isalphanum(str[*i + 1]))
+	if (!str[*i + 1] || (!ft_isalphanum(str[*i + 1]) && str[*i +1] != '{'))
 	{
 		*i += 1;
 		if (str[*i] == '$')

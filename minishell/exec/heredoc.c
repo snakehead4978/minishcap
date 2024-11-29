@@ -6,7 +6,7 @@
 /*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 17:05:04 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/11/28 18:14:01 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/30 00:39:55 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,10 +128,12 @@ int	ft_here(t_execs *exec, int err, t_redircmd *cmds)
 		return (0);
 	filename = 0;
 	fd = heredoccer(cmds->heredoc, cmds->quote, exec, &filename);
+	if (fd == -1)
+		return (execfree(exec), 1);
 	fds = listnew(fdsnew(fd, FD_FILEIN), fdsfree);
-	if (fd == -1 || !listaddback(&exec->fds, fds, fdsfree))
+	if (!listaddback(&exec->fds, fds, fdsfree))
 		return (execfree(exec), 1);
 	err = ft_sorter(exec, cmds->cmd);
-	ft_removefd(fds);
+	ft_removefd(fds, exec);
 	return (err);
 }

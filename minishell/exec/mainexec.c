@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mainexec.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 21:48:08 by snek              #+#    #+#             */
-/*   Updated: 2024/11/28 21:05:10 by jla-chon         ###   ########.fr       */
+/*   Updated: 2024/11/29 22:03:46 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ int	executer(t_shell *shell, int err, char *buff)
 	if (err)
 		return (execfree(exec), err);
 	err = ft_sorter(exec, exec->shell->tree);
-	printf("I arrived\n");
 	if (err != 1)
 		execfree(exec);
 	return (err);

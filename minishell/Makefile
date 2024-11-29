@@ -59,26 +59,26 @@ OBJ_ALL = $(OBJ_BUILT) $(OBJ_ARG) $(OBJ_LIB) $(OBJ_PARSE) $(OBJ_EXEC) $(OBJ_MAIN
 OBJ_TESTER = $(OBJ_BUILT) $(OBJ_ARG) $(OBJ_LIB) $(OBJ_PARSE) $(OBJ_EXEC) $(OBJ_TEST)
 
 .c.o:
-	$(CC) $(CFLAGS) $(INC) -c $^ -o $@
+	@$(CC) $(CFLAGS) $(INC) -c $^ -o $@
 
 all: $(NAME)
 
 $(NAME): $(OBJ_ALL)
-	$(CC) $(CFLAGS) $(INC) -o $@ $^ -lreadline
+	@$(CC) $(CFLAGS) $(INC) -o $@ $^ -lreadline
 
 clean:
-	rm -rf $(OBJ_ALL) $(OBJ_TEST)
+	@rm -rf $(OBJ_ALL) $(OBJ_TEST)
 
 fclean: clean
-	rm -rf $(NAME) test
+	@rm -rf $(NAME) test
 
 re: fclean all
 
 valg: re
-	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=supp.supp -s --track-fds=yes ./$(NAME)
+	@valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=supp.supp --track-fds=yes -q ./$(NAME)
 
 env: re
-	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=supp.supp -s --track-fds=yes env -i ./$(NAME)
+	@valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=supp.supp -s --track-fds=yes env -i ./$(NAME)
 
 test: $(OBJ_TESTER)
 	$(CC) $(CFLAGS) $(INC) -o $@ $^ -lreadline

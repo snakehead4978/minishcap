@@ -6,7 +6,7 @@
 /*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 14:01:49 by dakojic           #+#    #+#             */
-/*   Updated: 2024/11/25 19:26:31 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/29 23:50:02 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,16 @@ int	add_lex_node(t_lexer **lex, char *str, int *i)
 	t_lexer	*new;
 	int		size;
 	int		before;
+	int		check;
 
+	check = 0;
 	size = 0;
 	new = malloc(sizeof(*new));
 	before = *i;
 	if (!new)
 		return (1);
-	while (str[*i] && (ft_strchr(" \t\n\r\v><|()", str[*i]) == 0))
+	while (skip_quotes(str, i, &size, 1) && str[*i]
+		&& (ft_strchr(" \t\n\r\v><|()", str[*i]) == 0))
 	{
 		if (str[*i] == '&' && str[*i + 1] && str[*i + 1] == '&')
 			break ;
@@ -74,7 +77,8 @@ int	process_lexer(char *str, t_lexer **lexer, int *i)
 	{
 		while (str[*i] && ft_strchr(" \t\n\r\v", str[*i]))
 			(*i)++;
-		if (str[*i] && ft_strchr("><|&()", str[*i]))
+		if (skip_quotes(str, i, 0, 0) && str[*i] && ft_strchr("><|&()",
+				str[*i]))
 		{
 			if (str[*i] == '&')
 			{
@@ -84,9 +88,7 @@ int	process_lexer(char *str, t_lexer **lexer, int *i)
 				continue ;
 			}
 			else
-			{
 				sub_lexer(lexer, str, i);
-			}
 		}
 		if (str[*i] && !ft_strchr(" \t\n\r\v><|&()", str[*i]))
 		{

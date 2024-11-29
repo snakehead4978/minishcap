@@ -3,22 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 21:55:37 by snek              #+#    #+#             */
-/*   Updated: 2024/11/25 18:58:56 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/30 00:34:44 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_removefd(t_list *fds)
+void	ft_poplistatnode(t_execs *exec, t_list *node)
+{
+	t_list	*tmp;
+
+	tmp = exec->fds;
+	if (tmp == node)
+	{
+		exec->fds = 0;
+		ft_listfree(&node, fdsfree);
+		return ;
+	}
+	while (tmp && tmp->next != node)
+		tmp = tmp->next;
+	tmp->next = 0;
+	ft_listfree(&node, fdsfree);
+}
+
+void	ft_removefd(t_list *fds, t_execs *exec)
 {
 	if (!fds)
 		return ;
-	if (fds->next)
-		ft_removefd(fds->next);
-	close(((t_fds *)fds->data)->fd);
+	ft_poplistatnode(exec, fds);
 }
 
 static void	openerror(char ***str)
@@ -39,7 +54,7 @@ static int	ft_redir2(t_execs *exec, char **all, t_redircmd *cmds, int *fd)
 	all = args(all, exec, 0, 0);
 	if (!all)
 		return (execfree(exec), 1);
-	if (*all && all[1])
+	if ((*all && all[1]) || !*all)
 		return (ft_printerror("minishell: ", cmds->file,
 				": ambiguous redirect"), arrayfree(&all), 333);
 	if (cmds->mode == O_RDONLY)
@@ -69,6 +84,6 @@ int	ft_redir(t_execs *exec, int err, t_redircmd *cmds)
 	if (!listaddback(&exec->fds, fds, fdsfree))
 		return (execfree(exec), 1);
 	err = ft_sorter(exec, cmds->cmd);
-	ft_removefd(fds);
+	ft_removefd(fds, exec);
 	return (err);
 }

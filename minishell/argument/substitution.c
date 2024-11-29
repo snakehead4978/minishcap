@@ -6,7 +6,7 @@
 /*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 14:56:27 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/11/28 18:04:58 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/29 23:33:27 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ char	*getdollar(char **str, int final, t_execs *exec)
 			&& *(*str + 1) != '{' && *(*str + 1) != '?'))
 	{
 		*str += 1;
-		if (*((*str)++) == '$')			
+		if (*((*str)++) == '$')
 			return (ft_strdup("$$"));
 		*str -= 1;
 		return (ft_strdup("$"));

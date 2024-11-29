@@ -6,7 +6,7 @@
 /*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:01:59 by dakojic           #+#    #+#             */
-/*   Updated: 2024/11/28 19:52:25 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/29 23:43:36 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,31 +52,31 @@ static int	modded_isalphanum(char *s)
 	return (0);
 }
 
-static void	ft_export2(char **cmd, char ***env, int i, int *ret)
+static void	ft_export2(char **c, char ***env, int i, int *ret)
 {
 	char	*lf;
 
-	while (!ft_strncmp(cmd[i +1], "-p", ft_strlen(cmd[i +1])) && cmd[i + 2] != NULL)
+	while (!ft_strncmp(c[i +1], "-p", ft_strlen(c[i +1])) && c[i +2] != NULL)
 		i++;
-	while (cmd[i++ + 1] != NULL)
+	while (c[i++ + 1] != NULL)
 	{
-		if (!ft_isalpha(cmd[i][0]) && cmd[i][0] != '_')
+		if (!ft_isalpha(c[i][0]) && c[i][0] != '_')
 		{
-			line_saver(cmd[i], ret);
+			line_saver(c[i], ret);
 			continue ;
 		}
-		lf = minisplit(cmd[i], '=');
+		lf = minisplit(c[i], '=');
 		if (!lf)
-			lf = ft_strdup(cmd[i]);
+			lf = ft_strdup(c[i]);
 		if (modded_isalphanum(lf))
 		{
-			line_saver(cmd[i], ret);
+			line_saver(c[i], ret);
 			free(lf);
 			continue ;
 		}
 		if (lf == NULL && i++)
 			continue ;
-		ft_export3(env, i, lf, cmd);
+		ft_export3(env, i, lf, c);
 		free(lf);
 	}
 }

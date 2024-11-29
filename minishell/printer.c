@@ -6,7 +6,7 @@
 /*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 20:31:10 by dakojic           #+#    #+#             */
-/*   Updated: 2024/11/28 13:39:05 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/29 23:50:50 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,8 @@
 // 	}
 // }
 
-void	print_cmd()
+void	print_cmd(void)
 {
 	printf("Uncomment stuff to print cmd :)\n");
 }
+

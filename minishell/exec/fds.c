@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fds.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 21:46:59 by snek              #+#    #+#             */
-/*   Updated: 2024/11/25 18:59:20 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/29 23:35:48 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,9 @@ int	ft_setfds(t_execs *exec)
 			fdout = fds->fd;
 		list = list->next;
 	}
-	if (dup2(fdin, 0) == -1 || dup2(fdout, 1) == -1)
+	if (dup2(fdin, 0) == -1)
+		return (1);
+	if (dup2(fdout, 1) == -1)
 		return (1);
 	return (0);
 }

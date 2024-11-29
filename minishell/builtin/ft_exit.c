@@ -6,7 +6,7 @@
 /*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 16:17:13 by dakojic           #+#    #+#             */
-/*   Updated: 2024/11/28 13:41:43 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/29 23:33:57 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ int	ft_exit(t_execs *ex)
 
 	ret = ex->ret;
 	args = ((t_execcmd *)ex->cmd)->args;
+	if (args[1] && args[2])
+		return (write(2, "minishell: exit: too many arguments\n", 36), 333);
 	if (args[1])
 		ret = (unsigned int)ret_exit(args[1]);
 	rl_clear_history();

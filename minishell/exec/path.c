@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 16:21:37 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/11/27 20:23:28 by snek             ###   ########.fr       */
+/*   Updated: 2024/11/30 00:16:52 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,32 @@ static void	miniprint(char *str, int i)
 		ft_printerror("minishell: ", str, ": command not found");
 	else if (i == 1)
 		ft_printerror("minishell: ", str, ": Is a directory");
-	else
+	else if (i == 2)
 		ft_printerror("minishell: ", str, ": no such file or directory");
+	else
+		ft_printerror("minishell: ", str, ": permission denied");
+}
+
+static int	checkfile(char *name)
+{
+	int fd;
+	fd = open(name, O_WRONLY);
+	if (fd == -1)
+	{
+		if (errno == EISDIR)
+			return (miniprint(name, 1), 126);
+	}
+	else
+		close(fd);
+	if (access(name, F_OK | X_OK) == 0)
+		return (0);
+	if (errno == EACCES)
+		return (miniprint(name, 1), 126);
+	else if (errno == ENOENT)
+		miniprint(name, 2);
+	else
+		perror("access");
+	return (127);
 }
 
 static int	ft_paths(char **ev, char **name, int i, char **paths)
@@ -55,7 +79,7 @@ static int	ft_paths(char **ev, char **name, int i, char **paths)
 	while (ev[i] && ft_strncmp(ev[i], "PATH=", 5))
 		i++;
 	if (!ev[i])
-		return (miniprint(*name, 0), 127);
+		return (checkfile(*name));
 	paths = ft_pathsplit(&ev[i][5], ':', "/");
 	if (!paths)
 		return (1);
@@ -76,29 +100,11 @@ static int	ft_paths(char **ev, char **name, int i, char **paths)
 	return (ft_splitfree(paths), miniprint(*name, 0), 127);
 }
 
-int	ft_command(t_execs *exec, t_execcmd *cmd, int fd, char *command)
+int	ft_command(t_execs *exec, t_execcmd *cmd, char *command)
 {
 	command = cmd->args[0];
 	if (ft_strchrreal(command, '/'))
-	{
-		fd = open(command, O_WRONLY);
-		if (fd == -1)
-		{
-			if (errno == EISDIR)
-				return (miniprint(command, 1), 126);
-		}
-		else
-			close(fd);
-		if (access(command, F_OK | X_OK) == 0)
-			return (0);
-		if (errno == EACCES)
-			ft_printerror("minishell: ", command, ": permission denied");
-		else if (errno == ENOENT)
-			miniprint(command, 2);
-		else
-			perror("access");
-		return (127);
-	}
+		return (checkfile(command));
 	if (!**cmd->args)
 		return (ft_printerror("minishell: ", "''", ": command not found"), 127);
 	return (ft_paths(exec->shell->env, cmd->args, 0, 0));
