@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   moded_libft.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
+/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 11:11:30 by dakojic           #+#    #+#             */
-/*   Updated: 2024/11/28 13:28:49 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/30 02:31:57 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,18 @@ int	ft_strcmp2(const char *s1, const char *s2)
 	if (*s3 == '\0' && *s4 == '\0')
 		return (0);
 	return (1);
+}
+
+void	miniprint(char *str, int i)
+{
+	if (!i)
+		ft_printerror("minishell: ", str, ": command not found");
+	else if (i == 1)
+		ft_printerror("minishell: ", str, ": Is a directory");
+	else if (i == 2)
+		ft_printerror("minishell: ", str, ": no such file or directory");
+	else
+		ft_printerror("minishell: ", str, ": permission denied");
 }
 
 // int size_pwd(char **env)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
+/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 16:21:37 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/11/30 00:16:52 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/30 02:31:02 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,21 +38,10 @@ static void	ft_splitfree(char **arr)
 	}
 }
 
-static void	miniprint(char *str, int i)
-{
-	if (!i)
-		ft_printerror("minishell: ", str, ": command not found");
-	else if (i == 1)
-		ft_printerror("minishell: ", str, ": Is a directory");
-	else if (i == 2)
-		ft_printerror("minishell: ", str, ": no such file or directory");
-	else
-		ft_printerror("minishell: ", str, ": permission denied");
-}
-
 static int	checkfile(char *name)
 {
-	int fd;
+	int	fd;
+
 	fd = open(name, O_WRONLY);
 	if (fd == -1)
 	{

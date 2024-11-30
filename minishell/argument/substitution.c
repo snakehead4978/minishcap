@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   substitution.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
+/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 14:56:27 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/11/29 23:33:27 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/30 02:35:37 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,33 +65,30 @@ static char	*untilnonalpha(char **str, t_execs *exec)
 	return (tmp);
 }
 
+static void	inc(char **str, int inc)
+{
+	*str += inc;
+}
+
 char	*getdollar(char **str, int final, t_execs *exec)
 {
 	if (!*(*str + 1) && !final)
-	{
-		*str += 1;
-		return (ft_calloc(1, sizeof(char)));
-	}
+		return (inc(str, 1), ft_calloc(1, sizeof(char)));
 	else if ((!*(*str + 1) && final) || (!ft_isalphanum(*(*str + 1))
 			&& *(*str + 1) != '{' && *(*str + 1) != '?'))
 	{
 		*str += 1;
 		if (*((*str)++) == '$')
 			return (ft_strdup("$$"));
-		*str -= 1;
-		return (ft_strdup("$"));
+		return (inc(str, -1), ft_strdup("$"));
 	}
 	else if (!ft_strncmp((*str + 1), "{?", 2))
 	{
 		if (*(*str + 3) != '}')
 			return (0);
-		*str += 4;
-		return (ft_itoa(exec->ret));
+		return (inc(str, 4), ft_itoa(exec->ret));
 	}
 	else if (*(*str + 1) == '?')
-	{
-		*str += 2;
-		return (ft_itoa(exec->ret));
-	}
+		return (inc(str, 2), ft_itoa(exec->ret));
 	return (untilnonalpha(str, exec));
 }

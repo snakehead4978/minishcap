@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
+/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 19:03:54 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/11/30 00:30:21 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/30 02:28:00 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	ft_sorter(t_execs *exec, t_cmd *cmd)
 	return (err);
 }
 
-static int	ft_exec3(int err)
+int	ft_exec3(int err)
 {
 	if (WIFSIGNALED(err) && WTERMSIG(err) == SIGINT)
 		g_bigsignal = SIGINT;
@@ -49,8 +49,6 @@ static int	ft_exec3(int err)
 		err = WEXITSTATUS(err);
 	if (err == 1)
 		err = 333;
-	if (err == 131 && g_bigsignal != SIGQUIT)
-		write(2, "Quit (core dumped)\n", 19);
 	return (err);
 }
 
@@ -62,9 +60,7 @@ static int	ft_exec2(t_execs *exec, char **args, int err, t_execcmd *cmds)
 	if (!pid)
 	{
 		if (ft_setfds(exec))
-		{
 			exit_execfree(exec, 333);
-		}
 		ft_closeallfds(exec);
 		if (!args[0])
 			exit_execfree(exec, 0);
@@ -79,7 +75,10 @@ static int	ft_exec2(t_execs *exec, char **args, int err, t_execcmd *cmds)
 	}
 	signal(SIGINT, SIG_IGN);
 	waitpid(pid, &err, 0);
-	return (ft_exec3(err));
+	err = ft_exec3(err);
+	if (err == 131 && g_bigsignal != SIGQUIT)
+		write(2, "Quit (core dumped)\n", 19);
+	return (err);
 }
 
 int	ft_exec(t_execs *exec, int err, t_execcmd *cmds)

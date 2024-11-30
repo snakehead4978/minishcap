@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
+/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 17:57:22 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/11/29 23:35:55 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/30 02:28:56 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,31 @@ static int	ispipe(t_execs *exec, t_cmd *cmds)
 	return (0);
 }
 
+static int	ft_lastpipe(t_execs *exec, t_pipecmd *cmds, int fd[4], t_list *fds)
+{
+	int	err;
+
+	err = 0;
+	fd[3] = fork();
+	if (!fd[3])
+	{
+		if (ft_expandcmd(exec, cmds->right))
+			exit_execfree(exec, 1);
+		err = ft_sorter(exec, cmds->right);
+		close(fd[0]);
+		waitpid(fd[2], &fd[2], 0);
+		if (err == 333)
+			err = 1;
+		exit_execfree(exec, err);
+	}
+	close(fd[0]);
+	waitpid(fd[2], NULL, 0);
+	waitpid(fd[3], &err, 0);
+	ft_removefd(fds, exec);
+	err = ft_exec3(err);
+	return (err);
+}
+
 int	ft_pipe(t_execs *exec, int err, t_pipecmd *cmds)
 {
 	int			fd[4];
@@ -75,34 +100,7 @@ int	ft_pipe(t_execs *exec, int err, t_pipecmd *cmds)
 	tmp->fd = fd[0];
 	tmp->type = FD_FILEIN;
 	if (!ispipe(exec, cmds->right))
-	{
-		fd[3] = fork();
-		if (!fd[3])
-		{
-			if (ft_expandcmd(exec, cmds->right))
-				exit_execfree(exec, 1);
-			err = ft_sorter(exec, cmds->right);
-			close(fd[0]);
-			waitpid(fd[2], &fd[2], 0);
-			if (err == 333)
-				err = 1;
-			exit_execfree(exec, err);
-		}
-		else
-		{
-			close(fd[0]);
-			waitpid(fd[2], NULL, 0);
-			waitpid(fd[3], &err, 0);
-			ft_removefd(fds, exec);
-			if (WIFSIGNALED(err) && WTERMSIG(err) == SIGINT)
-				g_bigsignal = SIGINT;
-			if (WIFEXITED(err))
-				err = WEXITSTATUS(err);
-			if (err == 1)
-				err = 333;
-			return (err);
-		}
-	}
+		return (ft_lastpipe(exec, cmds, fd, fds));
 	err = ft_sorter(exec, cmds->right);
 	close(fd[0]);
 	waitpid(fd[2], &fd[2], 0);

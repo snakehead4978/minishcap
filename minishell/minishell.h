@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
+/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 14:37:54 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/11/30 00:17:08 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/30 02:36:51 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -322,7 +322,7 @@ void					print_redircmd(t_redircmd *redir, int indent);
 void					print_execcmd(t_execcmd *exec, int indent);
 void					print_pipecmd(t_pipecmd *pipe, int indent);
 void					print_andcmd(t_andcmd *and, int indent);
-void					print_orcmd(t_orcmd * or, int indent);
+void					print_orcmd(t_orcmd *or, int indent);
 void					print_doublecmd(t_doublecmd *dbl, int indent);
 void					print_subcmd(t_sub *sub, int indent);
 void					ft_printerror(char *str, char *name, char *str2);
@@ -343,7 +343,8 @@ int						ft_closeallfds(t_execs *exec);
 
 // Command and Path
 char					**ft_pathsplit(char const *s, char c, char *bonus);
-int						ft_command(t_execs *exec, t_execcmd *cmd, char *command);
+int						ft_command(t_execs *ex, t_execcmd *cmd, char *com);
+void					miniprint(char *str, int i);
 
 // Exec Main Func
 int						executer(t_shell *shell, int err, char *buff);
@@ -357,6 +358,7 @@ int						ft_or(t_execs *exec, int err, t_orcmd *cmd);
 int						ft_sub(t_execs *exec, int err, t_sub *cmd);
 int						ft_exec(t_execs *exec, int err, t_execcmd *cmd);
 int						ft_here(t_execs *exec, int err, t_redircmd *cmd);
+int						ft_exec3(int err);
 
 // Parsing
 
@@ -403,7 +405,7 @@ void					print_execcmd(t_execcmd *exec, int indent);
 void					print_pipecmd(t_pipecmd *pipe, int indent);
 void					print_andcmd(t_andcmd *and, int indent);
 void					print_doublecmd(t_doublecmd *dbl, int indent);
-void					print_orcmd(t_orcmd * or, int indent);
+void					print_orcmd(t_orcmd *or, int indent);
 void					print_subcmd(t_sub *sub, int indent);
 void					print_cmd(void);
 
