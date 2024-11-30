@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools_heredoc.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
+/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 11:13:03 by dakojic           #+#    #+#             */
-/*   Updated: 2024/11/29 23:31:39 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/30 02:43:21 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static char	*ft_strjoin_heredoc(char *s1, char const *s2)
 	if (!s1)
 		return (ft_calloc(sizeof(char), 1));
 	cur = ft_strlen_heredoc(s1) + ft_strlen_heredoc(s2);
-	new = (char *)malloc(sizeof(char) * cur + 2);
+	new = ft_calloc(sizeof(char), cur + 2);
 	cur = 0;
 	if (!new)
 		return (NULL);
@@ -46,13 +46,9 @@ static char	*ft_strjoin_heredoc(char *s1, char const *s2)
 		cur++;
 	}
 	while (s2[i] != '\0')
-	{
 		new[cur++] = s2[i++];
-	}
 	new[cur] = '\n';
-	new[cur + 1] = '\0';
-	free(s1);
-	return (new);
+	return (free(s1), new);
 }
 
 static int	ft_strcmphere(const char *s1, const char *s2)
@@ -67,6 +63,14 @@ static int	ft_strcmphere(const char *s1, const char *s2)
 	if (*s1 == '\0' && *s2 == '\n')
 		return (0);
 	return (*(unsigned char *)s1 - *(unsigned char *)s2);
+}
+
+static void	printerror(char *end)
+{
+	write(2, "minishell: warning: here-document delimited\
+	 by end-of-file (wanted `", 68);
+	write(2, end, ft_strlen(end));
+	write(2, "')\n", 3);
 }
 
 char	*heredoc_filler(char *end)
@@ -92,10 +96,7 @@ char	*heredoc_filler(char *end)
 		}
 	}
 	if (!buf && g_bigsignal != SIGINT)
-		ft_printerror("minishell: warning: here-document delimited \
-by end-of-file (wanted `",
-			end,
-			"')");
+		printerror(end);
 	if (buf)
 		free(buf);
 	return (signals(), saver(in), heredoc);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexing_check.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
+/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 11:27:57 by dakojic           #+#    #+#             */
-/*   Updated: 2024/11/28 18:40:41 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/11/30 02:43:47 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,8 @@ static int	last_type_check(int lex)
 {
 	if (lex != 1 && lex != 7)
 	{
-		ft_printerror("Minishell: syntax error near unexpected token `newline\'",
+		ft_printerror("Minishell: syntax error near\
+		 unexpected token `newline\'",
 			0, 0);
 		return (1);
 	}
