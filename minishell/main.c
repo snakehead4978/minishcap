@@ -6,7 +6,7 @@
 /*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 15:21:26 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/11/29 23:32:24 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/12/02 13:27:48 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	main(int ac, char **av, char **ev)
 	while (1)
 	{
 		signal(SIGQUIT, SIG_IGN);
-		buff = readline("minishell:~$");
+		buff = readline("minishell:~$ ");
 		if (!buff)
 			break ;
 		err = checkerr(err);
