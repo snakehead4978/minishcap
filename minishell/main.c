@@ -6,7 +6,7 @@
 /*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 15:21:26 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/12/02 13:27:48 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/12/02 13:59:30 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,9 +84,10 @@ int	main(int ac, char **av, char **ev)
 		err = checkerr(err);
 		err = parsecmd(&shell, buff, err);
 		err = checkerr(err);
-		err = executer(shell, err, buff);
+		err = executer(shell, err, buff);	
 		err = checkerr(err);
-		add_history(buff);
+		if(buff && buff[0] != '\0')
+			add_history(buff);
 		free(buff);
 	}
 	arrayfree(&shell->env);

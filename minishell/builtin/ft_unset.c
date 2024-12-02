@@ -6,7 +6,7 @@
 /*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:01:53 by dakojic           #+#    #+#             */
-/*   Updated: 2024/11/29 23:03:40 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/12/02 14:45:03 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static int	envcheck(char *path, char *env, int size)
 	i = 0;
 	while (env[i] && path[i] && env[i] == path[i])
 		i++;
-	if (size != i || env[i] != '=' || path[i] != '\0')
+	if (size != i || (env[i] != '=' && env[i] != '\0') || path[i] != '\0')
 		return (1);
 	return (0);
 }
