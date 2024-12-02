@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 14:37:54 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/11/30 02:36:51 by snek             ###   ########.fr       */
+/*   Updated: 2024/12/02 15:11:18 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -330,6 +330,7 @@ void					ft_printerror(char *str, char *name, char *str2);
 // Signal Funcs
 void					signals(void);
 void					signals_heredoc(void);
+int						checkerr(int err);
 
 // Argument Func
 char					**args(char **arguments, t_execs *exec, t_list *list,

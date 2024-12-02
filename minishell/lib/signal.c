@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 19:27:09 by dakojic           #+#    #+#             */
-/*   Updated: 2024/11/26 20:01:08 by snek             ###   ########.fr       */
+/*   Updated: 2024/12/02 15:09:35 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,14 @@ void	signals_heredoc(void)
 	sigemptyset(&int_action.sa_mask);
 	sigaddset(&int_action.sa_mask, SIGINT);
 	sigaction(SIGINT, &int_action, 0);
+}
+
+int	checkerr(int err)
+{
+	if (g_bigsignal == SIGINT)
+	{
+		g_bigsignal = 0;
+		return (130);
+	}
+	return (err);
 }

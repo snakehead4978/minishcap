@@ -6,7 +6,7 @@
 /*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 15:21:26 by jla-chon          #+#    #+#             */
-/*   Updated: 2024/12/02 13:59:30 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/12/02 15:11:07 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,22 +46,27 @@ static t_shell	*fillshell(char **ev)
 	return (shell);
 }
 
-static int	checkerr(int err)
-{
-	if (g_bigsignal == SIGINT)
-	{
-		g_bigsignal = 0;
-		return (130);
-	}
-	return (err);
-}
-
 static void	init(int *err, t_shell **shell, char **ev)
 {
 	g_bigsignal = 0;
 	*err = 0;
 	*shell = fillshell(ev);
 	signals();
+}
+
+static char	*linereader(t_shell *shell, int err)
+{
+	char	*buff;
+
+	buff = readline("minishell:~$ ");
+	if (!buff)
+	{
+		arrayfree(&shell->env);
+		free(shell);
+		rl_clear_history();
+		exit(err);
+	}
+	return (buff);
 }
 
 int	main(int ac, char **av, char **ev)
@@ -78,15 +83,13 @@ int	main(int ac, char **av, char **ev)
 	while (1)
 	{
 		signal(SIGQUIT, SIG_IGN);
-		buff = readline("minishell:~$ ");
-		if (!buff)
-			break ;
+		buff = linereader(shell, err);
 		err = checkerr(err);
 		err = parsecmd(&shell, buff, err);
 		err = checkerr(err);
-		err = executer(shell, err, buff);	
+		err = executer(shell, err, buff);
 		err = checkerr(err);
-		if(buff && buff[0] != '\0')
+		if (buff && buff[0] != '\0')
 			add_history(buff);
 		free(buff);
 	}
