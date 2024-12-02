@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexing_check.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 11:27:57 by dakojic           #+#    #+#             */
-/*   Updated: 2024/11/30 02:43:47 by snek             ###   ########.fr       */
+/*   Updated: 2024/12/02 13:00:05 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ error near unexpected token `>\'", 0, 0), 1);
 	else if (lex->type == LEX_AND)
 	{
 		if (prev_check(lex, "17"))
-			return (ft_printerror("Minishell:  syntax error near \
+			return (ft_printerror("Minishell: syntax error near \
 unexpected token `&&\'", 0, 0), 1);
 	}
 	return (0);
@@ -97,7 +97,7 @@ static int	last_type_check(int lex)
 	if (lex != 1 && lex != 7)
 	{
 		ft_printerror("Minishell: syntax error near\
-		 unexpected token `newline\'",
+unexpected token `newline\'",
 			0, 0);
 		return (1);
 	}

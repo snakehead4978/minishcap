@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools_heredoc.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 11:13:03 by dakojic           #+#    #+#             */
-/*   Updated: 2024/11/30 02:43:21 by snek             ###   ########.fr       */
+/*   Updated: 2024/12/02 13:19:32 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,8 @@ static int	ft_strcmphere(const char *s1, const char *s2)
 
 static void	printerror(char *end)
 {
-	write(2, "minishell: warning: here-document delimited\
-	 by end-of-file (wanted `", 68);
+	write(2, "minishell: warning: here-document delimited \
+by end-of-file (wanted `", 68);
 	write(2, end, ft_strlen(end));
 	write(2, "')\n", 3);
 }

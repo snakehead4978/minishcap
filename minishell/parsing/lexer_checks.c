@@ -6,7 +6,7 @@
 /*   By: dakojic <dakojic@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 10:35:55 by dakojic           #+#    #+#             */
-/*   Updated: 2024/11/25 18:32:51 by dakojic          ###   ########.fr       */
+/*   Updated: 2024/12/02 12:58:54 by dakojic          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	first_type_check(t_lexer *lex)
 	if (lex->type != LEX_START)
 	{
 		ft_printerror("Minishell: syntax error near unexpected token\
-         `newline'", 0, 0);
+`newline'", 0, 0);
 		return (1);
 	}
 	return (0);
